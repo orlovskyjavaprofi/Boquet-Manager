@@ -1,0 +1,6 @@
+{
+  "name": "Boquet-manager",
+  "tagline": "Useful Java FX application for managing XML files which are consist of sattelite channels information (Dbox2 Neutrino, CST Trinity Sat NeutrinoHD )",
+  "body": "### Welcome on my page of developing Boquet-manger.\r\nIt's Java FX desktop application to provide easy way for managing sat channels.\r\nNice Java FX UI, which i hope will give a user nice experience.\r\n\r\n### Authors and Contributors\r\nCurrently me (Alexander Orlovsky) i am only one person who works on this project full time, if you wish to contact me here is email: javaprofi [at]gmx.de",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
