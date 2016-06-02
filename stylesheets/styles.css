@@ -820,7 +820,7 @@ section #title .credits.right {
   float: right;
 }
 
-@media print, screen and (max-width: 720px) {
+@media print, screen and (max-width: 1024px) {
   #title .credits {
     display: block;
     width: 100%;
