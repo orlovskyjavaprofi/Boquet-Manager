@@ -605,7 +605,7 @@ strong {
 }
 
 .wrapper {
-  max-width: 1024px;
+  max-width: auto;
   margin: 0 auto;
   position: relative;
   padding: 0 20px;
@@ -699,7 +699,7 @@ dt {
   left: 0;
   top: 0px;
   height: 60px;
-  width: 1024px;
+  width: auto;
   position: fixed;
   background: url(../images/nav-bg.gif) #353535;
   border-bottom: 4px solid #434343;
