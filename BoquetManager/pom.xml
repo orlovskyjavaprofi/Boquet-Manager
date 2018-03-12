@@ -33,6 +33,7 @@
 		<junit.vintage.version>${junit.version}.0-M4</junit.vintage.version>
 		<junit.jupiter.version>5.0.0-M4</junit.jupiter.version>
 		<junit.platform.version>1.0.0-M4</junit.platform.version>
+		<javafx>c:\JAVA\jdk8-131\jre\lib\ext\</javafx>
 	</properties>
 
 	<!-- Build specification -->
@@ -56,10 +57,34 @@
 						<version>${junit.platform.version}</version>
 					</dependency>
 				</dependencies>
+				<configuration>
+
+					<!-- Test cases to excludes and include -->
+					<!-- <excludes> -->
+					<!-- <exclude></exclude> -->
+					<!-- </excludes> -->
+					<includes>
+						<!-- <include>test/*Test.java</include> -->
+					</includes>
+				</configuration>
 			</plugin>
+
+			<!-- Packing App for execution at client -->
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-jar-plugin</artifactId> -->
+			<!-- <version>3.0.2</version> -->
+			<!-- <configuration> -->
+			<!-- <archive> -->
+			<!-- <manifest> -->
+			<!-- <mainClass>main.Main</mainClass> -->
+			<!-- </manifest> -->
+			<!-- </archive> -->
+			<!-- </configuration> -->
+			<!-- </plugin> -->
+
 		</plugins>
 	</build>
-
 
 	<dependencies>
 
@@ -70,7 +95,7 @@
 			<version>${junit.jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Support for IDE Junit tests -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -89,6 +114,15 @@
 			<artifactId>junit-vintage-engine</artifactId>
 			<version>${junit.vintage.version}</version>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- Java FX -->
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>javafx</artifactId>
+			<version>8</version>
+			<systemPath>${javafx}/jfxrt.jar</systemPath>
+			<scope>system</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.jdom/jdom2 -->
