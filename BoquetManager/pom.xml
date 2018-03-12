@@ -63,9 +63,9 @@
 					<!-- <excludes> -->
 					<!-- <exclude></exclude> -->
 					<!-- </excludes> -->
-					<includes>
-						<!-- <include>test/*Test.java</include> -->
-					</includes>
+<!-- 					<includes> -->
+<!-- 						<include>test/*Test.java</include> -->
+<!-- 					</includes> -->
 				</configuration>
 			</plugin>
 
