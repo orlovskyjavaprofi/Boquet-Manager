@@ -1,6 +1,6 @@
 package testutil;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
@@ -11,54 +11,36 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
-import utilXmlReaders.SatXmlReader;
+import models.SatModel;
+import utils.XmlReaderAndJdomDocumentCreator;
 
-class readSatInfoTest
+class SatModelTest
 {
-	SatXmlReader satXmlReaderObject;
+	SatModel satModelObject;
 	String PathToFile;
+	XmlReaderAndJdomDocumentCreator xmlReaderObject;
 
 	@BeforeEach
 	void setUp()
 	{
-		satXmlReaderObject = new SatXmlReader();
+		satModelObject = new SatModel();
 		PathToFile = "src//main//resources//XML-Files-Update2018//satellites.xml";
 	}
 
 	@Test
-	void testingIfSatReaderObjectExist()
+	void testingIfSatModelObjectExist()
 	{
-		assertNotNull(satXmlReaderObject);
+		assertNotNull(satModelObject);
 	}
 
-	private boolean readXMLOperation(boolean resultOfGettingJDom)
-	{
-		try
-		{
-			resultOfGettingJDom = satXmlReaderObject.getDocumentFromDomParser(PathToFile);
-		} catch (ParserConfigurationException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return resultOfGettingJDom;
-	}
-	
 	@Test
-	void testingIfSatDomDocumentReadSuccess()
+	void testingIfSatModelCanReadADomDocument()
 	{
-		boolean resultOfDomDocumenRead = false;
+
+		boolean result = false;
 		try
 		{
-			resultOfDomDocumenRead = satXmlReaderObject.readDomDocument(PathToFile);
+			result = satModelObject.readAndSetUpDomDocument(PathToFile);
 		} catch (ParserConfigurationException e)
 		{
 			// TODO Auto-generated catch block
@@ -73,18 +55,32 @@ class readSatInfoTest
 			e.printStackTrace();
 		}
 
-		assertTrue(resultOfDomDocumenRead);
+		assertEquals(true, result, "cannot read a dom document.");
 	}
 
 	@Test
-	void testIfJdomDocumentWasRead()
-	{
-		boolean resultOfGettingJDom = false;
-		resultOfGettingJDom = readXMLOperation(resultOfGettingJDom);
+	void testingifSatModelDomDocumentSetUP() {
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		
+		try
+		{
+			satModelObject.readAndSetUpDomDocument(PathToFile);
+			 actualResult = satModelObject.checkIfDomDocumetIsSetUp();
+		} catch (ParserConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		assertTrue(resultOfGettingJDom);
+		assertEquals(expectedResult,actualResult,"checking if SatModel can Save Dom Document form Xml Reader");
 	}
-
-
-
 }

@@ -1,4 +1,4 @@
-package utilXmlReaders;
+package utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,11 +11,21 @@ import org.jdom2.input.DOMBuilder;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-public class SatXmlReader
+public class XmlReaderAndJdomDocumentCreator
 {
 	private org.jdom2.Document jdomDoc;
-	private org.jdom2.Document satdocumentResult;
-
+	private org.jdom2.Document JdomDocumentResult;
+    private String pathToFile; 
+    
+    public XmlReaderAndJdomDocumentCreator() {
+    	
+    }
+    
+	public XmlReaderAndJdomDocumentCreator(String pathToFile)
+	{
+		this.pathToFile = pathToFile;
+	}
+	
 	public boolean readDomDocument(String pathToFile) throws ParserConfigurationException, SAXException, IOException
 	{
 		if (getDocumentFromDomParser(pathToFile) == true)
@@ -29,8 +39,8 @@ public class SatXmlReader
 
 	private boolean hasJdomDocumentRoot()
 	{
-		this.setJdomDoc( this.getSatdocumentResult() );
-		if (jdomDoc.hasRootElement() == true) {
+		this.setJdomDoc( this.getJDomDocumentResult() );
+		if (    this.getJdomDoc().hasRootElement() == true) {
 			return true;
 		}else {
 			return false;
@@ -46,17 +56,17 @@ public class SatXmlReader
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder domBuilder;
 		domBuilder = dbFactory.newDocumentBuilder();
-		Document satDocument = domBuilder.parse(new File(pathToFile));
+		Document domDocument = domBuilder.parse(new File(pathToFile));
 		DOMBuilder builderOfDom = new DOMBuilder();
 
-		return checkIfNewDocumentHasRoot(satDocument, builderOfDom);
+		return checkIfNewDocumentHasRoot(domDocument, builderOfDom);
 	}
 
-	private boolean checkIfNewDocumentHasRoot(Document satdocument, DOMBuilder builderOfDom)
+	private boolean checkIfNewDocumentHasRoot(Document domDocument, DOMBuilder builderOfDom)
 	{
-		if (builderOfDom.build(satdocument).hasRootElement())
+		if (builderOfDom.build(domDocument).hasRootElement())
 		{
-			this.setSatdocumentResult(builderOfDom.build(satdocument));
+			this.setJdomDocumentResult(builderOfDom.build(domDocument));
 			return true;
 		} else
 		{
@@ -64,14 +74,14 @@ public class SatXmlReader
 		}
 	}
 
-	public org.jdom2.Document getSatdocumentResult()
+	public org.jdom2.Document getJDomDocumentResult()
 	{
-		return satdocumentResult;
+		return JdomDocumentResult;
 	}
 
-	public void setSatdocumentResult(org.jdom2.Document satdocumentResult)
+	public void setJdomDocumentResult(org.jdom2.Document documentResult)
 	{
-		this.satdocumentResult = satdocumentResult;
+		this.JdomDocumentResult = documentResult;
 	}
 
 	public org.jdom2.Document getJdomDoc()
@@ -82,6 +92,16 @@ public class SatXmlReader
 	public void setJdomDoc(org.jdom2.Document jdomDoc)
 	{
 		this.jdomDoc = jdomDoc;
+	}
+
+	public String getPathToFile()
+	{
+		return pathToFile;
+	}
+
+	public void setPathToFile(String pathToFile)
+	{
+		this.pathToFile = pathToFile;
 	}
 	
 }
