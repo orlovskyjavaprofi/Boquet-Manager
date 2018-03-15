@@ -83,4 +83,57 @@ class SatModelTest
 
 		assertEquals(expectedResult,actualResult,"checking if SatModel can Save Dom Document form Xml Reader");
 	}
+	
+	@Test
+	void checkAmountOfSatellites() {
+		Integer expectedResult = 3;
+		Integer actualResult = 0; 
+		
+		try
+		{
+			satModelObject.readAndSetUpDomDocument(PathToFile);
+			actualResult = satModelObject.calculateAmountOfSatellites();
+		} catch (ParserConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		assertEquals(expectedResult, actualResult, "checking amount of sattelite");
+	}
+	
+	@Test 
+	void checkIfTheAmountOfSatellitesIsOk() {
+		Integer expectedResult = 3;
+		Integer actualResult = 0;
+		
+		try
+		{
+			satModelObject.readAndSetUpDomDocument(PathToFile);
+			satModelObject.calculateAmountOfSatellites();
+			actualResult = satModelObject.getAmountOfSatellites();
+		} catch (ParserConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		assertEquals(expectedResult, actualResult, "checking  sattelite model did saved amount of sattelites");
+	}
 }
