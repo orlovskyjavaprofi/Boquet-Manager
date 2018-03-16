@@ -1,8 +1,11 @@
 package models;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -18,8 +21,10 @@ public class SatModel
 	private org.jdom2.Document satJdomDocument;
 	private Integer AmountOfSatellites;
 	private SortedSet<SatInformation> sortedSatellitesInformationSet = new TreeSet<SatInformation>();
-	private SortedSet<String> namesOfSatellitesSet = new TreeSet<String>();
-
+	private Set<String> namesOfSatellitesSet = new LinkedHashSet<String>();
+    private List<Integer> flagsOfSatellitesList = new ArrayList<Integer>();
+	private List<Integer> positionOfSatellitesList = new ArrayList<Integer>();
+	
 	public boolean readAndSetUpDomDocument(String inputPath)
 			throws ParserConfigurationException, SAXException, IOException
 	{
@@ -71,16 +76,29 @@ public class SatModel
 	private int checkNamesOfSatsAndCalculateAmount(int amountOfSats, List<Element> empListElements)
 	{
 		String satName = "";
+		Integer satFlags=0;
+		Integer satPosition = 0;
+		
 		for (Element empElement : empListElements)
 		{
 			satName = empElement.getAttributeValue("name");
-			if (satName.isEmpty() == false)
-			{
+			satFlags = Integer.parseInt( empElement.getAttributeValue("flags"));
+			satPosition = Integer.parseInt( empElement.getAttributeValue("position"));
+			
+			if (  (satName.isEmpty() == false)  )
+			{			
+				settingUpDataForSatInfoObject(satName, satFlags, satPosition);
 				amountOfSats++;
-				this.getNamesOfSatellitesSet().add(satName);
 			}
 		}
 		return amountOfSats;
+	}
+
+	private void settingUpDataForSatInfoObject(String satName, Integer satFlags, Integer satPosition)
+	{
+		this.getFlagsOfSatellitesList().add(satFlags);
+		this.getPositionOfSatellitesList().add(satPosition);
+		this.getNamesOfSatellitesSet().add(satName);
 	}
 
 	public boolean createSatInformationObjects()
@@ -99,15 +117,47 @@ public class SatModel
 
 	private void buildingSatInformationObjects(Integer amountOfSat, SortedSet<SatInformation> sortedSatellitesSet)
 	{
-		SatInformation satInoObject;
-		Iterator<String> iteratorOverSatInfoNames = this.getNamesOfSatellitesSet().iterator();
 
+		Iterator<String>   iteratorOverSatInfoNames = this.getNamesOfSatellitesSet().iterator();
+        Iterator<Integer> iteratorOverSatInfoFlags = this.getFlagsOfSatellitesList().iterator();
+        Iterator<Integer> iteratorOverSatInfoPosition = this.getPositionOfSatellitesList().iterator();
+        
+		constructingAndAddingSatInfoObjectToSet(amountOfSat, 
+				sortedSatellitesSet, iteratorOverSatInfoNames,
+				iteratorOverSatInfoFlags, iteratorOverSatInfoPosition);
+		this.setSortedSatellitesInformationSet(sortedSatellitesSet);
+	}
+
+	private void constructingAndAddingSatInfoObjectToSet(
+			Integer amountOfSat,
+			SortedSet<SatInformation> sortedSatellitesSet, 
+			Iterator<String> iteratorOverSatInfoNames,
+			Iterator<Integer> iteratorOverSatInfoFlags, 
+			Iterator<Integer> iteratorOverSatInfoPosition)
+	{
+		SatInformation satInoObject;
 		for (int i = 0; i < amountOfSat; i++)
 		{
-			satInoObject = new SatInformation(iteratorOverSatInfoNames.next());
+			satInoObject = creatingNewSatInfoObject(iteratorOverSatInfoNames, 
+					iteratorOverSatInfoFlags,
+					iteratorOverSatInfoPosition);
+			
 			sortedSatellitesSet.add(satInoObject);
 		}
-		this.setSortedSatellitesInformationSet(sortedSatellitesSet);
+	}
+
+	private SatInformation creatingNewSatInfoObject(
+			Iterator<String> iteratorOverSatInfoNames,
+			Iterator<Integer> iteratorOverSatInfoFlags,
+			Iterator<Integer> iteratorOverSatInfoPosition)
+	{
+		SatInformation satInoObject;
+		satInoObject = new SatInformation( 
+				                                                   iteratorOverSatInfoNames.next(),
+				                                                   iteratorOverSatInfoFlags.next(),
+				                                                   iteratorOverSatInfoPosition.next()          
+				                                                  );
+		return satInoObject;
 	}
 
 	public boolean checkIfSatInfoObjectNotNull()
@@ -133,6 +183,7 @@ public class SatModel
 	private boolean checkIfsatInfoObjectNotNull(SatInformation satInfoObj)
 	{
 		boolean result;
+		
 		if (satInfoObj == null)
 		{
 			result = false;
@@ -164,12 +215,12 @@ public class SatModel
 		this.sortedSatellitesInformationSet = sortedSatellitesSet;
 	}
 
-	public SortedSet<String> getNamesOfSatellitesSet()
+	public Set<String> getNamesOfSatellitesSet()
 	{
 		return namesOfSatellitesSet;
 	}
 
-	public void setNamesOfSatellitesSet(SortedSet<String> namesOfSatellitesSet)
+	public void setNamesOfSatellitesSet(Set<String> namesOfSatellitesSet)
 	{
 		this.namesOfSatellitesSet = namesOfSatellitesSet;
 	}
@@ -184,4 +235,59 @@ public class SatModel
 		this.satJdomDocument = satJdomDocument;
 	}
 
+	public boolean checkIfFlagsFromJdomDocumentSet()
+	{
+		if ( this.getFlagsOfSatellitesList() != null  ) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+
+	public List<Integer> getFlagsOfSatellitesList()
+	{
+		return flagsOfSatellitesList;
+	}
+
+	public void setFlagsOfSatellitesList(List<Integer> flagsOfSatellitesList)
+	{
+		this.flagsOfSatellitesList = flagsOfSatellitesList;
+	}
+
+	public boolean checkIfSatInfoObjectFlagsList()
+	{
+		List <Integer> currentFlag = this.getFlagsOfSatellitesList();
+		
+	    return checkIfANumbersInProvidedListArecorrect(currentFlag);
+	}
+
+	private boolean checkIfANumbersInProvidedListArecorrect(List<Integer> inputList)
+	{
+		if (inputList.toString().isEmpty() != true)
+		{
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
+
+	public boolean checkIfPositionFromJdomDocumentSet()
+	{
+		List <Integer> currentPosition = this.getPositionOfSatellitesList();
+		
+		return checkIfANumbersInProvidedListArecorrect(currentPosition);
+	}
+
+	public List<Integer> getPositionOfSatellitesList()
+	{
+		return positionOfSatellitesList;
+	}
+
+	public void setPositionOfSatellitesList(List<Integer> positionOfSatellitesList)
+	{
+		this.positionOfSatellitesList = positionOfSatellitesList;
+	}
+	
 }

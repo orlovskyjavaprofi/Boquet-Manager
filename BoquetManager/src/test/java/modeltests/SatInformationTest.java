@@ -13,12 +13,16 @@ class SatInformationTest
 {
 	private SatInformation satInfoObject;
 	private String satname;
-
+    private Integer flags;
+	private Integer position;
+	
 	@BeforeEach
 	void setUp()
 	{
 		satname = "Sirius/Astra 1A - 5 east";
-		satInfoObject = new SatInformation(satname);
+		flags = 1;
+		position  =50;
+		satInfoObject = new SatInformation(satname, flags, position);
 	}
 
 	@Test
@@ -45,13 +49,13 @@ class SatInformationTest
 	@Test
 	void testingIfDifferentSatInfoObjectsEqual()
 	{
-
 		Integer expectedResult = 0;
 		SatInformation anotherSatInfoObject = new SatInformation("Hotbird - 13 east");
 		boolean result = true;
 		Integer actualResult = satInfoObject.compareTo(anotherSatInfoObject);
 
 		result = validateResult(expectedResult,  actualResult,result);
+		
 		assertFalse(result, "check if  one and another satInfo Objects have different names!");
 	}
 
@@ -79,6 +83,23 @@ class SatInformationTest
 			result = true;
 		}
 		return result;
+	}
+	
+	@Test
+	void checkIfFlagsNotNull() {
+		
+		Integer flagValue = satInfoObject.getSatFlags();
+//		System.out.println(satInfoObject.toString());
+		
+		assertNotNull(flagValue);
+	}
+	
+	@Test
+	void checkIfPositionNotNull() {
+		
+		Integer Position = satInfoObject.getSatPosition();
+		
+		assertNotNull(Position);
 	}
 	
 }

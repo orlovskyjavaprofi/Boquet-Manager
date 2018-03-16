@@ -203,6 +203,100 @@ class SatModelTest
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Test
+	void checkIfCreatedSatInformationObjectsConsistFlags()
+	{
+		boolean expectedResult = true;
+		boolean actualResult = false;
+
+		try
+		{
+			this.settingUpSatModelAndCalculatingAmountOfSatellites();
+			satModelObject.createSatInformationObjects();
+			actualResult = satModelObject.checkIfSatInfoObjectFlagsList();
+			// System.out.println("Result "+
+			// satModelObject.getSortedSatellitesInformationSet().toString());
+
+			assertEquals(expectedResult, actualResult, "checking that one of the satInfo Objects are not null");
+
+		} catch (ParserConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void checkFlagsFromJdomDocument()
+	{
+		boolean expectedResult = true;
+		boolean actualResult = false;
+
+		try
+		{
+			this.settingUpSatModelAndCalculatingAmountOfSatellites();
+			satModelObject.createSatInformationObjects();
+			actualResult = satModelObject.checkIfFlagsFromJdomDocumentSet();
+			
+			assertEquals(expectedResult, actualResult, 
+					"checking if SatModel did loaded flags valuesl");
+		} catch (ParserConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
+	
+	@Test
+	void checkPositionFromJdomDocument()
+	{
+		boolean expectedResult = true;
+		boolean actualResult = false;
+
+		try
+		{
+			this.settingUpSatModelAndCalculatingAmountOfSatellites();
+			satModelObject.createSatInformationObjects();
+			actualResult = satModelObject.checkIfPositionFromJdomDocumentSet();
+//			System.out.println("Result "+
+//			 satModelObject.getSortedSatellitesInformationSet().toString());
+			
+			assertEquals(expectedResult, actualResult, 
+					"checking if SatModel did loaded flags valuesl");
+			
+		} catch (ParserConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 }
