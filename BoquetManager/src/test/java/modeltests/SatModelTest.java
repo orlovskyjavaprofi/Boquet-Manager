@@ -187,7 +187,6 @@ class SatModelTest
 		try
 		{
 			this.settingUpSatModelAndCalculatingAmountOfSatellites();
-			satModelObject.createSatInformationObjects();
 			actualResult = satModelObject.checkIfSatInfoObjectNotNull();
 			// System.out.println("Result "+
 			// satModelObject.getSortedSatellitesInformationSet().toString());
@@ -218,7 +217,6 @@ class SatModelTest
 		try
 		{
 			this.settingUpSatModelAndCalculatingAmountOfSatellites();
-			satModelObject.createSatInformationObjects();
 			actualResult = satModelObject.checkIfSatInfoObjectFlagsList();
 			// System.out.println("Result "+
 			// satModelObject.getSortedSatellitesInformationSet().toString());
@@ -249,7 +247,6 @@ class SatModelTest
 		try
 		{
 			this.settingUpSatModelAndCalculatingAmountOfSatellites();
-			satModelObject.createSatInformationObjects();
 			actualResult = satModelObject.checkIfFlagsFromJdomDocumentSet();
 
 			assertEquals(expectedResult, actualResult, "checking if SatModel did loaded flags valuesl");
@@ -278,7 +275,7 @@ class SatModelTest
 		try
 		{
 			this.settingUpSatModelAndCalculatingAmountOfSatellites();
-			satModelObject.createSatInformationObjects();
+
 			actualResult = satModelObject.checkIfPositionFromJdomDocumentSet();
 //			 System.out.println("Result "+
 //			 satModelObject.getSortedSatellitesInformationSet().toString());
@@ -301,6 +298,36 @@ class SatModelTest
 
 	}
 
+	@Test
+	public void checkContentsOfNewCreatedSaInfoObjectIsnotNull() {
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		try
+		{
+			this.settingUpSatModelAndCalculatingAmountOfSatellites();
+			
+			System.out.println( satModelObject.getSortedSatellitesInformationSet().toString());
+
+			 actualResult = satModelObject.checkContentsOfSatInfoObjectNotNull();
+			
+			 
+			assertEquals(expectedResult, actualResult, "checking if SatInfo Object have a content");
+		} catch (ParserConfigurationException e)
+		{	
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@Test
 	public void checkIfJdomElementListCanBeConvertedToAStringList()
 	{

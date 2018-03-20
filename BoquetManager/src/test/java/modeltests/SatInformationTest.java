@@ -22,7 +22,9 @@ class SatInformationTest
     private Integer flags;
 	private Integer position;
 	private List<Integer> satTransponderFrequencyInputList;
-	String PathToFile;
+	private  List<Integer> satTransponderSymbolRateInputList;
+	String pathToFrequencyFile;
+	String pathToSymbolRateFile;
 	
 	@BeforeEach
 	void setUp()
@@ -31,9 +33,20 @@ class SatInformationTest
 		flags = 1;
 		position  =50;
 		satTransponderFrequencyInputList = new LinkedList<Integer>();
-		PathToFile = "src//test//resources//transponderFrequencyList//SeriusSat.txt";
-		this.readFileToFrequencyList(PathToFile);
-		satInfoObject = new SatInformation(satname, flags, position,satTransponderFrequencyInputList);
+		pathToFrequencyFile = "src//test//resources//transponderFrequencyList//SeriusSat.txt";
+		pathToSymbolRateFile = "src//test//resources//transponderSymbolRateList//SeriusSatSymbolRate.txt";
+		this.readFileToFrequencyList(pathToFrequencyFile);
+		try
+		{
+			this.readingFileSetingUpTransponderSymbolRateList(pathToSymbolRateFile);
+		} catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		satInfoObject = new SatInformation(satname, flags, position,
+				satTransponderFrequencyInputList, satTransponderSymbolRateInputList);
 	}
 
 	@Test
@@ -123,6 +136,17 @@ class SatInformationTest
 		assertEquals(expectedResult, actualResult, "check if  the length of transponder frequency is ok");
 	}
 
+	@Test
+	void checkIFSybolRateIsNotNull(){
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		
+		actualResult = satInfoObject.checkIfSymbolrateNotNull();
+		
+		assertEquals(expectedResult, actualResult, "Check if Symobolrate is not null");
+		
+	}
+	
 	private void  readFileToFrequencyList(String pathToFile) {
 		List<Integer> result = new LinkedList<Integer>();
 		try
@@ -146,10 +170,34 @@ class SatInformationTest
 		this.setSatTransponderFrequencyInputList(result);
 	}
 	
+	private void readingFileSetingUpTransponderSymbolRateList(String pathToFile)
+			throws FileNotFoundException
+	{
+		List<Integer> result = new LinkedList<Integer>();
+		
+		Scanner in = new Scanner(new FileReader(pathToFile));
+		while(in.hasNext()) {
+		    result.add( Integer.parseInt(in.next() ));
+		}
+		in.close();
+		this.setSatTransponderSymbolRateInputList(result);
+	}
+	
 	public void setSatTransponderFrequencyInputList(List<Integer> satTransponderFrequencyInputList)
 	{
 		this.satTransponderFrequencyInputList = satTransponderFrequencyInputList;
 	}
+
+	public List<Integer> getSatTransponderSymbolRateInputList()
+	{
+		return satTransponderSymbolRateInputList;
+	}
+
+	public void setSatTransponderSymbolRateInputList(List<Integer> satTransponderSymbolRateInputList)
+	{
+		this.satTransponderSymbolRateInputList = satTransponderSymbolRateInputList;
+	}
+	
 	
 	
 }
