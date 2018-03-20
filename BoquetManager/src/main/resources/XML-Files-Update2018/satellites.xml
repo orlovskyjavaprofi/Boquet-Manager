@@ -6,8 +6,8 @@
 and combinations of this.-->
 
 <satellites>
-	<sat name="Sirius/Astra 1A - 5 east" flags="1" position="50"> 
-	    <transponder frequency="12608000" symbol_rate="27500"   polarization="1"  fec_inner="3"/>
+	<sat name="Sirius/Astra 1A - 5 east" flags="1" position="50" > 
+	    <transponder frequency="12608000" symbol_rate="27500"   polarization="1"  fec_inner="3"/>	                            
         <transponder frequency="12608000" symbol_rate="27500"   polarization="0"  fec_inner="3"/>
 		<transponder frequency="12608000" symbol_rate="2750000"   polarization="1"  fec_inner="3"/>
         <transponder frequency="12608000" symbol_rate="2750000"   polarization="0"  fec_inner="3"/>

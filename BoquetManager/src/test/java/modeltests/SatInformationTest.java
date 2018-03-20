@@ -4,6 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +21,8 @@ class SatInformationTest
 	private String satname;
     private Integer flags;
 	private Integer position;
+	private List<Integer> satTransponderFrequencyInputList;
+	String PathToFile;
 	
 	@BeforeEach
 	void setUp()
@@ -22,7 +30,10 @@ class SatInformationTest
 		satname = "Sirius/Astra 1A - 5 east";
 		flags = 1;
 		position  =50;
-		satInfoObject = new SatInformation(satname, flags, position);
+		satTransponderFrequencyInputList = new LinkedList<Integer>();
+		PathToFile = "src//test//resources//transponderFrequencyList//SeriusSat.txt";
+		this.readFileToFrequencyList(PathToFile);
+		satInfoObject = new SatInformation(satname, flags, position,satTransponderFrequencyInputList);
 	}
 
 	@Test
@@ -89,7 +100,6 @@ class SatInformationTest
 	void checkIfFlagsNotNull() {
 		
 		Integer flagValue = satInfoObject.getSatFlags();
-//		System.out.println(satInfoObject.toString());
 		
 		assertNotNull(flagValue);
 	}
@@ -101,5 +111,45 @@ class SatInformationTest
 		
 		assertNotNull(Position);
 	}
+	
+	@Test 
+	void checkLengthOftransponderfrequency() {
+		
+	    boolean expectedResult = true;
+	    boolean actualResult =  false;
+	    
+	    actualResult =  satInfoObject.checkTheLengthOfTransponderFrequency();
+	    
+		assertEquals(expectedResult, actualResult, "check if  the length of transponder frequency is ok");
+	}
+
+	private void  readFileToFrequencyList(String pathToFile) {
+		List<Integer> result = new LinkedList<Integer>();
+		try
+		{
+			readingFileSetingUpTransponderFrequencyList(pathToFile, result);
+		} catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void readingFileSetingUpTransponderFrequencyList(String pathToFile, List<Integer> result)
+			throws FileNotFoundException
+	{
+		Scanner in = new Scanner(new FileReader(pathToFile));
+		while(in.hasNext()) {
+		    result.add( Integer.parseInt(in.next() ));
+		}
+		in.close();
+		this.setSatTransponderFrequencyInputList(result);
+	}
+	
+	public void setSatTransponderFrequencyInputList(List<Integer> satTransponderFrequencyInputList)
+	{
+		this.satTransponderFrequencyInputList = satTransponderFrequencyInputList;
+	}
+	
 	
 }

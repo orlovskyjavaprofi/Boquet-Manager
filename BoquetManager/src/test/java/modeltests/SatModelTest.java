@@ -4,9 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.jdom2.Attribute;
+import org.jdom2.Element;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
@@ -235,7 +239,7 @@ class SatModelTest
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	void checkFlagsFromJdomDocument()
 	{
@@ -247,9 +251,8 @@ class SatModelTest
 			this.settingUpSatModelAndCalculatingAmountOfSatellites();
 			satModelObject.createSatInformationObjects();
 			actualResult = satModelObject.checkIfFlagsFromJdomDocumentSet();
-			
-			assertEquals(expectedResult, actualResult, 
-					"checking if SatModel did loaded flags valuesl");
+
+			assertEquals(expectedResult, actualResult, "checking if SatModel did loaded flags valuesl");
 		} catch (ParserConfigurationException e)
 		{
 			// TODO Auto-generated catch block
@@ -265,7 +268,7 @@ class SatModelTest
 		}
 
 	}
-	
+
 	@Test
 	void checkPositionFromJdomDocument()
 	{
@@ -277,12 +280,11 @@ class SatModelTest
 			this.settingUpSatModelAndCalculatingAmountOfSatellites();
 			satModelObject.createSatInformationObjects();
 			actualResult = satModelObject.checkIfPositionFromJdomDocumentSet();
-//			System.out.println("Result "+
+//			 System.out.println("Result "+
 //			 satModelObject.getSortedSatellitesInformationSet().toString());
-			
-			assertEquals(expectedResult, actualResult, 
-					"checking if SatModel did loaded flags valuesl");
-			
+
+			assertEquals(expectedResult, actualResult, "checking if SatModel did loaded flags valuesl");
+
 		} catch (ParserConfigurationException e)
 		{
 			// TODO Auto-generated catch block
@@ -298,5 +300,57 @@ class SatModelTest
 		}
 
 	}
-	
+
+	@Test
+	public void checkIfJdomElementListCanBeConvertedToAStringList()
+	{
+		List<Element> inputElementList = creatingAJDomElementMockupInteger();
+		List<Integer> actualResult = new LinkedList<Integer>();
+		List<Integer> expectedResult = new LinkedList<Integer>();
+
+		for (int i = 1; i <= 4; i++)
+		{
+			expectedResult.add(i);
+		}
+
+		try
+		{
+			this.settingUpSatModelAndCalculatingAmountOfSatellites();
+			actualResult = satModelObject.convertAJdomElementListToIntegerList(inputElementList);
+
+			assertEquals(expectedResult, actualResult, "checking if Jdom Element List was converted to a String Listl");
+		} catch (ParserConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private List<Element> creatingAJDomElementMockupInteger()
+	{
+		
+		List<Element> testingList = new LinkedList<Element>();
+		Element elem [] = new Element[4];
+        int counter =0;
+        
+		for (int i = 0; i < elem.length; i++)
+		{
+			elem[i] = new Element("test"+ counter++);
+			elem[i].setAttribute(new Attribute("test","test"+counter));
+			elem[i].setText( Integer.toString(counter) );
+			testingList.add(elem[i]);
+		}
+
+		return testingList;
+	}
+
 }

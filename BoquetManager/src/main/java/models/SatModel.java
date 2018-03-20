@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
@@ -11,6 +12,7 @@ import java.util.TreeSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.jdom2.Attribute;
 import org.jdom2.Element;
 import org.xml.sax.SAXException;
 
@@ -22,9 +24,10 @@ public class SatModel
 	private Integer AmountOfSatellites;
 	private SortedSet<SatInformation> sortedSatellitesInformationSet = new TreeSet<SatInformation>();
 	private Set<String> namesOfSatellitesSet = new LinkedHashSet<String>();
-    private List<Integer> flagsOfSatellitesList = new ArrayList<Integer>();
+	private List<Integer> flagsOfSatellitesList = new ArrayList<Integer>();
 	private List<Integer> positionOfSatellitesList = new ArrayList<Integer>();
-	
+	private List<Integer> transponderOFSatellitesFrequencyList = new LinkedList<Integer>();
+
 	public boolean readAndSetUpDomDocument(String inputPath)
 			throws ParserConfigurationException, SAXException, IOException
 	{
@@ -69,36 +72,66 @@ public class SatModel
 		List<Element> empListElements = root.getChildren("sat");
 		amountOfSats = checkNamesOfSatsAndCalculateAmount(amountOfSats, empListElements);
 		this.setAmountOfSatellites(amountOfSats);
-		
+
 		return amountOfSats;
 	}
 
 	private int checkNamesOfSatsAndCalculateAmount(int amountOfSats, List<Element> empListElements)
 	{
-		String satName = "";
-		Integer satFlags=0;
-		Integer satPosition = 0;
+		String satName = "";	
 		
-		for (Element empElement : empListElements)
+		for (Element oneLevelDeepIntoSat : empListElements)
 		{
-			satName = empElement.getAttributeValue("name");
-			satFlags = Integer.parseInt( empElement.getAttributeValue("flags"));
-			satPosition = Integer.parseInt( empElement.getAttributeValue("position"));
-			
-			if (  (satName.isEmpty() == false)  )
-			{			
-				settingUpDataForSatInfoObject(satName, satFlags, satPosition);
-				amountOfSats++;
-			}
+			satName = oneLevelDeepIntoSat.getAttributeValue("name");
+
+			amountOfSats = checkIfSatHasANameAndSetSatInfoObject(amountOfSats, satName, oneLevelDeepIntoSat);
+		}
+
+		return amountOfSats;
+	}
+
+	private int checkIfSatHasANameAndSetSatInfoObject(int amountOfSats, String satName, Element oneLevelDeepIntoSat)
+	{
+		Integer satFlags = 0;
+		Integer satPosition = 0;	
+		List<Integer> transponderOFSatellitesFrequencyList = new LinkedList<Integer>();
+		
+		if ((satName.isEmpty() == false))
+		{
+			satFlags = Integer.parseInt(oneLevelDeepIntoSat.getAttributeValue("flags"));
+			satPosition = Integer.parseInt(oneLevelDeepIntoSat.getAttributeValue("position"));
+			transponderOFSatellitesFrequencyList = parsingSecondLevelXml(
+					oneLevelDeepIntoSat.getChildren("transponder"));	
+			settingUpDataForSatInfoObject(satName, satFlags, satPosition, 
+					transponderOFSatellitesFrequencyList);			
+			amountOfSats++;
 		}
 		return amountOfSats;
 	}
 
-	private void settingUpDataForSatInfoObject(String satName, Integer satFlags, Integer satPosition)
+	private List<Integer> parsingSecondLevelXml(List<Element> oneLevelDeepIntoSat)
+	{
+		List<Element> twoLevelsDeep = oneLevelDeepIntoSat;
+		transponderOFSatellitesFrequencyList = new LinkedList<Integer>();
+
+		for (Element twoLevelDeepIntoSat : twoLevelsDeep)
+		{
+			Attribute attributeFrequency = twoLevelDeepIntoSat.getAttribute("frequency");
+			transponderOFSatellitesFrequencyList.add(
+					Integer.parseInt(attributeFrequency.getValue())
+			);
+		}
+
+		return transponderOFSatellitesFrequencyList;
+	}
+
+	private void settingUpDataForSatInfoObject(String satName, Integer satFlags, Integer satPosition,
+			List<Integer> transponderOFSatellitesFrequencyList)
 	{
 		this.getFlagsOfSatellitesList().add(satFlags);
 		this.getPositionOfSatellitesList().add(satPosition);
 		this.getNamesOfSatellitesSet().add(satName);
+		this.setTransponderOFSatellitesFrequencyList(transponderOFSatellitesFrequencyList);
 	}
 
 	public boolean createSatInformationObjects()
@@ -117,46 +150,39 @@ public class SatModel
 
 	private void buildingSatInformationObjects(Integer amountOfSat, SortedSet<SatInformation> sortedSatellitesSet)
 	{
+		Iterator<String> iteratorOverSatInfoNames = this.getNamesOfSatellitesSet().iterator();
+		Iterator<Integer> iteratorOverSatInfoFlags = this.getFlagsOfSatellitesList().iterator();
+		Iterator<Integer> iteratorOverSatInfoPosition = this.getPositionOfSatellitesList().iterator();
+		List<Integer> satInfoTransponderFrequencyList = this.getTransponderOFSatellitesFrequencyList();
 
-		Iterator<String>   iteratorOverSatInfoNames = this.getNamesOfSatellitesSet().iterator();
-        Iterator<Integer> iteratorOverSatInfoFlags = this.getFlagsOfSatellitesList().iterator();
-        Iterator<Integer> iteratorOverSatInfoPosition = this.getPositionOfSatellitesList().iterator();
-        
-		constructingAndAddingSatInfoObjectToSet(amountOfSat, 
-				sortedSatellitesSet, iteratorOverSatInfoNames,
-				iteratorOverSatInfoFlags, iteratorOverSatInfoPosition);
+		constructingAndAddingSatInfoObjectToSet(amountOfSat, sortedSatellitesSet, iteratorOverSatInfoNames,
+				iteratorOverSatInfoFlags, iteratorOverSatInfoPosition, satInfoTransponderFrequencyList);
+
 		this.setSortedSatellitesInformationSet(sortedSatellitesSet);
 	}
 
-	private void constructingAndAddingSatInfoObjectToSet(
-			Integer amountOfSat,
-			SortedSet<SatInformation> sortedSatellitesSet, 
-			Iterator<String> iteratorOverSatInfoNames,
-			Iterator<Integer> iteratorOverSatInfoFlags, 
-			Iterator<Integer> iteratorOverSatInfoPosition)
+	private void constructingAndAddingSatInfoObjectToSet(Integer amountOfSat,
+			SortedSet<SatInformation> sortedSatellitesSet, Iterator<String> iteratorOverSatInfoNames,
+			Iterator<Integer> iteratorOverSatInfoFlags, Iterator<Integer> iteratorOverSatInfoPosition,
+			List<Integer> satInforTransponderFrequencyList)
 	{
 		SatInformation satInoObject;
 		for (int i = 0; i < amountOfSat; i++)
 		{
-			satInoObject = creatingNewSatInfoObject(iteratorOverSatInfoNames, 
-					iteratorOverSatInfoFlags,
-					iteratorOverSatInfoPosition);
-			
+			satInoObject = creatingNewSatInfoObject(iteratorOverSatInfoNames, iteratorOverSatInfoFlags,
+					iteratorOverSatInfoPosition, satInforTransponderFrequencyList);
+
 			sortedSatellitesSet.add(satInoObject);
 		}
 	}
 
-	private SatInformation creatingNewSatInfoObject(
-			Iterator<String> iteratorOverSatInfoNames,
-			Iterator<Integer> iteratorOverSatInfoFlags,
-			Iterator<Integer> iteratorOverSatInfoPosition)
+	private SatInformation creatingNewSatInfoObject(Iterator<String> iteratorOverSatInfoNames,
+			Iterator<Integer> iteratorOverSatInfoFlags, Iterator<Integer> iteratorOverSatInfoPosition,
+			List<Integer> iteratorOVerSatInforTransponderFrequencyList)
 	{
 		SatInformation satInoObject;
-		satInoObject = new SatInformation( 
-				                                                   iteratorOverSatInfoNames.next(),
-				                                                   iteratorOverSatInfoFlags.next(),
-				                                                   iteratorOverSatInfoPosition.next()          
-				                                                  );
+		satInoObject = new SatInformation(iteratorOverSatInfoNames.next(), iteratorOverSatInfoFlags.next(),
+				iteratorOverSatInfoPosition.next(), iteratorOVerSatInforTransponderFrequencyList);
 		return satInoObject;
 	}
 
@@ -172,7 +198,8 @@ public class SatModel
 			// Get element
 			satInfoObj = it.next();
 			result = checkIfsatInfoObjectNotNull(satInfoObj);
-			if (result == false) {
+			if (result == false)
+			{
 				break;
 			}
 		}
@@ -183,7 +210,7 @@ public class SatModel
 	private boolean checkIfsatInfoObjectNotNull(SatInformation satInfoObj)
 	{
 		boolean result;
-		
+
 		if (satInfoObj == null)
 		{
 			result = false;
@@ -191,7 +218,7 @@ public class SatModel
 		{
 			result = true;
 		}
-		
+
 		return result;
 	}
 
@@ -237,12 +264,14 @@ public class SatModel
 
 	public boolean checkIfFlagsFromJdomDocumentSet()
 	{
-		if ( this.getFlagsOfSatellitesList() != null  ) {
+		if (this.getFlagsOfSatellitesList() != null)
+		{
 			return true;
-		}else {
+		} else
+		{
 			return false;
 		}
-		
+
 	}
 
 	public List<Integer> getFlagsOfSatellitesList()
@@ -257,9 +286,9 @@ public class SatModel
 
 	public boolean checkIfSatInfoObjectFlagsList()
 	{
-		List <Integer> currentFlag = this.getFlagsOfSatellitesList();
-		
-	    return checkIfANumbersInProvidedListArecorrect(currentFlag);
+		List<Integer> currentFlag = this.getFlagsOfSatellitesList();
+
+		return checkIfANumbersInProvidedListArecorrect(currentFlag);
 	}
 
 	private boolean checkIfANumbersInProvidedListArecorrect(List<Integer> inputList)
@@ -275,8 +304,8 @@ public class SatModel
 
 	public boolean checkIfPositionFromJdomDocumentSet()
 	{
-		List <Integer> currentPosition = this.getPositionOfSatellitesList();
-		
+		List<Integer> currentPosition = this.getPositionOfSatellitesList();
+
 		return checkIfANumbersInProvidedListArecorrect(currentPosition);
 	}
 
@@ -289,5 +318,26 @@ public class SatModel
 	{
 		this.positionOfSatellitesList = positionOfSatellitesList;
 	}
-	
+
+	public List<Integer> convertAJdomElementListToIntegerList(List<Element> inputJdomElemList)
+	{
+		List<Integer> res = new LinkedList<>();
+
+		for (int count = 0; count < inputJdomElemList.size(); count++)
+		{
+			res.add(Integer.parseInt(inputJdomElemList.get(count).getText()));
+		}
+		return res;
+	}
+
+	public List<Integer> getTransponderOFSatellitesFrequencyList()
+	{
+		return transponderOFSatellitesFrequencyList;
+	}
+
+	public void setTransponderOFSatellitesFrequencyList(List<Integer> transponderOFSatellitesFrequencyList)
+	{
+		this.transponderOFSatellitesFrequencyList = transponderOFSatellitesFrequencyList;
+	}
+
 }
