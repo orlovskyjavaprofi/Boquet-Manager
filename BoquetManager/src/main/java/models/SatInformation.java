@@ -11,6 +11,7 @@ public class SatInformation implements Comparable<SatInformation>
 	private Integer satPosition;
 	private List<Integer> satTransponderFrequencyList = new LinkedList<Integer>();
 	private List<Integer> satSymbolRateList = new LinkedList<Integer>();
+	private List<Byte> satPolarisationList = new LinkedList<Byte>();
 	
 	public SatInformation()
 	{
@@ -23,11 +24,12 @@ public class SatInformation implements Comparable<SatInformation>
 	}
 
 	public SatInformation(
-			String inputSatName, 
-			Integer inputFlags, 
-			Integer inputPosition,
-			List<Integer> satInputTransponderFrequencyList,
-			List<Integer> satInputTransponderSymbolRateList
+			   String inputSatName, 
+			   Integer inputFlags, 
+			   Integer inputPosition,
+			   List<Integer> satInputTransponderFrequencyList,
+			   List<Integer> satInputTransponderSymbolRateList,
+			   List<Byte> satInputPolarisationList
 			)
 	{
 		this.satName = inputSatName;
@@ -35,6 +37,7 @@ public class SatInformation implements Comparable<SatInformation>
 		this.satPosition = inputPosition;
 		this.satTransponderFrequencyList = satInputTransponderFrequencyList;
 		this.satSymbolRateList = satInputTransponderSymbolRateList;
+		this.satPolarisationList = satInputPolarisationList;
 	}
 
 	@Override
@@ -61,8 +64,9 @@ public class SatInformation implements Comparable<SatInformation>
 				+ " satFlags = " + this.getSatFlags()
 				+ " satPosition = " + this.getSatPosition()
 				+"\n Numbers of frequency: "+this.getSatTransponderFrequencyList().size() 
-				+ "\n Numbers of symbolrate: "+this.getSatSymbolRateList().size(); 
-		
+				+ "\n Numbers of symbolrate: "+this.getSatSymbolRateList().size()
+				+ "\n Number of satPolarization "+this.getSatPolarisationList().size();
+
 	}
 
 	public Integer getSatFlags()
@@ -154,6 +158,31 @@ public class SatInformation implements Comparable<SatInformation>
 	{
 		this.satSymbolRateList = satSymbolRateList;
 	}
+
+	public boolean checkIfPolarisationNotNull()
+	{
+		boolean result = true;
+		
+		if ( this.getSatPolarisationList().isEmpty() == false ) {
+			result = false;
+		}else {
+			result = true;
+		}
+		
+		return result;
+	}
+
+	public List<Byte> getSatPolarisationList()
+	{
+		return satPolarisationList;
+	}
+
+	public void setSatPolarisationList(List<Byte> satPolarisationList)
+	{
+		this.satPolarisationList = satPolarisationList;
+	}
+
+
 
 	
 }

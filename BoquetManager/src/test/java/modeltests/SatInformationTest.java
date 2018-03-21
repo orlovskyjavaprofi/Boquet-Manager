@@ -23,6 +23,7 @@ class SatInformationTest
 	private Integer position;
 	private List<Integer> satTransponderFrequencyInputList;
 	private  List<Integer> satTransponderSymbolRateInputList;
+	private List<Byte> satPolarisationList ;
 	String pathToFrequencyFile;
 	String pathToSymbolRateFile;
 	
@@ -33,20 +34,27 @@ class SatInformationTest
 		flags = 1;
 		position  =50;
 		satTransponderFrequencyInputList = new LinkedList<Integer>();
+	    satPolarisationList = new LinkedList<Byte>();
+		
+	    setUpMockPathsForReadingFiles();
+		
+		this.readFileToFrequencyList(pathToFrequencyFile);
+		satPolarisationList = this.initValuesForPolarisationNotNullTest();	
+		this.readingFileSetingUpTransponderSymbolRateList(pathToSymbolRateFile);
+
+		satInfoObject = new SatInformation(
+				satname, 
+				flags, 
+				position,
+				satTransponderFrequencyInputList, 
+				satTransponderSymbolRateInputList, 
+				satPolarisationList);
+	}
+
+	private void setUpMockPathsForReadingFiles()
+	{
 		pathToFrequencyFile = "src//test//resources//transponderFrequencyList//SeriusSat.txt";
 		pathToSymbolRateFile = "src//test//resources//transponderSymbolRateList//SeriusSatSymbolRate.txt";
-		this.readFileToFrequencyList(pathToFrequencyFile);
-		try
-		{
-			this.readingFileSetingUpTransponderSymbolRateList(pathToSymbolRateFile);
-		} catch (FileNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		satInfoObject = new SatInformation(satname, flags, position,
-				satTransponderFrequencyInputList, satTransponderSymbolRateInputList);
 	}
 
 	@Test
@@ -106,6 +114,7 @@ class SatInformationTest
 		{
 			result = true;
 		}
+		
 		return result;
 	}
 	
@@ -143,8 +152,28 @@ class SatInformationTest
 		
 		actualResult = satInfoObject.checkIfSymbolrateNotNull();
 		
-		assertEquals(expectedResult, actualResult, "Check if Symobolrate is not null");
+		assertEquals(expectedResult, actualResult, "Check if Symobolrate is not null");	
+	}
+	
+	@Test
+	void checkIfPolarisationNotNull() {
+		boolean expectedResult = false;
+		boolean actualResult = false;
+
+		actualResult = satInfoObject.checkIfPolarisationNotNull();
+				
+		assertEquals(expectedResult, actualResult, "Check if polarisation is not null");
+	}
+
+	private List<Byte> initValuesForPolarisationNotNullTest()
+	{
+		 List<Byte> inputSatPolarisationList = new LinkedList<Byte>();
+		for (byte b = 0; b <= 3; b++)
+		{
+			inputSatPolarisationList.add( b);
+		}
 		
+		return inputSatPolarisationList;
 	}
 	
 	private void  readFileToFrequencyList(String pathToFile) {
@@ -163,24 +192,36 @@ class SatInformationTest
 			throws FileNotFoundException
 	{
 		Scanner in = new Scanner(new FileReader(pathToFile));
-		while(in.hasNext()) {
-		    result.add( Integer.parseInt(in.next() ));
-		}
+		iteratingOverFileRowsAndAddingIntegersToList(result, in);
 		in.close();
 		this.setSatTransponderFrequencyInputList(result);
 	}
-	
-	private void readingFileSetingUpTransponderSymbolRateList(String pathToFile)
-			throws FileNotFoundException
+
+	private void iteratingOverFileRowsAndAddingIntegersToList(List<Integer> result, Scanner in)
 	{
-		List<Integer> result = new LinkedList<Integer>();
-		
-		Scanner in = new Scanner(new FileReader(pathToFile));
 		while(in.hasNext()) {
 		    result.add( Integer.parseInt(in.next() ));
 		}
-		in.close();
-		this.setSatTransponderSymbolRateInputList(result);
+	}
+	
+	private void readingFileSetingUpTransponderSymbolRateList(String pathToFile)
+
+	{
+		List<Integer> result = new LinkedList<Integer>();
+		
+		Scanner in;
+		try
+		{
+			in = new Scanner(new FileReader(pathToFile));
+			iteratingOverFileRowsAndAddingIntegersToList(result, in);
+			in.close();
+			this.setSatTransponderSymbolRateInputList(result);
+		} catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void setSatTransponderFrequencyInputList(List<Integer> satTransponderFrequencyInputList)
@@ -197,7 +238,5 @@ class SatInformationTest
 	{
 		this.satTransponderSymbolRateInputList = satTransponderSymbolRateInputList;
 	}
-	
-	
-	
+
 }

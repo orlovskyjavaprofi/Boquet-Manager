@@ -306,11 +306,10 @@ class SatModelTest
 		{
 			this.settingUpSatModelAndCalculatingAmountOfSatellites();
 			
-			System.out.println( satModelObject.getSortedSatellitesInformationSet().toString());
+//			System.out.println( satModelObject.getSortedSatellitesInformationSet().toString());
 
 			 actualResult = satModelObject.checkContentsOfSatInfoObjectNotNull();
-			
-			 
+ 
 			assertEquals(expectedResult, actualResult, "checking if SatInfo Object have a content");
 		} catch (ParserConfigurationException e)
 		{	
@@ -362,6 +361,19 @@ class SatModelTest
 
 	}
 
+	@Test
+	public void checkIfPolarizationNumberIsValid() {
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		
+		for (Byte b = 0; b <= 3 ; b++)
+		{
+			actualResult = satModelObject.validateGivenPolarizationNumber(b);
+		}
+		
+		assertEquals(expectedResult, actualResult, "checking if a polarization Number of JdomDocument is valid");
+	}
+	
 	private List<Element> creatingAJDomElementMockupInteger()
 	{
 		

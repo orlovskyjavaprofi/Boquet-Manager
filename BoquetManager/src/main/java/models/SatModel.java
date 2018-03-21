@@ -28,6 +28,7 @@ public class SatModel
 	private List<Integer> positionOfSatellitesList = new ArrayList<Integer>();
 	private List<Integer> transponderOFSatellitesFrequencyList = new LinkedList<Integer>();
 	private List<Integer> transponderOFSatellitesSymbolRateList = new LinkedList<Integer>();
+	private List<Byte> transponderOfSatellitesPolarizationList = new LinkedList<Byte>();
 	
 	public boolean readAndSetUpDomDocument(String inputPath)
 			throws ParserConfigurationException, SAXException, IOException
@@ -95,6 +96,7 @@ public class SatModel
 		return amountOfSats;
 	}
 
+	@SuppressWarnings("unchecked")
 	private int checkIfSatHasANameAndSetSatInfoObjectCalculateAmountSats(int amountOfSats, 
 			String satName, Element oneLevelDeepIntoSat)
 	{
@@ -107,15 +109,18 @@ public class SatModel
 			satPosition = Integer.parseInt(oneLevelDeepIntoSat.getAttributeValue("position"));
 			List<Integer> satellitesFrequencyList = new LinkedList<Integer>();
 			List<Integer> satellitesSymbolRateList = new LinkedList<Integer>();
+			List<Byte> satellitesPolarizationList = new LinkedList<Byte>();
 			
-			satellitesFrequencyList = parsingSecondLevelXml(	
+			satellitesFrequencyList = (List<Integer>)(Object)parsingSecondLevelXml(	
 					oneLevelDeepIntoSat.getChildren("transponder"), "frequency"	);	
-			satellitesSymbolRateList = parsingSecondLevelXml(	
+			satellitesSymbolRateList = (List<Integer>)(Object)parsingSecondLevelXml(	
 					oneLevelDeepIntoSat.getChildren("transponder"), "symbol_rate"	);
-             
+			satellitesPolarizationList = (List<Byte>)(Object)parsingSecondLevelXml(	
+					oneLevelDeepIntoSat.getChildren("transponder"), "polarization"	);
+			
 			settingUpDataForSatInfoObject(
 					satName, 	satFlags, satPosition,
-					satellitesFrequencyList, satellitesSymbolRateList	);	
+					satellitesFrequencyList, satellitesSymbolRateList, satellitesPolarizationList	);	
 			
 			amountOfSats++;
 		
@@ -127,7 +132,8 @@ public class SatModel
 			Integer satFlags,
 			Integer satPosition,
 			List<Integer> satellitesFrequencyList, 
-			List<Integer>satellitesSymbolRateList
+			List<Integer>satellitesSymbolRateList,
+			List<Byte> satellitesPolarizationList
 			)
 	{
 		this.getFlagsOfSatellitesList().add(satFlags);
@@ -135,13 +141,16 @@ public class SatModel
 		this.getNamesOfSatellitesSet().add(satName);
 		this.setTransponderOFSatellitesFrequencyList(satellitesFrequencyList);
 		this.setTransponderOFSatellitesSymbolRateList(satellitesSymbolRateList);
+		this.setTransponderOfSatellitesPolarizationList(satellitesPolarizationList);
 	}
 	
-	private List<Integer> parsingSecondLevelXml(List<Element> inputoneLevelDeepIntoSat,
+	private List<Object> parsingSecondLevelXml(List<Element> inputoneLevelDeepIntoSat,
 			String attributName)
 	{
 		List<Element> twoLevelsDeep = inputoneLevelDeepIntoSat;
 		List<Integer> resultIntegerList = new LinkedList<Integer>();
+		List <Byte> resultByteList = new LinkedList<Byte>();
+		List<Object> result = null;
 		
 		for (Element twoLevelDeepIntoSat : twoLevelsDeep)
 		{
@@ -154,9 +163,34 @@ public class SatModel
 				case "symbol_rate":
 					resultIntegerList = addSymbolRateElemToTransponder(attribute,resultIntegerList);
 					break;
+				case "polarization":
+					resultByteList  =  addPolarizationElemToTransponder(attribute,resultByteList);
+					break;
 			}	
 		}
-		return resultIntegerList;
+		
+		result = analyzingAReturnTypeListForSatInfoObject(
+				attributName, resultIntegerList, resultByteList, result);	
+		
+			return result;		
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Object> analyzingAReturnTypeListForSatInfoObject(String attributName,
+			List<Integer> resultIntegerList,	List<Byte> resultByteList, List<Object> result)
+	{
+		switch(attributName) {
+			case "frequency":
+				result = (List<Object>)(Object)resultIntegerList;
+				break;
+			case "symbol_rate":
+				result = (List<Object>)(Object)resultIntegerList;
+				break;
+			case "polarization":
+				result = (List<Object>)(Object)resultByteList;
+				break;
+		}
+		return result;
 	}
 
 	private List<Integer> addFrequencyElemToTransponder(Attribute attributeFrequency,
@@ -177,6 +211,26 @@ public class SatModel
 		return inputResultIntegerList;
 	}
 
+	private List<Byte> addPolarizationElemToTransponder(Attribute attributePolarization, 
+			List<Byte> inputResultByteList)
+	{
+		boolean Result = false;
+		String defaultNum = "0";
+		
+		Result = this.validateGivenPolarizationNumber(
+				Byte.parseByte(attributePolarization.getValue()));
+		
+		if (Result == true)
+		{
+			inputResultByteList.add(Byte.parseByte(attributePolarization.getValue()));
+		}else {
+			inputResultByteList.add(Byte.parseByte(defaultNum));
+		}
+
+		return inputResultByteList;
+	}
+	
+	
 	public boolean createSatInformationObjects()
 	{
 		Integer amountOfSat = this.getAmountOfSatellites();
@@ -233,7 +287,9 @@ public class SatModel
 				iteratorOverSatInfoFlags.next(),
 				iteratorOverSatInfoPosition.next(), 
 				this.getTransponderOFSatellitesFrequencyList(),
-				this.getTransponderOFSatellitesSymbolRateList());
+				this.getTransponderOFSatellitesSymbolRateList(),
+				this.getTransponderOfSatellitesPolarizationList()
+				);
 		return satInoObject;
 	}
 
@@ -440,5 +496,43 @@ public class SatModel
 		return result;
 	}
 
+	public List<Byte> getTransponderOfSatellitesPolarizationList()
+	{
+		return transponderOfSatellitesPolarizationList;
+	}
+
+	public void setTransponderOfSatellitesPolarizationList(List<Byte> transponderOfSatellitesPolarizationList)
+	{
+		this.transponderOfSatellitesPolarizationList = transponderOfSatellitesPolarizationList;
+	}
+
+	public boolean validateGivenPolarizationNumber(Byte inputPolarizationNumber)
+	{
+		boolean result = false;
+		
+		for (Byte validNum = 0; validNum <= 3 ; validNum++)
+		{
+			result = checkGivenPolarizationNumber(inputPolarizationNumber, validNum);
+			if (result == true) {
+				break;
+			}
+		}
+		
+		return result;
+	}
+
+	private boolean checkGivenPolarizationNumber(Byte inputPolarizationNumber, Byte validNum)
+	{
+		boolean result;
+		if (  validNum == inputPolarizationNumber) {
+			result = true;
+		}else
+		{
+			result = false;
+		}
+		return result;
+	}
+
+	
 	
 }
