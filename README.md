@@ -1,5 +1,5 @@
 # Boquet-Manager
-Useful Java FX application for managing XML files which are consis of sattelite channels information
+Useful Java FX application for managing XML files which are consist of sattelite channels information
 
 The software provided as is, without any guarantee or warranty!
 
