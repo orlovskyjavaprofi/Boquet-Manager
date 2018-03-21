@@ -24,6 +24,7 @@ class SatInformationTest
 	private List<Integer> satTransponderFrequencyInputList;
 	private  List<Integer> satTransponderSymbolRateInputList;
 	private List<Byte> satPolarisationList ;
+	private List<Byte> satFecInnerList ;
 	String pathToFrequencyFile;
 	String pathToSymbolRateFile;
 	
@@ -35,11 +36,13 @@ class SatInformationTest
 		position  =50;
 		satTransponderFrequencyInputList = new LinkedList<Integer>();
 	    satPolarisationList = new LinkedList<Byte>();
+		satFecInnerList = new LinkedList<Byte>();
 		
 	    setUpMockPathsForReadingFiles();
 		
 		this.readFileToFrequencyList(pathToFrequencyFile);
 		satPolarisationList = this.initValuesForPolarisationNotNullTest();	
+		satFecInnerList = this.initValuesForFecInnerNotNullTest();
 		this.readingFileSetingUpTransponderSymbolRateList(pathToSymbolRateFile);
 
 		satInfoObject = new SatInformation(
@@ -48,7 +51,7 @@ class SatInformationTest
 				position,
 				satTransponderFrequencyInputList, 
 				satTransponderSymbolRateInputList, 
-				satPolarisationList);
+				satPolarisationList, satFecInnerList);
 	}
 
 	private void setUpMockPathsForReadingFiles()
@@ -165,6 +168,16 @@ class SatInformationTest
 		assertEquals(expectedResult, actualResult, "Check if polarisation is not null");
 	}
 
+	@Test
+	void checkIfFecInnerNoNull() {
+		boolean expectedResult = false;
+		boolean actualResult = false;
+
+		actualResult = satInfoObject.checkfec_innerNotNull();
+				
+		assertEquals(expectedResult, actualResult, "Check if fec_inner is not null");
+	}
+	
 	private List<Byte> initValuesForPolarisationNotNullTest()
 	{
 		 List<Byte> inputSatPolarisationList = new LinkedList<Byte>();
@@ -175,6 +188,18 @@ class SatInformationTest
 		
 		return inputSatPolarisationList;
 	}
+	
+	private List<Byte> initValuesForFecInnerNotNullTest()
+	{
+		 List<Byte> inputSatPolarisationList = new LinkedList<Byte>();
+		for (byte b = 1; b <= 9; b++)
+		{
+			inputSatPolarisationList.add( b);
+		}
+		
+		return inputSatPolarisationList;
+	}
+	
 	
 	private void  readFileToFrequencyList(String pathToFile) {
 		List<Integer> result = new LinkedList<Integer>();

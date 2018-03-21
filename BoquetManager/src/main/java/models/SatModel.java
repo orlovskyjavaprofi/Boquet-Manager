@@ -29,6 +29,7 @@ public class SatModel
 	private List<Integer> transponderOFSatellitesFrequencyList = new LinkedList<Integer>();
 	private List<Integer> transponderOFSatellitesSymbolRateList = new LinkedList<Integer>();
 	private List<Byte> transponderOfSatellitesPolarizationList = new LinkedList<Byte>();
+	private List<Byte> transponderOfSatellitesFecInnerList = new LinkedList<Byte>();
 	
 	public boolean readAndSetUpDomDocument(String inputPath)
 			throws ParserConfigurationException, SAXException, IOException
@@ -110,6 +111,7 @@ public class SatModel
 			List<Integer> satellitesFrequencyList = new LinkedList<Integer>();
 			List<Integer> satellitesSymbolRateList = new LinkedList<Integer>();
 			List<Byte> satellitesPolarizationList = new LinkedList<Byte>();
+			List<Byte> satellitesFecInnerList = new LinkedList<Byte>();
 			
 			satellitesFrequencyList = (List<Integer>)(Object)parsingSecondLevelXml(	
 					oneLevelDeepIntoSat.getChildren("transponder"), "frequency"	);	
@@ -117,10 +119,13 @@ public class SatModel
 					oneLevelDeepIntoSat.getChildren("transponder"), "symbol_rate"	);
 			satellitesPolarizationList = (List<Byte>)(Object)parsingSecondLevelXml(	
 					oneLevelDeepIntoSat.getChildren("transponder"), "polarization"	);
+			satellitesFecInnerList = (List<Byte>)(Object)parsingSecondLevelXml(	
+					oneLevelDeepIntoSat.getChildren("transponder"), "fec_inner" );
 			
 			settingUpDataForSatInfoObject(
 					satName, 	satFlags, satPosition,
-					satellitesFrequencyList, satellitesSymbolRateList, satellitesPolarizationList	);	
+					satellitesFrequencyList, satellitesSymbolRateList, 
+					satellitesPolarizationList,satellitesFecInnerList	);	
 			
 			amountOfSats++;
 		
@@ -133,7 +138,8 @@ public class SatModel
 			Integer satPosition,
 			List<Integer> satellitesFrequencyList, 
 			List<Integer>satellitesSymbolRateList,
-			List<Byte> satellitesPolarizationList
+			List<Byte> satellitesPolarizationList,
+			List<Byte> satellitesFecInnerList
 			)
 	{
 		this.getFlagsOfSatellitesList().add(satFlags);
@@ -142,6 +148,7 @@ public class SatModel
 		this.setTransponderOFSatellitesFrequencyList(satellitesFrequencyList);
 		this.setTransponderOFSatellitesSymbolRateList(satellitesSymbolRateList);
 		this.setTransponderOfSatellitesPolarizationList(satellitesPolarizationList);
+		this.setTransponderOfSatellitesFecInnerList(satellitesFecInnerList);
 	}
 	
 	private List<Object> parsingSecondLevelXml(List<Element> inputoneLevelDeepIntoSat,
@@ -166,6 +173,9 @@ public class SatModel
 				case "polarization":
 					resultByteList  =  addPolarizationElemToTransponder(attribute,resultByteList);
 					break;
+				case "fec_inner":
+					resultByteList  =  addFecInnerElemToTransponder(attribute,resultByteList);
+					break;
 			}	
 		}
 		
@@ -187,6 +197,9 @@ public class SatModel
 				result = (List<Object>)(Object)resultIntegerList;
 				break;
 			case "polarization":
+				result = (List<Object>)(Object)resultByteList;
+				break;
+			case "fec_inner":
 				result = (List<Object>)(Object)resultByteList;
 				break;
 		}
@@ -223,6 +236,25 @@ public class SatModel
 		if (Result == true)
 		{
 			inputResultByteList.add(Byte.parseByte(attributePolarization.getValue()));
+		}else {
+			inputResultByteList.add(Byte.parseByte(defaultNum));
+		}
+
+		return inputResultByteList;
+	}
+	
+	private List<Byte> addFecInnerElemToTransponder(Attribute attributeFecInner, 
+			List<Byte> inputResultByteList)
+	{
+		boolean Result = false;
+		String defaultNum = "1";
+		
+		Result = this.validateGivenFecInnerNumber(
+				Byte.parseByte(attributeFecInner.getValue()));
+		
+		if (Result == true)
+		{
+			inputResultByteList.add(Byte.parseByte(attributeFecInner.getValue()));
 		}else {
 			inputResultByteList.add(Byte.parseByte(defaultNum));
 		}
@@ -288,7 +320,8 @@ public class SatModel
 				iteratorOverSatInfoPosition.next(), 
 				this.getTransponderOFSatellitesFrequencyList(),
 				this.getTransponderOFSatellitesSymbolRateList(),
-				this.getTransponderOfSatellitesPolarizationList()
+				this.getTransponderOfSatellitesPolarizationList(),
+				this.getTransponderOfSatellitesFecInnerList()
 				);
 		return satInoObject;
 	}
@@ -512,7 +545,7 @@ public class SatModel
 		
 		for (Byte validNum = 0; validNum <= 3 ; validNum++)
 		{
-			result = checkGivenPolarizationNumber(inputPolarizationNumber, validNum);
+			result = validateGivenNumber(inputPolarizationNumber, validNum);
 			if (result == true) {
 				break;
 			}
@@ -520,8 +553,22 @@ public class SatModel
 		
 		return result;
 	}
-
-	private boolean checkGivenPolarizationNumber(Byte inputPolarizationNumber, Byte validNum)
+	
+	public boolean validateGivenFecInnerNumber(Byte inputFecInnerNumber)
+	{
+		boolean result = false;
+		
+		for (Byte validNum = 1; validNum <= 9 ; validNum++)
+		{
+			result = validateGivenNumber(inputFecInnerNumber, validNum);
+			if (result == true) {
+				break;
+			}
+		}
+		return result; 
+	}
+	
+	private boolean validateGivenNumber(Byte inputPolarizationNumber, Byte validNum)
 	{
 		boolean result;
 		if (  validNum == inputPolarizationNumber) {
@@ -533,6 +580,15 @@ public class SatModel
 		return result;
 	}
 
-	
+	public List<Byte> getTransponderOfSatellitesFecInnerList()
+	{
+		return transponderOfSatellitesFecInnerList;
+	}
+
+	public void setTransponderOfSatellitesFecInnerList(List<Byte> transponderOfSatellitesFecInnerList)
+	{
+		this.transponderOfSatellitesFecInnerList = transponderOfSatellitesFecInnerList;
+	}
+
 	
 }

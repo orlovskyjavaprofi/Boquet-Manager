@@ -12,6 +12,7 @@ public class SatInformation implements Comparable<SatInformation>
 	private List<Integer> satTransponderFrequencyList = new LinkedList<Integer>();
 	private List<Integer> satSymbolRateList = new LinkedList<Integer>();
 	private List<Byte> satPolarisationList = new LinkedList<Byte>();
+	private List<Byte> satFecInnerList = new LinkedList<Byte>();
 	
 	public SatInformation()
 	{
@@ -29,7 +30,8 @@ public class SatInformation implements Comparable<SatInformation>
 			   Integer inputPosition,
 			   List<Integer> satInputTransponderFrequencyList,
 			   List<Integer> satInputTransponderSymbolRateList,
-			   List<Byte> satInputPolarisationList
+			   List<Byte> satInputPolarisationList,
+			   List<Byte> satInputFecInnerList
 			)
 	{
 		this.satName = inputSatName;
@@ -38,6 +40,7 @@ public class SatInformation implements Comparable<SatInformation>
 		this.satTransponderFrequencyList = satInputTransponderFrequencyList;
 		this.satSymbolRateList = satInputTransponderSymbolRateList;
 		this.satPolarisationList = satInputPolarisationList;
+		this.satFecInnerList = satInputFecInnerList;
 	}
 
 	@Override
@@ -59,14 +62,13 @@ public class SatInformation implements Comparable<SatInformation>
 	@Override
 	public String toString()
 	{
-		return "\n=================================================================\n"
-				+ " satName = " + this.getSatName()
-				+ " satFlags = " + this.getSatFlags()
+		return "\n================="+ " Sattelite name = " + this.getSatName()+"================================================\n"				
+				+ " satFlags = " + this.getSatFlags() 
 				+ " satPosition = " + this.getSatPosition()
-				+"\n Numbers of frequency: "+this.getSatTransponderFrequencyList().size() 
-				+ "\n Numbers of symbolrate: "+this.getSatSymbolRateList().size()
-				+ "\n Number of satPolarization "+this.getSatPolarisationList().size();
-
+				+"\n Numbers of frequency: "+this.getSatTransponderFrequencyList().size()+","
+				+ " Numbers of symbolrate: "+this.getSatSymbolRateList().size()+","
+				+ "\n Numbers of satPolarization: "+this.getSatPolarisationList().size()+","
+				+ " Numbers of satFecInner: "+ this.getSatFecInnerList().size()+"\n";
 	}
 
 	public Integer getSatFlags()
@@ -182,7 +184,29 @@ public class SatInformation implements Comparable<SatInformation>
 		this.satPolarisationList = satPolarisationList;
 	}
 
+	public boolean checkfec_innerNotNull()
+	{		
+		boolean result = true;
+		
+		if ( this.getSatFecInnerList().isEmpty() == false ) {
+			result = false;
+		}else {
+			result = true;
+		}
+		
+		return result;
+	}
+
+	public List<Byte> getSatFecInnerList()
+	{
+		return satFecInnerList;
+	}
+
+	public void setSatFecInnerList(List<Byte> satFecInnerList)
+	{
+		this.satFecInnerList = satFecInnerList;
+	}
 
 
-	
+
 }

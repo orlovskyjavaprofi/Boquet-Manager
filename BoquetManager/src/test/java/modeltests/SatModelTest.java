@@ -306,7 +306,7 @@ class SatModelTest
 		{
 			this.settingUpSatModelAndCalculatingAmountOfSatellites();
 			
-//			System.out.println( satModelObject.getSortedSatellitesInformationSet().toString());
+//	System.out.println( satModelObject.getSortedSatellitesInformationSet().toString());
 
 			 actualResult = satModelObject.checkContentsOfSatInfoObjectNotNull();
  
@@ -372,6 +372,19 @@ class SatModelTest
 		}
 		
 		assertEquals(expectedResult, actualResult, "checking if a polarization Number of JdomDocument is valid");
+	}
+	
+	@Test
+	public void checkIfFecInnerNumberIsValid() {
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		
+		for (Byte b = 1; b <= 9 ; b++)
+		{
+			actualResult = satModelObject.validateGivenFecInnerNumber(b);
+		}
+		
+		assertEquals(expectedResult, actualResult, "checking if a fec_inner Number of JdomDocument is valid");
 	}
 	
 	private List<Element> creatingAJDomElementMockupInteger()
