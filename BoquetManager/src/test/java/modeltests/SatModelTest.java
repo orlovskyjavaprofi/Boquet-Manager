@@ -306,7 +306,7 @@ class SatModelTest
 		{
 			this.settingUpSatModelAndCalculatingAmountOfSatellites();
 			
-System.out.println( satModelObject.getSortedSatellitesInformationSet().toString());
+//System.out.println( satModelObject.getSortedSatellitesInformationSet().toString());
 
 			 actualResult = satModelObject.checkContentsOfSatInfoObjectNotNull();
  
