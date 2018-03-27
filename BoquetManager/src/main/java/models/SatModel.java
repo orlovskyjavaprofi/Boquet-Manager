@@ -42,10 +42,10 @@ public class SatModel
 			this.setSatJdomDocument(xmlReader.getJDomDocumentResult());
 		}
 
-		return checkIfJDocumentWasCreated(xmlReaderStatus);
+		return checkIfJDomDocumentWasCreated(xmlReaderStatus);
 	}
 
-	private boolean checkIfJDocumentWasCreated(boolean xmlReaderStatus)
+	private boolean checkIfJDomDocumentWasCreated(boolean xmlReaderStatus)
 	{
 		if (xmlReaderStatus == true)
 		{
@@ -56,7 +56,7 @@ public class SatModel
 		}
 	}
 
-	public boolean checkIfDomDocumetIsSetUp()
+	public boolean checkIfJDomDocumetIsSetUp()
 	{
 		if (this.getSatJdomDocument().hasRootElement() == true)
 		{

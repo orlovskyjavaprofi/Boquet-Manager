@@ -52,4 +52,62 @@ public class SatServicesModelTest
 
 		assertEquals(true, result, "cannot read a Jdom document.");
 	}
+	
+	@Test
+	void testingifSatServicesModelJDomDocumentSetUP()
+	{
+		boolean expectedResult = true;
+		boolean actualResult = false;
+
+		try
+		{
+			satServicesObject.readAndSetUpJDomDocument(PathToFile);
+			actualResult = satServicesObject.checkIfJDomDocumetIsSetUp();
+		} catch (ParserConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertEquals(expectedResult, actualResult, "checking if SatServicesModel can save JDom Document from  Xml Reader");
+	}
+	
+	@Test
+	void checkAmountOfSatellites()
+	{
+		Integer expectedResult = 3;
+		Integer actualResult = 0;
+
+		try
+		{
+			satServicesObject.readAndSetUpJDomDocument(PathToFile);
+			satServicesObject.calculateAmountOfSatellitesForServices();
+			actualResult = satServicesObject.getAmountOfSatellites();
+		} catch (ParserConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		assertEquals(expectedResult, actualResult, "checking amount of services  with channels"	);
+	}
+	
+	//Check IF satServicesObjectsCreated
+
 }

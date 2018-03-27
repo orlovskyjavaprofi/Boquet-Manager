@@ -13,6 +13,7 @@ import java.util.Scanner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import helperutils.Util;
 import models.SatInformation;
 
 class SatInformationTest
@@ -27,6 +28,7 @@ class SatInformationTest
 	private List<Byte> satFecInnerList ;
 	String pathToFrequencyFile;
 	String pathToSymbolRateFile;
+	private Util helperUtils;
 	
 	@BeforeEach
 	void setUp()
@@ -37,7 +39,7 @@ class SatInformationTest
 		satTransponderFrequencyInputList = new LinkedList<Integer>();
 	    satPolarisationList = new LinkedList<Byte>();
 		satFecInnerList = new LinkedList<Byte>();
-		
+		helperUtils = new Util();
 	    setUpMockPathsForReadingFiles();
 		
 		this.readFileToFrequencyList(pathToFrequencyFile);
@@ -89,7 +91,7 @@ class SatInformationTest
 		boolean result = true;
 		Integer actualResult = satInfoObject.compareTo(anotherSatInfoObject);
 
-		result = validateResult(expectedResult,  actualResult,result);
+		result = helperUtils.validateResult(expectedResult,  actualResult,result);
 		
 		assertFalse(result, "check if  one and another satInfo Objects have different names!");
 	}
@@ -103,23 +105,12 @@ class SatInformationTest
 
 		boolean expectedResultBol = true;
 		boolean actualResultBol = false;
-		actualResultBol = validateResult(expectedResult, actualResult, actualResultBol);
+		actualResultBol = helperUtils.validateResult(expectedResult, actualResult, actualResultBol);
 
 		assertEquals(expectedResultBol, actualResultBol, "check if  one satInfo Objects have no name at all!");
 	}
 
-	private boolean validateResult(Integer expectedResult, Integer actualResult, boolean result)
-	{
-		if (expectedResult < actualResult)
-		{
-			result = false;
-		}else
-		{
-			result = true;
-		}
-		
-		return result;
-	}
+
 	
 	@Test
 	void checkIfFlagsNotNull() {

@@ -71,7 +71,7 @@ class SatModelTest
 		try
 		{
 			satModelObject.readAndSetUpDomDocument(PathToFile);
-			actualResult = satModelObject.checkIfDomDocumetIsSetUp();
+			actualResult = satModelObject.checkIfJDomDocumetIsSetUp();
 		} catch (ParserConfigurationException e)
 		{
 			// TODO Auto-generated catch block
