@@ -9,17 +9,21 @@ import org.junit.jupiter.api.Test;
 import helperutils.Util;
 import models.SatServicesList;
 
-class SatServicesTest
+class SatServicesListTest
 {
 	private SatServicesList satServicesObj;
 	private String satname;
 	private Util helperUtils;
+	private Integer position;
+    private Byte satDiseqc; 
 	
 	@BeforeEach
 	void setUp()
 	{
 		satname = "Sirius/Astra 1A - 5 east";
-		satServicesObj = new SatServicesList(satname);
+		position  = 0050;
+		satDiseqc = 2;
+		satServicesObj = new SatServicesList(satname, position,satDiseqc);
 		helperUtils = new Util();
 	}
 
@@ -28,7 +32,7 @@ class SatServicesTest
 	{
 		assertNotNull(satServicesObj);
 	}
-	
+
 	@Test
 	void testingIfSatNameIsEqual()
 	{
@@ -38,7 +42,7 @@ class SatServicesTest
 
 		assertEquals(expectedResult, actualResult, "check if one and another satServicesObj have " + "equal names!");
 	}
-	
+
 	@Test
 	void testingIfOneOfTheSatServicesObjectWithoutName()
 	{
@@ -49,8 +53,24 @@ class SatServicesTest
 		boolean expectedResultBol = true;
 		boolean actualResultBol = false;
 		actualResultBol = helperUtils.validateResult(expectedResult, actualResult, actualResultBol);
-		
+
 		assertEquals(expectedResultBol, actualResultBol, "check if  one satServices Objects have no name at all!");
 	}
 
+	@Test
+	void checkIfPositionNotNull()
+	{
+		Integer positionValue = satServicesObj.getSatPosition();
+
+		assertNotNull(positionValue);
+	}
+
+	@Test
+	void checkIfDiseqcNotNull() {
+		Byte diseqcValue = satServicesObj.getSatDiseqc();
+		
+		assertNotNull(diseqcValue);
+	}
+	
+	
 }
