@@ -84,7 +84,7 @@ public class SatServicesModel
 		List<Element> empListElements = root.getChildren("sat");
 		amountOfSats = checkNameOfSatAndCreateInformationObject(amountOfSats, empListElements);
 		this.setAmountOfSatellites(amountOfSats);
-       
+         //call SatServiceListBuilder
 		return amountOfSats;
 	}
 	

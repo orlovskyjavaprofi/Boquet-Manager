@@ -1,10 +1,13 @@
 package models;
 
+import java.util.List;
+
 public class SatServicesList  implements Comparable<SatServicesList>
 {
 	private String satName;
 	private Integer satPosition;
 	private Byte satDiseqc;
+	private List<SatTransponder> listOfTransponders;
 	
 	public SatServicesList(String inputSatName, Integer inputSatPosition,
 			                             Byte inputSatDiseqc)
@@ -69,6 +72,16 @@ public class SatServicesList  implements Comparable<SatServicesList>
 	public void setSatDiseqc(Byte satDiseqc)
 	{
 		this.satDiseqc = satDiseqc;
+	}
+
+	public List<SatTransponder> getListOfTransponders()
+	{
+		return listOfTransponders;
+	}
+
+	public void setListOfTransponders(List<SatTransponder> listOfTransponders)
+	{
+		this.listOfTransponders = listOfTransponders;
 	}
 	
 	
