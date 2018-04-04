@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdom2.Attribute;
@@ -201,7 +200,7 @@ public class SatModel
 		List<Element> twoLevelsDeep = inputoneLevelDeepIntoSat;
 		List<Integer> resultIntegerList = new LinkedList<Integer>();
 		List <Byte> resultByteList = new LinkedList<Byte>();
-		List<Object> result = null;
+		List<Object> result = new LinkedList<Object>();
 		
 		for (Element twoLevelDeepIntoSat : twoLevelsDeep)
 		{
