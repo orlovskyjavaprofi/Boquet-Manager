@@ -32,18 +32,17 @@ public class SatTransponder
 	@Override
 	public String toString()
 	{
-		return "SatTransponder "
-	             + "\n============================================================================\n"
-				+ "transponderId: " + transponderId 
+		return "\n======================"+"SatTransponder id "+transponderId+"======================================================\n"
 				+ "  transponderOnid: " + transponderOnid
 				+ " transponderFrequency: " + transponderFrequency +"\n" 
 				+ "transponderSymbolRate: " + transponderSymbolRate
 				+ " transponderInversion: " + transponderInversion +"\n"
 				+ "transponderFecInner: " + transponderFecInner
 				+ " transponderPolarisation: " + transponderPolarisation +"\n"
-				  + "\n============================================================================\n"
-				+ "This transponder consist following channel list"+"\n"
-				+ listOfSatTvChannels.toString();
+				+"List of channels in this transponder "+"\n"
+				+ listOfSatTvChannels.toString()
+				+ "\n============================================================================\n";
+				
 	}
 
 	public String getTransponderId()
