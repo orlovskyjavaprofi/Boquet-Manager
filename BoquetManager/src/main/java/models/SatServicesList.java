@@ -28,14 +28,21 @@ public class SatServicesList  implements Comparable<SatServicesList>
 		this.satName = "unknowsatname";
 	}
 
-
-
-
+	public SatServicesList(String inputSatName, Integer inputSatPosition, Byte inputSatDiseqc,
+			List<SatTransponder> inputlistOfTransponders)
+	{
+		this.satName = inputSatName;
+		this.satPosition = inputSatPosition;
+		this.satDiseqc = inputSatDiseqc;
+		this.listOfTransponders = inputlistOfTransponders;
+	}
 
 	@Override
 	public String toString()
 	{
-		return "SatServicesList:\n satName=" + satName ;
+		return "SatServicesList:\n satName=" + satName + " position: "+satPosition+
+				" diseqc: "+satDiseqc+"\n"+"List of transponders\n"+listOfTransponders.toString()+
+				"\n==========================================================\n";
 	}
 
 	@Override

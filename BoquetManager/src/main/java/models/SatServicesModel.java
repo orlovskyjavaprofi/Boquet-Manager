@@ -2,12 +2,14 @@ package models;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.SortedSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdom2.Element;
 import org.xml.sax.SAXException;
 
+import builders.SatServicesListBuilder;
 import utils.XmlReaderAndJdomDocumentCreator;
 
 public class SatServicesModel
@@ -15,6 +17,7 @@ public class SatServicesModel
 	private org.jdom2.Document satServicesJdomDocument;
 	private org.jdom2.Document satJdomDocument;
 	private Integer AmountOfSatellites;
+	private SortedSet<SatServicesList> setOfSatelitesServices;
 	
 	public boolean readAndSetUpAjDomDocument(String inputPath)
 			throws ParserConfigurationException, SAXException, IOException
@@ -84,7 +87,7 @@ public class SatServicesModel
 		List<Element> empListElements = root.getChildren("sat");
 		amountOfSats = checkNameOfSatAndCreateInformationObject(amountOfSats, empListElements);
 		this.setAmountOfSatellites(amountOfSats);
-         //call SatServiceListBuilder
+
 		return amountOfSats;
 	}
 	
@@ -115,7 +118,18 @@ public class SatServicesModel
 		return amountOfSats;
 	}
 
-	
+	public boolean buildAsetOfSatServices(List<Element> empListElements)
+	{
+        boolean result = false;
+		SatServicesListBuilder builderOfSatServicesList = new  SatServicesListBuilder();
+		
+		if (empListElements.isEmpty() == false)
+		{
+			this.setOfSatelitesServices = builderOfSatServicesList.buildSatServicesSet(empListElements);
+			result= true;
+		} 
+		return result;
+	}
 	
 	public Integer getAmountOfSatellites()
 	{
@@ -136,4 +150,16 @@ public class SatServicesModel
 	{
 		this.satJdomDocument = satJdomDocument;
 	}
+
+	public SortedSet<SatServicesList> getSetOfSatelitesServices()
+	{
+		return setOfSatelitesServices;
+	}
+
+	public void setSetOfSatelitesServices(SortedSet<SatServicesList> setOfSatelitesServices)
+	{
+		this.setOfSatelitesServices = setOfSatelitesServices;
+	}
+
+
 }

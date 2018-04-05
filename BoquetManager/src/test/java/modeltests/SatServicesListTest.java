@@ -17,6 +17,7 @@ import models.SatTvChannel;
 class SatServicesListTest
 {
 	private SatServicesList satServicesObj;
+	private SatServicesList satFullServicesObj;
 	private String satname;
 	private Util helperUtils;
 	private Integer position;
@@ -86,7 +87,20 @@ class SatServicesListTest
 
 		assertEquals(expectedResult, actualResult, "check if one and another satServicesObj have " + "equal names!");
 	}
+	
+	@Test
+	void testThatServiceListHisFieldsAreProperlyInitialized()
+	{
+		String satName= "Sirius/Astra 1A - 5 east";
+		Integer satPosition = 0050;
+		Byte satDiseqc = 0;
+		
+		satFullServicesObj = new SatServicesList ( satName,satPosition,
+				satDiseqc,listOfSatTransponders);
 
+        assertNotNull(satFullServicesObj);		
+	}
+	
 	@Test
 	void testingIfOneOfTheSatServicesObjectWithoutName()
 	{

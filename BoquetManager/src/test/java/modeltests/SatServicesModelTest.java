@@ -2,11 +2,16 @@ package modeltests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.IOException;
+
 import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
+
+import helperutils.ReadXmlAndCreateJdomWithAllSat;
 import models.SatServicesModel;
 
 public class SatServicesModelTest
@@ -108,6 +113,28 @@ public class SatServicesModelTest
 		assertEquals(expectedResult, actualResult, "checking amount of services  with channels"	);
 	}
 	
-	//Check IF satServicesObjectsCreated
+	@Test
+	void checkIfSatServicesSetIsNotNull() {
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		ReadXmlAndCreateJdomWithAllSat allSat;
+		
+		try
+		{
+			allSat = new ReadXmlAndCreateJdomWithAllSat();
+			allSat.readAndSetUpJDomDocument();
+			satServicesObject.readAndSetUpAjDomDocument(PathToFile);
+			actualResult = satServicesObject.buildAsetOfSatServices(allSat.readJdomDocumentAndCreate1rdLevelElementList());
+//			System.out.println(satServicesObject.getSetOfSatelitesServices().toString());
+			
+			assertEquals(expectedResult, actualResult, "checking that sat services set is not null"	);
+			
+		} catch (ParserConfigurationException | SAXException | IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 }
