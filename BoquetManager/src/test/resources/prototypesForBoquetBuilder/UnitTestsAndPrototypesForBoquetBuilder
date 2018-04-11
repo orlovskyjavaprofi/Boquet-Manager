@@ -1,0 +1,24 @@
+=============Junit tests=========================================================
+
+	@Test
+	void testingIfServiceIdIsNotNull() {
+		boolean expectedResult = true;
+		boolean actualResult = satBoquetTvChannel.validateBoquetServiceId(
+				satBoquetTvChannel.getSatBoquetTvChannelServiceID());
+				
+		assertEquals(expectedResult, actualResult,"checking if ServiceId is not null");
+	}
+	
+========================code==============================================================
+
+	public boolean validateBoquetServiceId(String inputServiceId)
+	{
+		boolean result = false;
+		
+		if( inputServiceId.isEmpty() == false ) {
+			result = true;
+		}
+		
+		return result;
+	}
+===========================================================================================
