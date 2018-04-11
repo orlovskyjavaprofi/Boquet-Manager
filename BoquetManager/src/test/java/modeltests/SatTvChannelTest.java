@@ -66,6 +66,7 @@ class SatTvChannelTest
 	}
 	   
 	@Test
+	@Disabled
 	void outputValuesOfTvChannel() {
 		System.out.println(satTvChannelObject.toString());
 	}

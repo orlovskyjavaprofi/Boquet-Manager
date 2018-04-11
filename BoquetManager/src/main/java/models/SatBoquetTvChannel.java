@@ -73,7 +73,7 @@ public class SatBoquetTvChannel
 	public String toString()
 	{
 		return  " satBoquetTvChannelName: " + satBoquetTvChannelName
-	             +	"satBoquetTvChannelServiceID: " + satBoquetTvChannelServiceID +"\n"
+	             +	" satBoquetTvChannelServiceID: " + satBoquetTvChannelServiceID +"\n"
 				+ " satBoquetTvChannelTransponderId: "	+ satBoquetTvChannelTransponderId +"\n"
 				+ " satBoquetTvChanneltransponderOnid: "	+ satBoquetTvChanneltransponderOnid 
 				+ " satBoquetTvChannelsatPosition: " + satBoquetTvChannelsatPosition+"\n";

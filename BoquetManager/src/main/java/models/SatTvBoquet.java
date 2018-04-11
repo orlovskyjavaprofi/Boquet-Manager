@@ -6,7 +6,7 @@ public class SatTvBoquet
 {
 	private Byte satTvBoquetServiceType;
     private String satTvBoquetId;
-	private String satTvBoquetChannelName;
+	private String satTvBoquetName;
     private Byte satTvBoquetHidden;
     private Byte satTvBoquetLocked; 
     private List<SatBoquetTvChannel> listOfSatTvChannels;
@@ -18,7 +18,7 @@ public class SatTvBoquet
 	{
 		this.satTvBoquetServiceType = inputBoquetServiceType;
 		this.satTvBoquetId = inputBoquetId;
-		this.satTvBoquetChannelName = inputBoquetName; 
+		this.satTvBoquetName = inputBoquetName; 
 		this.satTvBoquetHidden = inputHiddenBoquet;
 		this.satTvBoquetLocked = inputLockedBoquet;
 	    this.listOfSatTvChannels = inputSatTvChannelsList;
@@ -54,15 +54,7 @@ public class SatTvBoquet
 		this.satTvBoquetHidden = satTvBoquetHidden;
 	}
 
-	public String getSatTvBoquetChannelName()
-	{
-		return satTvBoquetChannelName;
-	}
 
-	public void setSatTvBoquetChannelName(String satTvBoquetChannelName)
-	{
-		this.satTvBoquetChannelName = satTvBoquetChannelName;
-	}
 
 	public String getSatTvBoquetId()
 	{
@@ -84,12 +76,22 @@ public class SatTvBoquet
 		this.satTvBoquetServiceType = satTvBoquetServiceType;
 	}
 
+	public String getSatTvBoquetName()
+	{
+		return satTvBoquetName;
+	}
+
+	public void setSatTvBoquetName(String satTvBoquetName)
+	{
+		this.satTvBoquetName = satTvBoquetName;
+	}
+
 	@Override
 	public String toString()
 	{
 		return "SatTvBoquetv  \n satTvBoquetServiceType: " + satTvBoquetServiceType 
 				+ " satTvBoquetId: " + satTvBoquetId
-				+ " satTvBoquetChannelName: " + satTvBoquetChannelName +"\n"
+				+ " satTvBoquetChannelName: " + satTvBoquetName +"\n"
 				+ " satTvBoquetHidden: " + satTvBoquetHidden
 				+ " satTvBoquetLocked: " + satTvBoquetLocked +"\n"
 				+ " listOfSatTvChannels\n " + listOfSatTvChannels ;

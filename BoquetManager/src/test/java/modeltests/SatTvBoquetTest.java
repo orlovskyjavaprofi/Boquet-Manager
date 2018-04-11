@@ -60,7 +60,7 @@ public class SatTvBoquetTest
 	
 	@Test 
 	void testingIfSatTvBoquetNameNotNull() {
-		String boquetName = satTvBoquetObj.getSatTvBoquetChannelName();
+		String boquetName = satTvBoquetObj.getSatTvBoquetName();
 		
 		assertNotNull(boquetName);
 	}
