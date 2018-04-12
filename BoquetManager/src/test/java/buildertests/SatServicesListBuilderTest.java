@@ -76,10 +76,7 @@ class SatServicesListBuilderTest
 			setOfSortedSatellitesServices =   
 					satServiceListBuilderObj.buildSatServicesSet(listOfSatellites);
 					
-			if(setOfSortedSatellitesServices.isEmpty() == false) {
-//				System.out.println(setOfSortedSatellitesServices.toString() );
-				actualResult = true;
-			}
+			actualResult = checkIfServicesSetIsNotEmpty(actualResult, setOfSortedSatellitesServices);
 			
 			assertEquals(expectedResult, actualResult,"checking if SatServices set can be created");
 			
@@ -89,6 +86,16 @@ class SatServicesListBuilderTest
 			e.printStackTrace();
 		}
 		
+	}
+
+	private boolean checkIfServicesSetIsNotEmpty(boolean actualResult,
+			SortedSet<SatServicesList> setOfSortedSatellitesServices)
+	{
+		if(setOfSortedSatellitesServices.isEmpty() == false) {
+//				System.out.println(setOfSortedSatellitesServices.toString() );
+			actualResult = true;
+		}
+		return actualResult;
 	}
 	
 	

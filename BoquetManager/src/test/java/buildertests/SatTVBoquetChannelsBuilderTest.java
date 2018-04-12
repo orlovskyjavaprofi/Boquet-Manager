@@ -1,5 +1,6 @@
 package buildertests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
@@ -39,14 +40,19 @@ class SatTVBoquetChannelsBuilderTest
 	@Test
 	public void checkIfSatTvChannelListCanBeCreated() {
 		List<SatBoquetTvChannel> listOfBoquetTvChannels;
-
+         boolean expectedResult = true;
+         boolean actualResult = false;
 		try
 		{
 			helperObj.readAndSetUpJDomDocument();
 			satTvChannelBoquetList = helperObj.readJdomDocumentAndCreateSatTvChannelsElementList();
 			listOfBoquetTvChannels = satTvChannelBoquetBuilder.buildListOfBoquetSatTvChannels(
 					satTvChannelBoquetList);
-//	        System.out.println(listOfBoquetTvChannels.toString());		
+	//        System.out.println(listOfBoquetTvChannels.toString());		
+			actualResult = checkIfResulBoquetChannelsListIsNotEmpty(listOfBoquetTvChannels, actualResult);
+			
+			assertEquals(expectedResult,actualResult,"checking if sat tv channel List can be created");
+			
 		}catch (ParserConfigurationException | SAXException | IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -54,6 +60,15 @@ class SatTVBoquetChannelsBuilderTest
 		}
 	
      }
+
+	private boolean checkIfResulBoquetChannelsListIsNotEmpty(List<SatBoquetTvChannel> listOfBoquetTvChannels,
+			boolean actualResult)
+	{
+		if (listOfBoquetTvChannels.isEmpty() == false) {
+			actualResult = true;
+		}
+		return actualResult;
+	}
 	
 	
 	

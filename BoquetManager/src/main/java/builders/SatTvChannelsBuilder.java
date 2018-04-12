@@ -19,6 +19,7 @@ public class SatTvChannelsBuilder
 		Byte inputServiceType = 0;
 		ValidateSatData validatorObj = new ValidateSatData();
 		String typeOfServices= "services";
+		
 		for (Element jdomSatTvChannelList : satTvChannelList)
 		{
 			inputServiceId = jdomSatTvChannelList.getAttributeValue("service_id");

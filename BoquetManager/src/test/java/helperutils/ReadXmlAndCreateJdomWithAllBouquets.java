@@ -13,7 +13,7 @@ import utils.XmlReaderAndJdomDocumentCreator;
 public class ReadXmlAndCreateJdomWithAllBouquets
 {
 	String pathToXml;
-	private org.jdom2.Document satJdomDocument;
+	private org.jdom2.Document boquetsJdomDocument;
 	boolean readXmlResult;
 	
 	public ReadXmlAndCreateJdomWithAllBouquets(){
@@ -41,7 +41,7 @@ public class ReadXmlAndCreateJdomWithAllBouquets
 	{
 		if (xmlReaderStatus == true)
 		{
-			this.setSatJdomDocument(xmlReader.getJDomDocumentResult());
+			this.setBoquetsJdomDocument(xmlReader.getJDomDocumentResult());
 			result =xmlReaderStatus;
 		}
 		return result;
@@ -49,7 +49,7 @@ public class ReadXmlAndCreateJdomWithAllBouquets
 	
 public List<Element> readJdomDocumentAndCreateBouquetsElementList(){
 		
-		Element root = this.getSatJdomDocument().getRootElement();
+		Element root = this.getBoquetsJdomDocument().getRootElement();
 		List<Element> bouquetsList = root.getChildren("Bouquet");
 
 		return bouquetsList;	
@@ -63,14 +63,17 @@ public List<Element> readJdomDocumentAndCreateBouquetsElementList(){
 	{
 		this.pathToXml = pathToXml;
 	}
-	public org.jdom2.Document getSatJdomDocument()
+
+	public org.jdom2.Document getBoquetsJdomDocument()
 	{
-		return satJdomDocument;
+		return boquetsJdomDocument;
 	}
-	public void setSatJdomDocument(org.jdom2.Document satJdomDocument)
+
+	public void setBoquetsJdomDocument(org.jdom2.Document boquetsJdomDocument)
 	{
-		this.satJdomDocument = satJdomDocument;
+		this.boquetsJdomDocument = boquetsJdomDocument;
 	}
+
 	public boolean isReadXmlResult()
 	{
 		return readXmlResult;

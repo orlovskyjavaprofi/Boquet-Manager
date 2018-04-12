@@ -35,12 +35,12 @@ public class SatBouquetsBuilder
         
         ValidateSatData validateSatDatObj = new ValidateSatData();
         String typeOfServices="boquets";
-        Integer amountOfAttrobutesForGiveChannel = 0;
+        Integer amountOfAttributesForGivenChannel = 0;
   		for (Element boquetElem : inputListOfBoquetsElems)
   		{
-  			amountOfAttrobutesForGiveChannel = boquetElem.getChild("channel").getAttributes().size();
+  			amountOfAttributesForGivenChannel = boquetElem.getChild("channel").getAttributes().size();
   					                                                        
-  			if ( (boquetElem.getAttributes().size() == 5) &&  (amountOfAttrobutesForGiveChannel == 5) ){
+  			if ( (boquetElem.getAttributes().size() == 5) &&  (amountOfAttributesForGivenChannel == 5) ){
   				
 	  			satTvBoquetServiceType = Byte.parseByte(boquetElem.getAttributeValue("type"));
 	  			satTvBoquetServiceType = validateSatDatObj.changesIncorrectValueOfServiceType(

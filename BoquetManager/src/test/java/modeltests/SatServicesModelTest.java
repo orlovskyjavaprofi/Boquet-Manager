@@ -41,6 +41,8 @@ public class SatServicesModelTest
 		try
 		{
 			result = satServicesObject.readAndSetUpAjDomDocument(PathToFile);
+			
+			assertEquals(true, result, "cannot read a Jdom document.");
 		} catch (ParserConfigurationException e)
 		{
 			// TODO Auto-generated catch block
@@ -55,7 +57,7 @@ public class SatServicesModelTest
 			e.printStackTrace();
 		}
 
-		assertEquals(true, result, "cannot read a Jdom document.");
+		
 	}
 	
 	@Test
@@ -68,6 +70,9 @@ public class SatServicesModelTest
 		{
 			satServicesObject.readAndSetUpJDomDocument(PathToFile);
 			actualResult = satServicesObject.checkIfJDomDocumetIsSetUp();
+			
+			assertEquals(expectedResult, actualResult, "checking if SatServicesModel can save JDom Document from  Xml Reader");
+			
 		} catch (ParserConfigurationException e)
 		{
 			// TODO Auto-generated catch block
@@ -82,7 +87,7 @@ public class SatServicesModelTest
 			e.printStackTrace();
 		}
 
-		assertEquals(expectedResult, actualResult, "checking if SatServicesModel can save JDom Document from  Xml Reader");
+		
 	}
 	
 	@Test

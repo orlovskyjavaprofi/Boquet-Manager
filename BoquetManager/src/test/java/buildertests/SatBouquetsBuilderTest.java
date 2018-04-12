@@ -49,17 +49,12 @@ class SatBouquetsBuilderTest
 		try
 		{
 			helperObj.readAndSetUpJDomDocument();
-			listOfBoquetsJdomElems= helperObj.readJdomDocumentAndCreateBouquetsElementList();
-						
-		   setOfSortedSatTvBoquets = 	
-				satBoquetsBuilderObj.buildSatTvBoquetsSet(listOfBoquetsJdomElems);
+			listOfBoquetsJdomElems= helperObj.readJdomDocumentAndCreateBouquetsElementList();					
+		   setOfSortedSatTvBoquets =satBoquetsBuilderObj.buildSatTvBoquetsSet(
+				                                          listOfBoquetsJdomElems
+				                                       );
 			
-			if(setOfSortedSatTvBoquets.isEmpty() == false) {
-//  			   System.out.println(setOfSortedSatTvBoquets.toString() );
-				actualResult = true;
-			}else{
-				System.out.println("result set has not elements ");
-			}
+			actualResult = checkIfSetOfBoquetsNotEmpty(actualResult, setOfSortedSatTvBoquets);
 			
 			assertEquals(expectedResult, actualResult,"checking if set of SatTv boquets"
 					+ " set can be created");
@@ -71,5 +66,15 @@ class SatBouquetsBuilderTest
 		}
 	}
 
+	private boolean checkIfSetOfBoquetsNotEmpty(boolean actualResult, SortedSet<SatTvBoquet> setOfSortedSatTvBoquets)
+	{
+		if(setOfSortedSatTvBoquets.isEmpty() == false) {
+//		   System.out.println(setOfSortedSatTvBoquets.toString() );
+			actualResult = true;
+		}else{
+			System.out.println("result set has not elements ");
+		}
+		return actualResult;
+	}
 	
 }
