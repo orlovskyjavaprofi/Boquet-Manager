@@ -46,7 +46,7 @@ class SatTvChannelsBuilderTest
 			satTvChannelList =	helperObj.readJdomDocumentAndCreate3rdLevelElementList();
 			listOfSatTvChannels =  satTvChannelsBuilderObj.buildListOfSatTvChannels(
 					satTvChannelList);
-            //	 System.out.println(listOfSatTvChannels.toString());
+            	// System.out.println(listOfSatTvChannels.toString());
 			
 			assertNotNull(listOfSatTvChannels);
 			

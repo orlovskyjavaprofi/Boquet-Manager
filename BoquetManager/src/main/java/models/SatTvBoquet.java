@@ -2,7 +2,7 @@ package models;
 
 import java.util.List;
 
-public class SatTvBoquet
+public class SatTvBoquet  implements Comparable<SatTvBoquet>
 {
 	private Byte satTvBoquetServiceType;
     private String satTvBoquetId;
@@ -87,16 +87,22 @@ public class SatTvBoquet
 	}
 
 	@Override
+	public int compareTo(SatTvBoquet anotherSatTvBoquetObject)
+	{
+		return this.getSatTvBoquetName().compareTo(
+				anotherSatTvBoquetObject.getSatTvBoquetName());
+	}
+	
+	@Override
 	public String toString()
 	{
-		return "SatTvBoquetv  \n satTvBoquetServiceType: " + satTvBoquetServiceType 
+		return "\n====================BoquetName: " + satTvBoquetName +
+				" ======================="
+				+ "  \n ServiceType: " + satTvBoquetServiceType 
 				+ " satTvBoquetId: " + satTvBoquetId
-				+ " satTvBoquetChannelName: " + satTvBoquetName +"\n"
 				+ " satTvBoquetHidden: " + satTvBoquetHidden
 				+ " satTvBoquetLocked: " + satTvBoquetLocked +"\n"
 				+ " listOfSatTvChannels\n " + listOfSatTvChannels ;
 	}
-	
-	
-	
+
 }

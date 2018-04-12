@@ -25,6 +25,8 @@ public class SatTVBoquetChannelsBuilder
 
 		for (Element jdomElemBoquetTvChanell : satTvChannelBoquetList)
 		{
+			if (jdomElemBoquetTvChanell.getAttributes().size() == 5) {
+			
 			satBoquetTvChannelServiceID = jdomElemBoquetTvChanell.getAttributeValue("serviceID");
 			satBoquetTvChannelName = jdomElemBoquetTvChanell.getAttributeValue("name");
 			satBoquetTvChannelName = helperUtilObj.verifyConsistencyOfBoquetTvChannel(satBoquetTvChannelName);
@@ -36,7 +38,8 @@ public class SatTVBoquetChannelsBuilder
 					satBoquetTvChannelServiceID, satBoquetTvChannelName,
 					satBoquetTvChannelTransponderId, satBoquetTvChanneltransponderOnid, 
 					satBoquetTvChannelsatPosition)
-			);
+			  );
+			}
 		}
 		
 		return resultListOfBoquetTvChannels;

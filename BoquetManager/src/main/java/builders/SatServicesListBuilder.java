@@ -54,12 +54,12 @@ public class SatServicesListBuilder
 	{
 
  	    SortedSet<SatServicesList> setOftheServicesList = new TreeSet<SatServicesList>();
- 	    buildingLiistOfSatServices(listOfSatellites, setOftheServicesList);
+ 	    buildingSetOfSatServices(listOfSatellites, setOftheServicesList);
  	    
         return setOftheServicesList;
 	}
 
-	private void buildingLiistOfSatServices(List<Element> listOfSatellites,
+	private void buildingSetOfSatServices(List<Element> listOfSatellites,
 			SortedSet<SatServicesList> setOftheServicesList)
 	{
 		String satName;
@@ -72,13 +72,16 @@ public class SatServicesListBuilder
  	      	satName = satelliteElement.getAttributeValue("name");
  	      	satPosition = Integer.parseInt(satelliteElement.getAttributeValue("position"));     	
  	      	satDiseqc = validateAndSetUpDiseqc(satelliteElement);
- 	      	listOfTranspondersForOneSat = createNewBuilderForBuildingSatTransponderList(satelliteElement);
-			setOftheServicesList.add(createNewSatServiceList(satName, satPosition, satDiseqc, listOfTranspondersForOneSat)
+ 	      	listOfTranspondersForOneSat = createNewBuilderForBuildingSatTransponderList(
+ 	      			satelliteElement);
+			setOftheServicesList.add(createNewSatServiceList(satName, 
+					satPosition, satDiseqc, listOfTranspondersForOneSat)
 			);
 		}
 	}
 
-	private List<SatTransponder> createNewBuilderForBuildingSatTransponderList(Element satelliteElement)
+	private List<SatTransponder> createNewBuilderForBuildingSatTransponderList(
+			Element satelliteElement)
 	{
 		return new SatTranspondersBuilder().buildTransponderSatList(
 				satelliteElement);
