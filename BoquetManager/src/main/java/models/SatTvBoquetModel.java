@@ -70,8 +70,7 @@ public class SatTvBoquetModel
 		return result;
 	}
 	
-	
-	
+
 	public Set<SatTvBoquet> getResultSetOfSatTvBoquets()
 	{
 		return resultSetOfSatTvBoquets;
