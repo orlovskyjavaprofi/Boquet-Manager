@@ -17,7 +17,7 @@ public class SatTvBoquetModel
 	private org.jdom2.Document satBoquetsJdomDocument;
 	private Set<SatTvBoquet>resultSetOfSatTvBoquets;
 	
-	public boolean readAndSetUpAjDomDocument(String inputPath)
+	public boolean readAndSetUpJDomDocument(String inputPath)
 			throws ParserConfigurationException, SAXException, IOException
 	{
 		XmlReaderAndJdomDocumentCreator xmlReader = 

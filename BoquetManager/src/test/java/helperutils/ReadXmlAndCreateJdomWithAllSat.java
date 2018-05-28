@@ -50,7 +50,7 @@ public List<Element> readJdomDocumentAndCreate1rdLevelElementList(){
 		
 		Element root = this.getSatJdomDocument().getRootElement();
 		List<Element> empListElements = root.getChildren("sat");
-
+		
 		return empListElements;	
 	}
 		

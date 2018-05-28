@@ -10,11 +10,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
+
 import models.SatModel;
+import testutil.xmlConsolePrinter;
 import xmloutputers.XmlOutputerForSatellites;
-import org.jdom2.Document;
-import org.jdom2.output.Format;
-import org.jdom2.output.XMLOutputter;
 
 
 class xmlOutputerForSatellitesTest
@@ -22,6 +21,7 @@ class xmlOutputerForSatellitesTest
 	XmlOutputerForSatellites xmlOutputObjForSatellites;
 	SatModel allSattelitesInfoObj;
 	String pathToSatellitesXml;
+	xmlConsolePrinter xmlOutputerObj;
 	
 	@BeforeEach
 	void setUp() throws ParserConfigurationException, SAXException, IOException
@@ -32,7 +32,7 @@ class xmlOutputerForSatellitesTest
 		allSattelitesInfoObj.readAndSetUpDomDocument(pathToSatellitesXml);
 		allSattelitesInfoObj.calculateAmountOfSatellites();
       	allSattelitesInfoObj.createSatInformationObjects();
-      	xmlOutputObjForSatellites.createXmlRoot();
+      	xmlOutputerObj = new xmlConsolePrinter();
 	}
 		
 	@Test
@@ -72,27 +72,11 @@ class xmlOutputerForSatellitesTest
 		boolean expectedResult = true;
 		boolean actualResult = xmlOutputObjForSatellites.
 				creatingXmlElements(allSattelitesInfoObj);
-		// this.printXmlResult(xmlOutputObjForSatellites);
 		
-		assertEquals(expectedResult, actualResult, "checking if xml elements are not null");
+		//xmlOutputerObj.printXmlResult(xmlOutputObjForSatellites.getSatXmlOutputDoc());
+		
+		assertEquals(expectedResult, actualResult, "checking if satellite xml elements are not null");
 
-	}
-	
-	public void printXmlResult(XmlOutputerForSatellites inputXml) {  
-	    
-	    XMLOutputter xmlOutput = new XMLOutputter();
-	     Format f = Format.getPrettyFormat();  
-	     f.setEncoding("iso-8859-1");
-	     xmlOutput.setFormat(f);
-
-		 try
-		{
-			xmlOutput.output(inputXml.getSatXmlOutputDoc(), System.out);
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 }

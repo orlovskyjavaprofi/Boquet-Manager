@@ -4,15 +4,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.SortedSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.jdom2.Element;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import helperutils.ReadXmlAndCreateJdomWithAllSat;
 import models.SatServicesModel;
+import models.SatServicesList;
 
 public class SatServicesModelTest
 {
@@ -40,7 +45,7 @@ public class SatServicesModelTest
 		
 		try
 		{
-			result = satServicesObject.readAndSetUpAjDomDocument(PathToFile);
+			result = satServicesObject.readAndSetUpJDomDocument(PathToFile);
 			
 			assertEquals(true, result, "cannot read a Jdom document.");
 		} catch (ParserConfigurationException e)
@@ -67,7 +72,7 @@ public class SatServicesModelTest
 		boolean actualResult = false;
 
 		try
-		{
+		{		                                  
 			satServicesObject.readAndSetUpJDomDocument(PathToFile);
 			actualResult = satServicesObject.checkIfJDomDocumetIsSetUp();
 			
@@ -119,18 +124,53 @@ public class SatServicesModelTest
 	}
 	
 	@Test
+	void checkIfAListOfJdomElementsIsCreated()
+	{
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		
+		try
+		{
+			satServicesObject.readAndSetUpJDomDocument(PathToFile);
+			List<Element> empListElem = satServicesObject.
+					readJdomDocumentAndCreate1rdLevelElementList();
+
+			if (empListElem.isEmpty() == false)
+			{
+				actualResult = true;
+			}
+
+			assertEquals(expectedResult, actualResult, "checking if a list of Jdom elements is created");
+
+		} catch (ParserConfigurationException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
 	void checkIfSatServicesSetIsNotNull() {
 		boolean expectedResult = true;
 		boolean actualResult = false;
 		ReadXmlAndCreateJdomWithAllSat allSat;
-		
+
 		try
 		{
-			allSat = new ReadXmlAndCreateJdomWithAllSat();
-			allSat.readAndSetUpJDomDocument();
-			satServicesObject.readAndSetUpAjDomDocument(PathToFile);
-			actualResult = satServicesObject.buildAsetOfSatServices(allSat.readJdomDocumentAndCreate1rdLevelElementList());
-//			System.out.println(satServicesObject.getSetOfSatelitesServices().toString());
+			satServicesObject.readAndSetUpJDomDocument(PathToFile);
+			actualResult = satServicesObject	.buildAsetOfSatServices(
+					satServicesObject.readJdomDocumentAndCreate1rdLevelElementList()
+			);
+			
+//			printListOfServicesToConsole();
 			
 			assertEquals(expectedResult, actualResult, "checking that sat services set is not null"	);
 			
@@ -140,6 +180,16 @@ public class SatServicesModelTest
 			e.printStackTrace();
 		}
 
+	}
+
+	private void printListOfServicesToConsole()
+	{
+		SortedSet<SatServicesList> listofServices;
+		listofServices = satServicesObject.getSetOfSatelitesServices();
+		for (SatServicesList satServicesList : listofServices)
+		{
+		   System.out.println(satServicesList.toString());
+		}
 	}
 
 }

@@ -41,7 +41,7 @@ public class SatTvBoquetsModelTest
 
 		try
 		{
-			result = BoquetModelObj.readAndSetUpAjDomDocument(PathToFile);
+			result = BoquetModelObj.readAndSetUpJDomDocument(PathToFile);
 			assertEquals(true, result, "cannot read a Jdom document.");
 		} catch (ParserConfigurationException | SAXException | IOException e)
 		{
@@ -58,7 +58,7 @@ public class SatTvBoquetsModelTest
 		
 		try
 		{
-			BoquetModelObj.readAndSetUpAjDomDocument(PathToFile);
+			BoquetModelObj.readAndSetUpJDomDocument(PathToFile);
 			actualResult = BoquetModelObj.checkIfJDomDocumetIsSetUp();
 			
 			assertEquals(expectedResult, actualResult, "checking if SatTvBoquetModel  can save JDom Document from  Xml Reader");
@@ -81,7 +81,7 @@ public class SatTvBoquetsModelTest
 		try
 		{
 			helperObj.readAndSetUpJDomDocument();
-			BoquetModelObj.readAndSetUpAjDomDocument(PathToFile);
+			BoquetModelObj.readAndSetUpJDomDocument(PathToFile);
 
 			actualResult=BoquetModelObj.buildSetOfBoquets(helperObj.readJdomDocumentAndCreateBouquetsElementList());
 			resultSetOfSatTvBoquets = BoquetModelObj.getResultSetOfSatTvBoquets();

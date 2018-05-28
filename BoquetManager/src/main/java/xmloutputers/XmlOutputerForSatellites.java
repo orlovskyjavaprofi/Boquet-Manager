@@ -17,6 +17,10 @@ public class XmlOutputerForSatellites
 {
     private Document satXmlOutputDoc;
 		
+   public  XmlOutputerForSatellites(){
+    	   this.createXmlRoot();
+    }
+   
 	public boolean verifyThaSatModelIsSetUp(SatModel allSattelitesInfoObj)
 	{
 		boolean result = false;
@@ -29,7 +33,7 @@ public class XmlOutputerForSatellites
 		
 	}
 
-	public void  createXmlRoot()
+	private void  createXmlRoot()
 	{
 		Element  satelliteRoot = new Element("satellites");
 		Document doc = new Document(satelliteRoot);

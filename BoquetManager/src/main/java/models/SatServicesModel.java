@@ -15,15 +15,16 @@ import utils.XmlReaderAndJdomDocumentCreator;
 public class SatServicesModel
 {
 	private org.jdom2.Document satServicesJdomDocument;
-	private org.jdom2.Document satJdomDocument;
 	private Integer AmountOfSatellites;
 	private SortedSet<SatServicesList> setOfSatelitesServices;
-	
-	public boolean readAndSetUpAjDomDocument(String inputPath)
+	                        
+	public boolean readAndSetUpJDomDocument(String inputPath)
 			throws ParserConfigurationException, SAXException, IOException
 	{
-		XmlReaderAndJdomDocumentCreator xmlReader = new XmlReaderAndJdomDocumentCreator(inputPath);
-		boolean xmlReaderStatus = xmlReader.getDocumentFromDomParser(xmlReader.getPathToFile());
+		XmlReaderAndJdomDocumentCreator xmlReader = 
+				new XmlReaderAndJdomDocumentCreator(inputPath);
+		boolean xmlReaderStatus = xmlReader.getDocumentFromDomParser(
+				xmlReader.getPathToFile());
 
 		if (xmlReaderStatus == true)
 		{
@@ -32,7 +33,7 @@ public class SatServicesModel
 
 		return checkIfJDocumentWasCreated(xmlReaderStatus);
 	}
-
+		
 	private boolean checkIfJDocumentWasCreated(boolean xmlReaderStatus)
 	{
 		if (xmlReaderStatus == true)
@@ -53,24 +54,10 @@ public class SatServicesModel
 	{
 		this.satServicesJdomDocument = satJdomDocument;
 	}
-	
-	public boolean readAndSetUpJDomDocument(String inputPath)
-			throws ParserConfigurationException, SAXException, IOException
-	{
-		XmlReaderAndJdomDocumentCreator xmlReader = new XmlReaderAndJdomDocumentCreator(inputPath);
-		boolean xmlReaderStatus = xmlReader.getDocumentFromDomParser(xmlReader.getPathToFile());
-
-		if (xmlReaderStatus == true)
-		{
-			this.setSatJdomDocument(xmlReader.getJDomDocumentResult());
-		}
-
-		return checkIfJDocumentWasCreated(xmlReaderStatus);
-	}
-	
+		
 	public boolean checkIfJDomDocumetIsSetUp()
 	{
-		if (this.getSatJdomDocument().hasRootElement() == true)
+		if (this.getSatServicesJdomDocument().hasRootElement() == true)
 		{
 			return true;
 		} else
@@ -83,7 +70,7 @@ public class SatServicesModel
 	{
 		int amountOfSats = 0;
 
-		Element root = this.getSatJdomDocument().getRootElement();
+		Element root = this.getSatServicesJdomDocument().getRootElement();
 		List<Element> empListElements = root.getChildren("sat");
 		amountOfSats = checkNameOfSatAndCreateInformationObject(amountOfSats, empListElements);
 		this.setAmountOfSatellites(amountOfSats);
@@ -118,6 +105,14 @@ public class SatServicesModel
 		return amountOfSats;
 	}
 
+	public List<Element> readJdomDocumentAndCreate1rdLevelElementList()
+	{
+		Element root = this.getSatServicesJdomDocument().getRootElement();
+		List<Element> empListElements = root.getChildren("sat");
+				
+		return empListElements;
+	}
+	
 	public boolean buildAsetOfSatServices(List<Element> empListElements)
 	{
         boolean result = false;
@@ -141,16 +136,6 @@ public class SatServicesModel
 		AmountOfSatellites = amountOfSatellites;
 	}
 
-	public org.jdom2.Document getSatJdomDocument()
-	{
-		return satJdomDocument;
-	}
-
-	public void setSatJdomDocument(org.jdom2.Document satJdomDocument)
-	{
-		this.satJdomDocument = satJdomDocument;
-	}
-
 	public SortedSet<SatServicesList> getSetOfSatelitesServices()
 	{
 		return setOfSatelitesServices;
@@ -160,6 +145,5 @@ public class SatServicesModel
 	{
 		this.setOfSatelitesServices = setOfSatelitesServices;
 	}
-
 
 }

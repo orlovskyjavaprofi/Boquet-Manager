@@ -40,7 +40,7 @@ public class SatServicesList  implements Comparable<SatServicesList>
 	@Override
 	public String toString()
 	{
-		return "SatServicesList:\n satName=" + satName + " position: "+satPosition+
+		return "SatServicesList: satName=" + satName + " position: "+satPosition+
 				" diseqc: "+satDiseqc+"\n"+"List of transponders\n"+listOfTransponders.toString()+
 				"\n==========================================================\n";
 	}
