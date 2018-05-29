@@ -69,9 +69,9 @@ public class XmlOutputerForServices
 		List<Attribute> listOfAttributesForService = new LinkedList<Attribute>();
 		List<Attribute> listOfAttributesForTransponder = new LinkedList<Attribute>();
 		List<Attribute> listOfAttributesForTransponderChn = new LinkedList<Attribute>();
-		boolean statusOfMyServisModelSetup = this.checkIfServicesModelSetUp(satServicesObj);
+		boolean statusOfMyServiceModelSetup = this.checkIfServicesModelSetUp(satServicesObj);
 		
-		if (statusOfMyServisModelSetup == true) {
+		if (statusOfMyServiceModelSetup == true) {
 
 			iteratingOverServicesSetUpAttributes(satServicesObj, listOfAttributesForService,
 					listOfAttributesForTransponder, listOfAttributesForTransponderChn);

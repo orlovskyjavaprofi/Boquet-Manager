@@ -56,7 +56,7 @@ class xmlOutputerForServicesTest
 		String expectedResult = "zapit";
 		String actualResult = xmlOutputObjForServices.getSatServicesXmlOutputDoc().
 				getRootElement().getName();
-		assertEquals(expectedResult, actualResult, "creating services xml root");
+		assertEquals(expectedResult, actualResult, "creating services xml root for services");
 	}
 	
 	@Test

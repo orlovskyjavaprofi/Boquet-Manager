@@ -13,7 +13,7 @@ public class xmlConsolePrinter
 	    
 	    XMLOutputter xmlOutput = new XMLOutputter();
 	     Format f = Format.getPrettyFormat();  
-	     f.setEncoding("iso-8859-1");
+	     f.setEncoding("UTF-8");
 	     xmlOutput.setFormat(f);
 
 		 try

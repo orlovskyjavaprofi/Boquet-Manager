@@ -91,7 +91,12 @@ public class SatTvBoquetModel
 		this.satBoquetsJdomDocument = satBoquetsJdomDocument;
 	}
 
+	public List<Element> readJdomDocumentAndCreateBouquetsElementList()
+	{
+		Element root = this.getSatBoquetsJdomDocument().getRootElement();
+		List<Element> bouquetsList = root.getChildren("Bouquet");
 
-	
-	
+		return bouquetsList;
+	}
+
 }
