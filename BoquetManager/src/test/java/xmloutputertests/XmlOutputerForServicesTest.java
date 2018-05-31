@@ -16,7 +16,7 @@ import models.SatServicesModel;
 import testutil.xmlConsolePrinter;
 import xmloutputers.XmlOutputerForServices;
 
-class xmlOutputerForServicesTest
+class XmlOutputerForServicesTest
 {
 	XmlOutputerForServices xmlOutputObjForServices;
 	String pathToServicesXml;

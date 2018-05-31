@@ -16,7 +16,7 @@ import testutil.xmlConsolePrinter;
 import xmloutputers.XmlOutputerForSatellites;
 
 
-class xmlOutputerForSatellitesTest
+class XmlOutputerForSatellitesTest
 {
 	XmlOutputerForSatellites xmlOutputObjForSatellites;
 	SatModel allSattelitesInfoObj;

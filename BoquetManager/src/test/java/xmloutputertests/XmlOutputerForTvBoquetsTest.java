@@ -15,7 +15,7 @@ import models.SatTvBoquetModel;
 import testutil.xmlConsolePrinter;
 import xmloutputers.XmlOutputerForTvBoquets;
 
-class xmlOutputerForTvBoquetsTest
+class XmlOutputerForTvBoquetsTest
 {
 	XmlOutputerForTvBoquets xmlOutputerTvBoquetsObj;
 	String pathToBoquetsXml;
