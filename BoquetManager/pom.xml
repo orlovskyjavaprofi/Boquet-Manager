@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
@@ -30,9 +31,13 @@
 		<junit.version>4.12</junit.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<junit.vintage.version>${junit.version}.0-M4</junit.vintage.version>
-		<junit.jupiter.version>5.0.0-M4</junit.jupiter.version>
-		<junit.platform.version>1.0.0-M4</junit.platform.version>
+		<junit.jupiter.version>5.2.0</junit.jupiter.version>
+		<junit.jupiter.engine>5.2.0</junit.jupiter.engine>
+		<junit.platform.version>5.2.0</junit.platform.version>
+		<junit.platform.api>5.2.0</junit.platform.api>
+		<junit.platform.params>5.2.0</junit.platform.params>
+		<junit5.surefireprovider.version>1.2.0</junit5.surefireprovider.version>
+		<junit-platform-launcher.version>1.2.0</junit-platform-launcher.version>
 		<javafx>c:\JAVA\jdk8-131\jre\lib\ext\</javafx>
 	</properties>
 
@@ -49,12 +54,13 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19</version>
+				<version>2.21.0</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.junit.platform</groupId>
 						<artifactId>junit-platform-surefire-provider</artifactId>
-						<version>${junit.platform.version}</version>
+						<version>${junit5.surefireprovider.version}</version>
+						<scope>compile</scope>
 					</dependency>
 				</dependencies>
 				<configuration>
@@ -88,21 +94,14 @@
 
 	<dependencies>
 
-	<dependency>
-		<groupId>commons-io</groupId>
-		<artifactId>commons-io</artifactId>
-		<version>2.5</version>
-		<scope>test</scope>
-	</dependency>
-
-		<!-- TDD main tool -->
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit.jupiter.version}</version>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
 			<scope>test</scope>
 		</dependency>
 
+		<!-- TDD main tool -->
 		<!-- Support for IDE Junit tests -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -110,16 +109,33 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- JUnit Jupiter -->
 		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-runner</artifactId>
-			<version>${junit.platform.version}</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit.jupiter.engine}</version>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<version>${junit.vintage.version}</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit.platform.api}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>${junit.platform.params}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-launcher</artifactId>
+			<version>${junit-platform-launcher.version}</version>
 			<scope>test</scope>
 		</dependency>
 
