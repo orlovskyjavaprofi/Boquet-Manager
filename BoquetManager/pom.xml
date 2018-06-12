@@ -38,7 +38,7 @@
 		<junit.platform.params>5.2.0</junit.platform.params>
 		<junit5.surefireprovider.version>1.2.0</junit5.surefireprovider.version>
 		<junit-platform-launcher.version>1.2.0</junit-platform-launcher.version>
-		<javafx>c:\JAVA\jdk8-131\jre\lib\ext\</javafx>
+<!-- 		<javafx>c:\JAVA\jdk8-131\jre\lib\ext\</javafx> -->
 	</properties>
 
 	<!-- Build specification -->
@@ -93,7 +93,7 @@
 	</build>
 
 	<dependencies>
-
+	<!-- Read and write file operations -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -140,14 +140,34 @@
 		</dependency>
 
 		<!-- Java FX -->
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>javafx</artifactId>
-			<version>8</version>
-			<systemPath>${javafx}/jfxrt.jar</systemPath>
-			<scope>system</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.oracle</groupId> -->
+<!-- 			<artifactId>javafx</artifactId> -->
+<!-- 			<version>8</version> -->
+<!-- 			<systemPath>${javafx}/jfxrt.jar</systemPath> -->
+<!-- 			<scope>system</scope> -->
+<!-- 		</dependency> -->
 
+	<!-- Frameworks for unit testing JavaFX -->
+	<dependency>
+		<groupId>org.testfx</groupId>
+		<artifactId>testfx-core</artifactId>
+		<version>4.0.13-alpha</version>
+		<scope>test</scope>
+	</dependency>
+
+	<dependency>
+		<groupId>org.testfx</groupId>
+		<artifactId>testfx-junit5</artifactId>
+		<version>4.0.13-alpha</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.loadui</groupId>
+		<artifactId>testFx</artifactId>
+		<version>3.1.2</version>
+	</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.jdom/jdom2 -->
 		<dependency>
 			<groupId>org.jdom</groupId>

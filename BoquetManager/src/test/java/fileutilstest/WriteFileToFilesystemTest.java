@@ -221,8 +221,6 @@ class WriteFileToFilesystemTest
 		xmlOutputObjForBoquets = new XmlOutputerForTvBoquets();
 	}
 
-	
-	
 	private Integer iterateOverXmlPathsAndCheckIfOverwriteOpsSuccess(boolean userDecisionToOverwrite,
 			Document inputSatXmlDoc, Document inputSatServicesXmlDoc, Document inputSatBoquetsXmlDoc, Integer counter,
 			List<String> xmlPaths) throws IOException
