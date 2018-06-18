@@ -25,6 +25,11 @@ class mainViewTest extends ApplicationTest
 	MainView mainViewObj;
     String extractedTitle;
     List<String> EnglishMenuList = new ArrayList<String>();
+    
+  
+    Menu HelpMenuText;
+    
+	ObservableList<Menu> HelpMainMenuList;
     MenuBar mainMenuBarTest;
     
 	@Override
@@ -102,6 +107,110 @@ class mainViewTest extends ApplicationTest
 
 		assertEquals(expectedResult,actualResult,"too many language boxes are selected, notic only one box is allowed!");
 	}
+	
+	@Test
+	void testingIfUserSelectedGerAsMainMenuLang() {
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		String langSelection = "#menuItemGer";
+		
+		setUplangForMenuClickAndClickLang(langSelection);
+		
+		ObservableList <Menu> menuList =this.getMainMenuBarTest().getMenus();
+		List<String> expectedResultGerMenuList = new ArrayList<String>();
+		expectedResultGerMenuList = this.initGerMunuelist(expectedResultGerMenuList);
+		List<String> actualResultGerMenutList = new ArrayList<String>();
+		
+		actualResult = evaluateResultForLangTest(actualResult, menuList, expectedResultGerMenuList,
+				actualResultGerMenutList);
+		
+		assertEquals(expectedResult, actualResult,"German language wasnt selected");
+	}
+	
+	@Test
+	void testingIfUserSelectedEngAsMainMenuLang() {
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		String langSelection = "#menuItemGer";
+		setUplangForMenuClickAndClickLang(langSelection);
+		langSelection = "#menuItemEng";
+		setUplangForMenuClickAndClickLang(langSelection);
+		
+		ObservableList <Menu> menuList =this.getMainMenuBarTest().getMenus();
+		List<String> expectedResultEngMenuList = new ArrayList<String>();
+		expectedResultEngMenuList = this.initEngMunuelist(expectedResultEngMenuList);
+		List<String> actualResultEngMenutList = new ArrayList<String>();
+		
+		actualResult = evaluateResultForLangTest(actualResult, menuList, expectedResultEngMenuList,
+				actualResultEngMenutList);
+		
+		assertEquals(expectedResult, actualResult,"German language wasnt selected");
+	}
+	
+	@Test
+	void testingIfUserSelectedUkrAsMainMenuLang() {
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		String langSelection = "#menuItemUkr";
+		
+		setUplangForMenuClickAndClickLang(langSelection);
+		
+		ObservableList <Menu> menuList =this.getMainMenuBarTest().getMenus();
+		List<String> expectedResultUkrMenuList = new ArrayList<String>();
+		expectedResultUkrMenuList = this.initUkrMunuelist(expectedResultUkrMenuList);
+		List<String> actualResultUkrMenutList = new ArrayList<String>();
+		
+		actualResult = evaluateResultForLangTest(actualResult, menuList, expectedResultUkrMenuList,
+				actualResultUkrMenutList);
+		
+		assertEquals(expectedResult, actualResult,"German language wasnt selected");
+	}
+	
+	@Test
+	void testingIfUserSelectedRusAsMainMenuLang() {
+		boolean expectedResult = true;
+		boolean actualResult = false;
+		String langSelection = "#menuItemRu";
+		
+		setUplangForMenuClickAndClickLang(langSelection);
+		
+		ObservableList <Menu> menuList =this.getMainMenuBarTest().getMenus();
+		List<String> expectedResultRusMenuList = new ArrayList<String>();
+		expectedResultRusMenuList = this.initRuMunuelist(expectedResultRusMenuList);
+		List<String> actualResultRusMenutList = new ArrayList<String>();
+		
+		actualResult = evaluateResultForLangTest(actualResult, menuList, expectedResultRusMenuList,
+				actualResultRusMenutList);
+		
+		assertEquals(expectedResult, actualResult,"German language wasnt selected");
+	}
+
+	private boolean evaluateResultForLangTest(boolean actualResult, ObservableList<Menu> menuList,
+			List<String> expectedResultRusMenuList, List<String> actualResultRusMenutList)
+	{
+		getActualMainMenuNames(menuList, actualResultRusMenutList);
+		if( expectedResultRusMenuList.equals(actualResultRusMenutList) == true) {
+			
+			actualResult  = true;
+		}
+		return actualResult;
+	}
+
+	private void setUplangForMenuClickAndClickLang(String inputLang)
+	{	
+		clickOn("#menuLang");
+        clickOn(inputLang);
+	}
+
+	private void getActualMainMenuNames(ObservableList<Menu> menuList, List<String> actualResultMenutList)
+	{
+		for (Menu menu : menuList)
+		{
+			//	System.out.println(menu.getText());
+			actualResultMenutList.add(menu.getText());
+		}
+		actualResultMenutList.add(this.getHelpMenuText().getText());
+	}
 
 	private boolean iterateOverMenuListFindMenuWithLangChkBoxes(
 			boolean stateWhereOnlyOneBoxSelected,
@@ -130,7 +239,7 @@ class mainViewTest extends ApplicationTest
 		for (MenuItem menuItem : menuItemsLangList)
 		{
 			langBox = (CheckBox)menuItem.getGraphic();
-//					System.out.println(menuItem.getId() +" "+langBox.isSelected());
+			//System.out.println(menuItem.getId() +" "+langBox.isSelected());
 			stateWhereOnlyOneBoxSelected = 
 			iterateOverLangChkBoxesAndMenuItemClickThem(
 					stateWhereOnlyOneBoxSelected, langBox, listOfClickOnLangChkBoxes,
@@ -196,7 +305,6 @@ class mainViewTest extends ApplicationTest
 		return listOfClickOnLangChkBoxes;
 	}
 	
-
 	private boolean evaluateStateOfChkBoxPreferences(boolean actualResult, boolean preferenceChkState,
 			ObservableList<Menu> menuList)
 	{
@@ -314,6 +422,8 @@ class mainViewTest extends ApplicationTest
 		ListOfMenuNames =   extractResultNamesOfMenu(listOfMenus);
 		this.setEnglishMenuList(ListOfMenuNames);
 		listOfMenus = helperMenuNode.getMenus();
+		this.setHelpMenuText(listOfMenus.get(0));
+		this.setHelpMainMenuList(listOfMenus);
 		ListOfMenuNames = extractResultNamesOfMenu(listOfMenus);
 		this.getEnglishMenuList().addAll(ListOfMenuNames);
 	}
@@ -346,6 +456,42 @@ class mainViewTest extends ApplicationTest
 		return expectedResultEnglishMenuList;
 	}
 
+	private List<String> initGerMunuelist(List<String> expectedResultGerMenuList)
+	{
+		expectedResultGerMenuList.add("Datei");
+		expectedResultGerMenuList.add("Editieren");
+		expectedResultGerMenuList.add("Ansicht");
+		expectedResultGerMenuList.add("Sprache");
+		expectedResultGerMenuList.add("SatReceiver");
+		expectedResultGerMenuList.add("Hilfe");
+
+		return expectedResultGerMenuList;
+	}
+	
+	private List<String> initUkrMunuelist(List<String> expectedResultUkrMenuList)
+	{
+		expectedResultUkrMenuList.add("\u0424\u0430\u0439\u043B\u0438");
+		expectedResultUkrMenuList.add("\u041F\u0440\u0430\u0432\u043A\u0430");
+		expectedResultUkrMenuList.add("\u0412\u0438\u0433\u043B\u044F\u0434");
+		expectedResultUkrMenuList.add("\u041C\u043E\u0432\u0430");
+		expectedResultUkrMenuList.add("\u0421\u0443\u043F\u0443\u0442\u043D\u0438\u043A\u043E\u0432\u0438\u0439 \u043F\u0440\u0438\u0439\u043C\u0430\u0447");
+		expectedResultUkrMenuList.add("\u0414\u043E\u0432\u0456\u0434\u043A\u0430");
+
+		return expectedResultUkrMenuList;
+	}
+	
+	private List<String> initRuMunuelist(List<String> expectedResultRusMenuList)
+	{
+		expectedResultRusMenuList.add("\u0424\u0430\u0439\u043B");
+		expectedResultRusMenuList.add("\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435");
+		expectedResultRusMenuList.add("\u0412\u0438\u0434");
+		expectedResultRusMenuList.add("\u042F\u0437\u044B\u043A");
+		expectedResultRusMenuList.add("\u0421\u043F\u0443\u0442\u043D\u0438\u043A\u043E\u0432\u044B\u0439 \u0440\u0435\u0441\u0438\u0432\u0435\u0440");
+		expectedResultRusMenuList.add("\u0421\u043F\u0440\u0430\u0432\u043A\u0430");
+
+		return expectedResultRusMenuList;
+	}
+	
 	public List<String> getEnglishMenuList()
 	{
 		return EnglishMenuList;
@@ -364,6 +510,26 @@ class mainViewTest extends ApplicationTest
 	public void setMainMenuBarTest(MenuBar mainMenuBarTest)
 	{
 		this.mainMenuBarTest = mainMenuBarTest;
+	}
+
+	public ObservableList<Menu> getHelpMainMenuList()
+	{
+		return HelpMainMenuList;
+	}
+
+	public void setHelpMainMenuList(ObservableList<Menu> helpMainMenuList)
+	{
+		HelpMainMenuList = helpMainMenuList;
+	}
+
+	public Menu getHelpMenuText()
+	{
+		return HelpMenuText;
+	}
+
+	public void setHelpMenuText(Menu menu)
+	{
+		HelpMenuText = menu;
 	}
 
 }

@@ -18,7 +18,7 @@ public class MainView extends Application
     
 	public MainView() throws IOException
 	{
-        this.setLangResources( ResourceBundle.getBundle("internationalization/menu") );
+        this.setLangResources( ResourceBundle.getBundle("internationalization/menuDef") );
 		this.setMainViewGridPane((GridPane) FXMLLoader.load(
 				getClass().getResource("/views/fxmls/MainForm.fxml"),
 				                                                this.getLangResources()));

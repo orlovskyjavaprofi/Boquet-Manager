@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="mainGridPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
- fx:controller="views.controllers.mainmenu.MainMenuController">
+<GridPane fx:id="mainGridPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.controllers.mainmenu.MainMenuController">
    <children>
       <AnchorPane fx:id="MainMenuAnchorPane" prefHeight="26.0" prefWidth="800.0" GridPane.hgrow="ALWAYS">
          <children>
@@ -74,7 +73,7 @@
                   </Menu>
               </menus>
             </MenuBar>
-            <MenuBar fx:id="helpMenuBar" layoutX="729.0" layoutY="-2.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="32.0" prefWidth="71.0" AnchorPane.rightAnchor="0.0">
+            <MenuBar fx:id="helpMenuBar" layoutX="729.0" layoutY="-2.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="32.0" prefWidth="136.0" AnchorPane.rightAnchor="0.0">
                <menus>
                   <Menu fx:id="menuHelp" mnemonicParsing="false" text="%menuHelp">
                     <items>
