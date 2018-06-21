@@ -1,16 +1,23 @@
 package views.controllers.mainmenu;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class MainMenuController
 {
-
+    private BorderPane aboutLicensePane;
+	    
 	@FXML
 	private Menu menuFile;
 	
@@ -98,6 +105,12 @@ public class MainMenuController
 	@FXML
 	private void initialize()
 	{
+
+		
+		menuItemLicense.setOnAction((event)->{
+			loadNewWindowAboutLicense();			
+		});
+		
 		chkBoxEng.setOnAction((even) -> {
 			selectEngChkBox();
 		});
@@ -135,6 +148,39 @@ public class MainMenuController
 			selectRusChkBox();
 		});
 
+	}
+
+	private void loadNewWindowAboutLicense()
+	{
+		try
+		{
+			setUpAboutLicensePane();					
+			String TitleForANewWindow = "License information";				
+			Pane currentPane = this.getAboutLicensePane();  
+			setUpANewwindow(TitleForANewWindow, currentPane);
+			
+		} catch (IOException e)
+		{
+		     //exception with creation of about license window
+			e.printStackTrace();
+		}
+	}
+
+	private void setUpAboutLicensePane() throws IOException
+	{
+		String pathToXmlForm= "/views/fxmls/AboutLicense.fxml";				
+		this.setAboutLicensePane(
+				(BorderPane) FXMLLoader.load(
+						getClass().getResource( pathToXmlForm)));
+	}
+
+	private void setUpANewwindow(String TitleForANewWindow, Pane currentPane)
+	{
+		Scene anotherScn = new Scene( currentPane  );
+		Stage stageForScn = new Stage();
+		stageForScn.setTitle(TitleForANewWindow);
+		stageForScn.setScene(anotherScn);
+		stageForScn.show();
 	}
 
 	private void selectRusChkBox()
@@ -593,6 +639,16 @@ public class MainMenuController
 	public void setMenuItemSuppProject(MenuItem menuItemSuppProject)
 	{
 		this.menuItemSuppProject = menuItemSuppProject;
+	}
+
+	public BorderPane getAboutLicensePane()
+	{
+		return aboutLicensePane;
+	}
+
+	public void setAboutLicensePane(BorderPane aboutLicensePane)
+	{
+		this.aboutLicensePane = aboutLicensePane;
 	}
 
 	

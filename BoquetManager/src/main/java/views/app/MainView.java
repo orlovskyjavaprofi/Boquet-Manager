@@ -18,9 +18,11 @@ public class MainView extends Application
     
 	public MainView() throws IOException
 	{
+		String pathToFxmlForm = "/views/fxmls/MainForm.fxml";
+		
         this.setLangResources( ResourceBundle.getBundle("internationalization/menuDef") );
 		this.setMainViewGridPane((GridPane) FXMLLoader.load(
-				getClass().getResource("/views/fxmls/MainForm.fxml"),
+				getClass().getResource(pathToFxmlForm),
 				                                                this.getLangResources()));
 		this.setTitle("Boquet-manager for sattelite tv channels");
 		mainViewScene = new Scene(this.getMainViewGridPane());
