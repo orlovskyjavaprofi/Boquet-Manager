@@ -3,13 +3,12 @@ package viewtests;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import javafx.stage.Stage;
 import views.app.MainView;
-
 class helpMainMenuTest extends ApplicationTest
 {
 
@@ -44,4 +43,48 @@ class helpMainMenuTest extends ApplicationTest
 		verifyThat("#mainGridPane" , isVisible()  );
 	}
 
+	@Test
+	void testIfSupportProjectWindowShow() {
+		clickOn("#menuHelp");
+		clickOn("#menuItemSuppProject");
+		
+		verifyThat("#supportProjectPane" , isVisible()  );
+	    clickOn("#ThankYouForSupBtn");
+	}
+	
+	@Disabled
+	@Test
+	void testIfSupportBtnForPaypalDonationForAlexClicked() {
+		clickOn("#menuHelp");
+		clickOn("#menuItemSuppProject");
+		clickOn("#AlexPaypalSupBtn");
+		verifyThat(".alert", isVisible()); 
+		clickOn(".alert .button");
+		clickOn("#ThankYouForSupBtn");
+	}
+	
+	@Disabled
+	@Test
+	void testIfSuppotBtnForBtcDonationForAlexClicked() {
+		clickOn("#menuHelp");
+		clickOn("#menuItemSuppProject");
+		clickOn("#AlexBtcSupBtn");
+		verifyThat("#BtcDonationForAlexBorderPane", isVisible()); 
+     	clickOn("#btcDonationOkBtn");
+     	clickOn(".alert .button");
+        clickOn("#ThankYouForSupBtn");
+	}
+	
+	@Disabled
+	@Test 
+	void testIfAcknowledgementForBtcDonationShown() {
+		clickOn("#menuHelp");
+		clickOn("#menuItemSuppProject");
+		clickOn("#AlexBtcSupBtn");
+     	clickOn("#btcDonationOkBtn");
+     	verifyThat(".alert", isVisible()); 
+     	clickOn(".alert .button");
+        clickOn("#ThankYouForSupBtn");
+	}
+	
 }

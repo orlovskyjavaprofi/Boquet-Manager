@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 public class AboutLicenseController
 {
 	@FXML
-	Button okBtnForLicenseInfoWindow;
+	private Button okBtnForLicenseInfoWindow;
 
 	@FXML
 	private void initialize()

@@ -11,13 +11,15 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MainMenuController
 {
     private BorderPane aboutLicensePane;
-	    
+	private BorderPane supportProjectPane;
+	
 	@FXML
 	private Menu menuFile;
 	
@@ -106,6 +108,9 @@ public class MainMenuController
 	private void initialize()
 	{
 
+		menuItemSuppProject.setOnAction((event)->{
+			loadNewWindowSuppProject();		
+		});
 		
 		menuItemLicense.setOnAction((event)->{
 			loadNewWindowAboutLicense();			
@@ -166,6 +171,29 @@ public class MainMenuController
 		}
 	}
 
+	private void loadNewWindowSuppProject() {
+		try
+		{
+			setUpSupportProjectPane();				
+			String TitleForANewWindow = "Support project!";				
+			Pane currentPane = this.getSupportProjectPane();  
+			setUpANewwindow(TitleForANewWindow, currentPane);
+			
+		} catch (IOException e)
+		{
+		     //exception with creation of support project window window
+			e.printStackTrace();
+		}
+	}
+	
+	private void setUpSupportProjectPane() throws IOException
+	{
+		String pathToXmlForm= "/views/fxmls/SupportProject.fxml";				
+		this.setSupportProjectPane(
+				(BorderPane) FXMLLoader.load(
+						getClass().getResource( pathToXmlForm)));
+	}
+	
 	private void setUpAboutLicensePane() throws IOException
 	{
 		String pathToXmlForm= "/views/fxmls/AboutLicense.fxml";				
@@ -650,6 +678,18 @@ public class MainMenuController
 	{
 		this.aboutLicensePane = aboutLicensePane;
 	}
+
+	public BorderPane getSupportProjectPane()
+	{
+		return supportProjectPane;
+	}
+
+	public void setSupportProjectPane(BorderPane supportProjectPane)
+	{
+		this.supportProjectPane = supportProjectPane;
+	}
+
+
 
 	
 }
