@@ -52,6 +52,16 @@ class helpMainMenuTest extends ApplicationTest
 	    clickOn("#ThankYouForSupBtn");
 	}
 	
+	@Test
+	void testIfAboutBoquetProjectWindowShow() {
+		clickOn("#menuHelp");
+		clickOn("#menuItemAboutApp");
+		verifyThat("#borrderPaneAboutProject", isVisible());
+		clickOn("#OkButOfAboutPrj");
+	}
+	
+	
+	
 	@Disabled
 	@Test
 	void testIfSupportBtnForPaypalDonationForAlexClicked() {

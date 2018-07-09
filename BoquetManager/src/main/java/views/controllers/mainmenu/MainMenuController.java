@@ -19,6 +19,7 @@ public class MainMenuController
 {
     private BorderPane aboutLicensePane;
 	private BorderPane supportProjectPane;
+	private BorderPane aboutProjectPane;
 	
 	@FXML
 	private Menu menuFile;
@@ -108,6 +109,10 @@ public class MainMenuController
 	private void initialize()
 	{
 
+		menuItemAboutApp.setOnAction((event) -> {
+			loadNewWindowAboutProject();
+		});
+		
 		menuItemSuppProject.setOnAction((event)->{
 			loadNewWindowSuppProject();		
 		});
@@ -155,11 +160,29 @@ public class MainMenuController
 
 	}
 
-	private void loadNewWindowAboutLicense()
+	private void loadNewWindowAboutProject()
 	{
+		String pathToXmlForm = "/views/fxmls/AboutBoquetManagerProject.fxml";
 		try
 		{
-			setUpAboutLicensePane();					
+			setUpBorderPane(pathToXmlForm);
+			String TitleForANewWindow = "About boquet project!";
+			Pane currentPane = this.getAboutProjectPane();
+			setUpANewwindow(TitleForANewWindow, currentPane);
+
+		} catch (IOException e)
+		{
+			// exception with creation of about project
+			e.printStackTrace();
+		}
+	}
+
+	private void loadNewWindowAboutLicense()
+	{
+		String pathToXmlForm= "/views/fxmls/AboutLicense.fxml";	
+		try
+		{
+			setUpBorderPane(pathToXmlForm);					
 			String TitleForANewWindow = "License information";				
 			Pane currentPane = this.getAboutLicensePane();  
 			setUpANewwindow(TitleForANewWindow, currentPane);
@@ -194,12 +217,38 @@ public class MainMenuController
 						getClass().getResource( pathToXmlForm)));
 	}
 	
-	private void setUpAboutLicensePane() throws IOException
+	private void setUpBorderPane(String pathToFxml) throws IOException
+	{				
+		loadingFxmlForAboutMenu(pathToFxml);
+	}
+
+	private void loadingFxmlForAboutMenu(String pathToFxml) throws IOException
 	{
-		String pathToXmlForm= "/views/fxmls/AboutLicense.fxml";				
+		final String aboutProject = "/views/fxmls/AboutBoquetManagerProject.fxml";
+		final String aboutLicense = "/views/fxmls/AboutLicense.fxml";
+		
+		switch(pathToFxml) {
+			case aboutProject:
+				loadFxmlForAboutProjectWindow(pathToFxml);
+			break ;
+			case aboutLicense:
+				loadFxmlForAboutLicense(pathToFxml);
+			break;			
+		}
+	}
+
+	private void loadFxmlForAboutLicense(String pathToFxml) throws IOException
+	{
 		this.setAboutLicensePane(
 				(BorderPane) FXMLLoader.load(
-						getClass().getResource( pathToXmlForm)));
+						getClass().getResource( pathToFxml)));
+	}
+
+	private void loadFxmlForAboutProjectWindow(String pathToFxml) throws IOException
+	{
+		this.setAboutProjectPane(
+				(BorderPane) FXMLLoader.load(
+						getClass().getResource( pathToFxml)));
 	}
 
 	private void setUpANewwindow(String TitleForANewWindow, Pane currentPane)
@@ -689,7 +738,14 @@ public class MainMenuController
 		this.supportProjectPane = supportProjectPane;
 	}
 
+	public BorderPane getAboutProjectPane()
+	{
+		return aboutProjectPane;
+	}
 
+	public void setAboutProjectPane(BorderPane aboutProjectPane)
+	{
+		this.aboutProjectPane = aboutProjectPane;
+	}
 
-	
 }
