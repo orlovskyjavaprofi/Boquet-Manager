@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="servicesListBorderPane" minHeight="640.0" minWidth="400.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="640.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+	<top>
+		<Label fx:id="lblTitleOfServices" text="Services list" underline="true" BorderPane.alignment="CENTER">
+			<font>
+				<Font name="System Bold" size="18.0" />
+			</font>
+		</Label>
+	</top>
+	<center>
+		<TreeTableView>
+			<placeholder>
+				<Label fx:id="DummyLabeL" text="" />
+			</placeholder>
+			<columns>
+				<TreeTableColumn fx:id="colSatTvChnName" maxWidth="171.0" minWidth="101.0" prefWidth="159.0" text="Channel name" />
+				<TreeTableColumn fx:id="colSatName" maxWidth="101.0" minWidth="101.0" prefWidth="101.0" text="Satellite" />
+				<TreeTableColumn fx:id="colSatTransponderId" maxWidth="139.0" minWidth="139.0" prefWidth="139.0" text="Transponder_Id" />
+			</columns>
+		</TreeTableView>
+	</center>
+</BorderPane>

@@ -261,7 +261,6 @@ public class MainMenuController
 			case aboutProjectAuthors:
 				loadFxmlForAuthorsAndDevsWindow(pathToFxml);
 				break;
-
 		}
 	}
 

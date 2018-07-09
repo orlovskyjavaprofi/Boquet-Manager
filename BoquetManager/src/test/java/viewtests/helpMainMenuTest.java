@@ -79,7 +79,7 @@ class helpMainMenuTest extends ApplicationTest
 		clickOn("#OkButOfAboutAuthors");
 	}
 	
-	
+	@Disabled
 	@Test
 	void testIfSupportBtnForPaypalDonationForAlexClicked() {
 		clickOn("#menuHelp");
