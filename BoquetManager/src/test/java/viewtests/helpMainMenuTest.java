@@ -60,9 +60,26 @@ class helpMainMenuTest extends ApplicationTest
 		clickOn("#OkButOfAboutPrj");
 	}
 	
-	
+	@Test
+	void testIfAboutAuthorsAndDevsWindowShow() {
+		clickOn("#menuHelp");
+		clickOn("#menuItemAboutAuthors");
+		verifyThat("#aboutAuthorsAndDevsPane", isVisible());
+		clickOn("#OkButOfAboutAuthors");
+	}
 	
 	@Disabled
+	@Test
+	void testIfAboutAuthorsAndDevAlexanderLinkedinClicked() {
+		clickOn("#menuHelp");
+		clickOn("#menuItemAboutAuthors");
+		clickOn("#hyperlinkToAlexanderLinkedin");
+		verifyThat(".alert", isVisible()); 
+		clickOn(".alert .button");
+		clickOn("#OkButOfAboutAuthors");
+	}
+	
+	
 	@Test
 	void testIfSupportBtnForPaypalDonationForAlexClicked() {
 		clickOn("#menuHelp");

@@ -17,117 +17,121 @@ import javafx.stage.Stage;
 
 public class MainMenuController
 {
-    private BorderPane aboutLicensePane;
+	private BorderPane aboutLicensePane;
 	private BorderPane supportProjectPane;
+	private BorderPane aboutAuthorsPane;
 	private BorderPane aboutProjectPane;
-	
+
 	@FXML
 	private Menu menuFile;
-	
-	@FXML 
+
+	@FXML
 	private MenuItem menuItemSaveToXml;
-	
+
 	@FXML
 	private MenuItem menuItemOpenXml;
-	
-	@FXML 
+
+	@FXML
 	private MenuItem menuItemPreferences;
-	
+
 	@FXML
 	private MenuItem menuItemQuit;
-	
+
 	@FXML
 	private Menu menuEdit;
-	
+
 	@FXML
 	private MenuItem menuItemPaste;
-	
+
 	@FXML
 	private MenuItem menuItemCopy;
-	
+
 	@FXML
 	private MenuItem menuItemDelete;
-	
+
 	@FXML
 	private Menu menuView;
-	
+
 	@FXML
 	private MenuItem menuItemSortAlphabet;
-	
+
 	@FXML
 	private MenuItem menuItemSortBySattelites;
-		
+
 	@FXML
 	private Menu menuLang;
-	
+
 	@FXML
 	private Menu menuSatReceiver;
-	
+
 	@FXML
 	private MenuItem menuItemDobx2SatReceiver;
-	
+
 	@FXML
 	private Menu menuHelp;
-	
+
 	@FXML
 	private MenuItem menuItemAboutApp;
-	
+
 	@FXML
 	private MenuItem menuItemAboutAuthors;
-	
+
 	@FXML
 	private MenuItem menuItemLicense;
-	
+
 	@FXML
 	private MenuItem menuItemSuppProject;
 
-    @FXML
-    private CheckBox chkBoxEng;
-    
-    @FXML
-    private CheckBox chkBoxGer;
-    
-    @FXML
-    private CheckBox chkBoxUkr;
-    
-    @FXML
-    private CheckBox chkBoxRu;
+	@FXML
+	private CheckBox chkBoxEng;
 
-    @FXML
-    private MenuItem menuItemEng;
-    
-    @FXML 
-    private MenuItem menuItemGer;
-    
-    @FXML
-    private MenuItem menuItemUkr;
-    
-    @FXML 
-    private MenuItem menuItemRu;
-    
+	@FXML
+	private CheckBox chkBoxGer;
+
+	@FXML
+	private CheckBox chkBoxUkr;
+
+	@FXML
+	private CheckBox chkBoxRu;
+
+	@FXML
+	private MenuItem menuItemEng;
+
+	@FXML
+	private MenuItem menuItemGer;
+
+	@FXML
+	private MenuItem menuItemUkr;
+
+	@FXML
+	private MenuItem menuItemRu;
+
 	@FXML
 	private void initialize()
 	{
+		menuItemAboutAuthors.setOnAction((event) -> {
+			loadNewWindowAboutAuthorsAndDev();
+		});
 
 		menuItemAboutApp.setOnAction((event) -> {
 			loadNewWindowAboutProject();
 		});
-		
-		menuItemSuppProject.setOnAction((event)->{
-			loadNewWindowSuppProject();		
+
+		menuItemSuppProject.setOnAction((event) -> {
+			loadNewWindowSuppProject();
 		});
-		
-		menuItemLicense.setOnAction((event)->{
-			loadNewWindowAboutLicense();			
+
+		menuItemLicense.setOnAction((event) -> {
+			loadNewWindowAboutLicense();
 		});
-		
+
 		chkBoxEng.setOnAction((even) -> {
 			selectEngChkBox();
 		});
 
 		chkBoxGer.setOnAction((even) -> {
 			selectGerChkBox();
-		
+
 		});
 
 		chkBoxUkr.setOnAction((even) -> {
@@ -142,22 +146,41 @@ public class MainMenuController
 			this.getChkBoxEng().setSelected(true);
 			selectEngChkBox();
 		});
-		
+
 		menuItemGer.setOnAction((even) -> {
 			this.getChkBoxGer().setSelected(true);
 			selectGerChkBox();
 		});
-		
+
 		menuItemUkr.setOnAction((even) -> {
 			this.getChkBoxUkr().setSelected(true);
 			selectUkrChkBox();
 		});
-		
+
 		menuItemRu.setOnAction((even) -> {
 			this.getChkBoxRu().setSelected(true);
 			selectRusChkBox();
 		});
 
+	}
+
+	private void loadNewWindowAboutAuthorsAndDev()
+	{
+		String pathToXmlForm = "/views/fxmls/AboutAuthorsDevs.fxml";
+
+		try
+		{
+			setUpBorderPane(pathToXmlForm);
+			String TitleForANewWindow = "About authors and developers";
+			Pane currentPane = this.getAboutAuthorsPane();
+
+			setUpANewwindow(TitleForANewWindow, currentPane);
+
+		} catch (IOException e)
+		{
+			// exception with creation of support project window window
+			e.printStackTrace();
+		}
 	}
 
 	private void loadNewWindowAboutProject()
@@ -179,46 +202,41 @@ public class MainMenuController
 
 	private void loadNewWindowAboutLicense()
 	{
-		String pathToXmlForm= "/views/fxmls/AboutLicense.fxml";	
+		String pathToXmlForm = "/views/fxmls/AboutLicense.fxml";
 		try
 		{
-			setUpBorderPane(pathToXmlForm);					
-			String TitleForANewWindow = "License information";				
-			Pane currentPane = this.getAboutLicensePane();  
+			setUpBorderPane(pathToXmlForm);
+			String TitleForANewWindow = "License information";
+			Pane currentPane = this.getAboutLicensePane();
 			setUpANewwindow(TitleForANewWindow, currentPane);
-			
+
 		} catch (IOException e)
 		{
-		     //exception with creation of about license window
+			// exception with creation of about license window
 			e.printStackTrace();
 		}
 	}
 
-	private void loadNewWindowSuppProject() {
+	private void loadNewWindowSuppProject()
+	{
+		String pathToXmlForm = "/views/fxmls/SupportProject.fxml";
+
 		try
 		{
-			setUpSupportProjectPane();				
-			String TitleForANewWindow = "Support project!";				
-			Pane currentPane = this.getSupportProjectPane();  
+			setUpBorderPane(pathToXmlForm);
+			String TitleForANewWindow = "Support project!";
+			Pane currentPane = this.getSupportProjectPane();
 			setUpANewwindow(TitleForANewWindow, currentPane);
-			
+
 		} catch (IOException e)
 		{
-		     //exception with creation of support project window window
+			// exception with creation of support project window window
 			e.printStackTrace();
 		}
 	}
-	
-	private void setUpSupportProjectPane() throws IOException
-	{
-		String pathToXmlForm= "/views/fxmls/SupportProject.fxml";				
-		this.setSupportProjectPane(
-				(BorderPane) FXMLLoader.load(
-						getClass().getResource( pathToXmlForm)));
-	}
-	
+
 	private void setUpBorderPane(String pathToFxml) throws IOException
-	{				
+	{
 		loadingFxmlForAboutMenu(pathToFxml);
 	}
 
@@ -226,34 +244,50 @@ public class MainMenuController
 	{
 		final String aboutProject = "/views/fxmls/AboutBoquetManagerProject.fxml";
 		final String aboutLicense = "/views/fxmls/AboutLicense.fxml";
-		
-		switch(pathToFxml) {
+		final String aboutSuppProject = "/views/fxmls/SupportProject.fxml";
+		final String aboutProjectAuthors = "/views/fxmls/AboutAuthorsDevs.fxml";
+
+		switch (pathToFxml)
+		{
 			case aboutProject:
 				loadFxmlForAboutProjectWindow(pathToFxml);
-			break ;
+				break;
 			case aboutLicense:
 				loadFxmlForAboutLicense(pathToFxml);
-			break;			
+				break;
+			case aboutSuppProject:
+				loadFxmlForSupportProjectWindow(pathToFxml);
+				break;
+			case aboutProjectAuthors:
+				loadFxmlForAuthorsAndDevsWindow(pathToFxml);
+				break;
+
 		}
+	}
+
+	private void loadFxmlForSupportProjectWindow(String pathToXmlForm) throws IOException
+	{
+		this.setSupportProjectPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
+	}
+
+	private void loadFxmlForAuthorsAndDevsWindow(String pathToXmlForm) throws IOException
+	{
+		this.setAboutAuthorsPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
 	}
 
 	private void loadFxmlForAboutLicense(String pathToFxml) throws IOException
 	{
-		this.setAboutLicensePane(
-				(BorderPane) FXMLLoader.load(
-						getClass().getResource( pathToFxml)));
+		this.setAboutLicensePane((BorderPane) FXMLLoader.load(getClass().getResource(pathToFxml)));
 	}
 
 	private void loadFxmlForAboutProjectWindow(String pathToFxml) throws IOException
 	{
-		this.setAboutProjectPane(
-				(BorderPane) FXMLLoader.load(
-						getClass().getResource( pathToFxml)));
+		this.setAboutProjectPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToFxml)));
 	}
 
 	private void setUpANewwindow(String TitleForANewWindow, Pane currentPane)
 	{
-		Scene anotherScn = new Scene( currentPane  );
+		Scene anotherScn = new Scene(currentPane);
 		Stage stageForScn = new Stage();
 		stageForScn.setTitle(TitleForANewWindow);
 		stageForScn.setScene(anotherScn);
@@ -294,27 +328,32 @@ public class MainMenuController
 
 	private void selectOnlyOneCheckBox(boolean chkBoxLangResult, String inputLang)
 	{
-		switch(inputLang) {
+		switch (inputLang)
+		{
 			case "eng":
-				if (chkBoxLangResult== true) {
+				if (chkBoxLangResult == true)
+				{
 					unselectChkBoxesGerRuUkr();
 				}
-			break;
+				break;
 			case "ger":
-				if (chkBoxLangResult== true) {
+				if (chkBoxLangResult == true)
+				{
 					unselectChkBoxesEngRuUkr();
 				}
-			break;
+				break;
 			case "ukr":
-				if (chkBoxLangResult== true) {
+				if (chkBoxLangResult == true)
+				{
 					unselectChkBoxesEngRuGer();
 				}
-			break;
+				break;
 			case "rus":
-				if (chkBoxLangResult== true) {
+				if (chkBoxLangResult == true)
+				{
 					unselectChkBoxesEngUkrGer();
 				}
-			break;
+				break;
 		}
 
 	}
@@ -325,89 +364,89 @@ public class MainMenuController
 		switch (inputLang)
 		{
 			case "ger":
-                 langSelectionLocale = new Locale("de","DE");
-                 //System.out.println("de gewählt! ");
-                 localizeMainMenu(langSelectionLocale);
+				langSelectionLocale = new Locale("de", "DE");
+				// System.out.println("de gewählt! ");
+				localizeMainMenu(langSelectionLocale);
 				break;
 			case "eng":
-	             langSelectionLocale = new Locale("en","US");
-	             //	System.out.println("en gewählt! ");
-                 localizeMainMenu(langSelectionLocale);
+				langSelectionLocale = new Locale("en", "US");
+				// System.out.println("en gewählt! ");
+				localizeMainMenu(langSelectionLocale);
 				break;
 			case "ukr":
-	             langSelectionLocale = new Locale("uk","UA");
-	             // System.out.println("ukr gewählt! ");
-                localizeMainMenu(langSelectionLocale);
+				langSelectionLocale = new Locale("uk", "UA");
+				// System.out.println("ukr gewählt! ");
+				localizeMainMenu(langSelectionLocale);
 				break;
 			case "rus":
-	             langSelectionLocale = new Locale("ru","Ru");
-	             //System.out.println("ru gewählt! ");
-                localizeMainMenu(langSelectionLocale);
+				langSelectionLocale = new Locale("ru", "Ru");
+				// System.out.println("ru gewählt! ");
+				localizeMainMenu(langSelectionLocale);
 				break;
 		}
 	}
 
 	private void localizeMainMenu(Locale inputLang)
 	{
-		 ResourceBundle bundle;
-		 //System.out.println(inputLang.toString());
-				
-		bundle = ResourceBundle.getBundle("internationalization/menu",inputLang);
-		 localizeFileMenu(bundle);
-		 localizeEditMenu(bundle);
-		 localizeViewMenu(bundle);
-		 localizeLangMenu(bundle);
-		 localizeSatReceiverMenu(bundle);
-		 localizeHelpMenu(bundle);
-		 
+		ResourceBundle bundle;
+		// System.out.println(inputLang.toString());
+
+		bundle = ResourceBundle.getBundle("internationalization/menu", inputLang);
+		localizeFileMenu(bundle);
+		localizeEditMenu(bundle);
+		localizeViewMenu(bundle);
+		localizeLangMenu(bundle);
+		localizeSatReceiverMenu(bundle);
+		localizeHelpMenu(bundle);
+
 	}
 
 	private void localizeHelpMenu(ResourceBundle bundle)
 	{
 		this.getMenuHelp().setText(bundle.getString("menuHelp"));
-		 this.getMenuItemAboutApp().setText(bundle.getString("HelpItemMenuAboutApp"));
-		 this.getMenuItemAboutAuthors().setText(bundle.getString("HelpItemMenuAboutAuthors"));
-		 this.getMenuItemLicense().setText(bundle.getString("HelpItemMenuLicense"));
-		 this.getMenuItemSuppProject().setText(bundle.getString("HelpItemMenuSupportProject"));
+		this.getMenuItemAboutApp().setText(bundle.getString("HelpItemMenuAboutApp"));
+		this.getMenuItemAboutAuthors().setText(bundle.getString("HelpItemMenuAboutAuthors"));
+		this.getMenuItemLicense().setText(bundle.getString("HelpItemMenuLicense"));
+		this.getMenuItemSuppProject().setText(bundle.getString("HelpItemMenuSupportProject"));
 	}
 
 	private void localizeSatReceiverMenu(ResourceBundle bundle)
 	{
 		this.getMenuSatReceiver().setText(bundle.getString("menuSatReceiver"));
-		 this.getMenuItemDobx2SatReceiver().setText(bundle.getString("SatReceiverItemMenuSatReceiver"));
+		this.getMenuItemDobx2SatReceiver().setText(bundle.getString("SatReceiverItemMenuSatReceiver"));
 	}
 
 	private void localizeLangMenu(ResourceBundle bundle)
 	{
 		this.getMenuLang().setText(bundle.getString("menuLang"));
-		 this.getMenuItemEng().setText(bundle.getString("LangItemMenuEng"));
-		 this.getMenuItemGer().setText(bundle.getString("LangItemMenuGer"));
-		 this.getMenuItemUkr().setText(bundle.getString("LangItemMenuUkr"));
-		 this.getMenuItemRu().setText(bundle.getString("LangItemMenuRu"));
+		this.getMenuItemEng().setText(bundle.getString("LangItemMenuEng"));
+		this.getMenuItemGer().setText(bundle.getString("LangItemMenuGer"));
+		this.getMenuItemUkr().setText(bundle.getString("LangItemMenuUkr"));
+		this.getMenuItemRu().setText(bundle.getString("LangItemMenuRu"));
 	}
 
 	private void localizeViewMenu(ResourceBundle bundle)
 	{
 		this.getMenuView().setText(bundle.getString("menuView"));
-		 this.getMenuItemSortAlphabet().setText(bundle.getString("ViewItemMenuSortAlpha"));
-		 this.getMenuItemSortBySattelites().setText(bundle.getString("ViewItemMenuSortSat"));
+		this.getMenuItemSortAlphabet().setText(bundle.getString("ViewItemMenuSortAlpha"));
+		this.getMenuItemSortBySattelites().setText(bundle.getString("ViewItemMenuSortSat"));
 	}
 
 	private void localizeEditMenu(ResourceBundle bundle)
 	{
 		this.getMenuEdit().setText(bundle.getString("menuEdit"));
-		 this.getMenuItemPaste().setText(bundle.getString("EditItemMenuPaste"));
-		 this.getMenuItemCopy().setText(bundle.getString("EditItemMenuCopy"));
-		 this.getMenuItemDelete().setText(bundle.getString("EditItemMenuDelete"));
+		this.getMenuItemPaste().setText(bundle.getString("EditItemMenuPaste"));
+		this.getMenuItemCopy().setText(bundle.getString("EditItemMenuCopy"));
+		this.getMenuItemDelete().setText(bundle.getString("EditItemMenuDelete"));
 	}
 
 	private void localizeFileMenu(ResourceBundle bundle)
 	{
 		this.getMenuFile().setText(bundle.getString("menuFile"));
-		 this.getMenuItemSaveToXml().setText(bundle.getString("FileItemMenuSave"));
-		 this.getMenuItemOpenXml().setText(bundle.getString("FileItemMenuOpen"));
-		 this.getMenuItemPreferences().setText(bundle.getString("FileItemMenuPreferences"));
-		 this.getMenuItemQuit().setText(bundle.getString("FileItemMenuQuit"));
+		this.getMenuItemSaveToXml().setText(bundle.getString("FileItemMenuSave"));
+		this.getMenuItemOpenXml().setText(bundle.getString("FileItemMenuOpen"));
+		this.getMenuItemPreferences().setText(bundle.getString("FileItemMenuPreferences"));
+		this.getMenuItemQuit().setText(bundle.getString("FileItemMenuQuit"));
 	}
 
 	private void unselectChkBoxesEngUkrGer()
@@ -746,6 +785,16 @@ public class MainMenuController
 	public void setAboutProjectPane(BorderPane aboutProjectPane)
 	{
 		this.aboutProjectPane = aboutProjectPane;
+	}
+
+	public BorderPane getAboutAuthorsPane()
+	{
+		return aboutAuthorsPane;
+	}
+
+	public void setAboutAuthorsPane(BorderPane aboutAuthorsPane)
+	{
+		this.aboutAuthorsPane = aboutAuthorsPane;
 	}
 
 }

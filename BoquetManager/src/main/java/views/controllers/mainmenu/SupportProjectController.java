@@ -57,7 +57,7 @@ public class SupportProjectController extends Application
 		String PaymentType = "paypal";
 		Alert donateInfoMessage = initAlertMessage(titleAlertMsg, titleOfAlertMsgHeader);
 		FlowPane fp = setUpPaneAndTextMsgForAlerMsg(ContactAdress, PaymentType);
-
+		fp.setStyle("-fx-font-weight: bold");
 		showToUserAllertMessage(donateInfoMessage, fp);
 	}
 
