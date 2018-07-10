@@ -6,11 +6,12 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:id="mainGridPane" minHeight="668.0" minWidth="800.0" prefHeight="668.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.controllers.mainmenu.MainMenuController">
+<GridPane fx:id="mainGridPane" minHeight="668.0" minWidth="800.0" prefHeight="668.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.controllers.mainmenu.MainMenuController">
    <children>
       <AnchorPane fx:id="MainMenuAnchorPane" prefHeight="26.0" prefWidth="800.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS">
          <children>
@@ -88,17 +89,18 @@
             </MenuBar>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="anchorPaneForServicesList" minHeight="640.0" minWidth="499.0" prefHeight="640.0" prefWidth="400.0" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-         <children>
-            <fx:include source="ServicesListOnBorderPane.fxml" />
-         </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <GridPane.margin>
+      <BorderPane GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+      
+         <padding>
             <Insets bottom="10.0" />
-         </GridPane.margin>
-      </AnchorPane>
+         </padding>
+         <center>
+            <fx:include source="ServicesListOnBorderPane.fxml" />
+         </center>
+         <right>
+            <fx:include source="FavoritesListOnBorderPane.fxml" />
+         </right>
+      </BorderPane>
 	
 
    </children>
@@ -107,6 +109,6 @@
    </columnConstraints>
    <rowConstraints>
       <RowConstraints valignment="CENTER" />
-      <RowConstraints minHeight="640.0" prefHeight="640.0" valignment="CENTER" />
+      <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
    </rowConstraints>
 </GridPane>

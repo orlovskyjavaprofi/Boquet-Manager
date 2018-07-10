@@ -1,29 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="servicesListBorderPane" minHeight="640.0" minWidth="400.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="640.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="servicesListBorderPane" minWidth="389.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
 	<top>
-		<Label fx:id="lblTitleOfServices" text="Services list" underline="true" BorderPane.alignment="CENTER">
-			<font>
-				<Font name="System Bold" size="18.0" />
-			</font>
-		</Label>
+      <BorderPane BorderPane.alignment="CENTER">
+         <bottom>
+            <BorderPane BorderPane.alignment="CENTER">
+               <left>
+                  <Button fx:id="btnAddChnToFav" alignment="CENTER" mnemonicParsing="false" prefWidth="185.0" text="Add to favorite List" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+               </left>
+               <right>
+                  <Button fx:id="btnEditChnInService" alignment="CENTER" mnemonicParsing="false" prefWidth="185.0" text="Edit channel in services" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+               </right>
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
+            </BorderPane>
+         </bottom>
+         <center>
+      		<Label fx:id="lblTitleOfServices" text="Services list" underline="true" BorderPane.alignment="CENTER">
+      			<font>
+      				<Font name="System Bold" size="18.0" />
+      			</font>
+      		</Label>
+         </center>
+      </BorderPane>
 	</top>
 	<center>
-		<TreeTableView>
+		<TreeTableView prefHeight="371.0" prefWidth="289.0" BorderPane.alignment="CENTER_LEFT">
 			<placeholder>
 				<Label fx:id="DummyLabeL" text="" />
 			</placeholder>
 			<columns>
-				<TreeTableColumn fx:id="colSatTvChnName" maxWidth="171.0" minWidth="101.0" prefWidth="159.0" text="Channel name" />
-				<TreeTableColumn fx:id="colSatName" maxWidth="101.0" minWidth="101.0" prefWidth="101.0" text="Satellite" />
-				<TreeTableColumn fx:id="colSatTransponderId" maxWidth="139.0" minWidth="139.0" prefWidth="139.0" text="Transponder_Id" />
+				<TreeTableColumn fx:id="colSatTvChnName" maxWidth="177.0" minWidth="100.0" prefWidth="155.0" text="Channel name" />
+				<TreeTableColumn fx:id="colSatName" maxWidth="165.0" minWidth="23.0" prefWidth="149.0" resizable="false" text="Satellite" />
+				<TreeTableColumn fx:id="colSatTransponderId" maxWidth="-1.0" minWidth="145.0" prefWidth="145.0" text="Transponder_Id" />
 			</columns>
 		</TreeTableView>
 	</center>
+   <bottom>
+      <BorderPane BorderPane.alignment="CENTER">
+         <right>
+            <Button fx:id="btnSearchChannel" minWidth="199.0" mnemonicParsing="false" prefWidth="199.0" text="Search SatTv channel" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+         </right>
+         <center>
+            <TextField fx:id="txtFldSearchSatTvChn" promptText="Type Sat Tv channel name here......" BorderPane.alignment="CENTER" />
+         </center>
+      </BorderPane>
+   </bottom>
 </BorderPane>
