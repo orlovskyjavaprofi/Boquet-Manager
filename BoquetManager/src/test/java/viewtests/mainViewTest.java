@@ -25,8 +25,7 @@ class mainViewTest extends ApplicationTest
 	MainView mainViewObj;
     String extractedTitle;
     List<String> EnglishMenuList = new ArrayList<String>();
-    
-  
+
     Menu HelpMenuText;
     
 	ObservableList<Menu> HelpMainMenuList;

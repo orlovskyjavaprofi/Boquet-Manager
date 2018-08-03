@@ -47,7 +47,7 @@
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Label>
-            <Label fx:id="lblBuildNumber" text="011" textFill="#06ff0e" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Label fx:id="lblBuildNumber" text="012" textFill="#06ff0e" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></Label>

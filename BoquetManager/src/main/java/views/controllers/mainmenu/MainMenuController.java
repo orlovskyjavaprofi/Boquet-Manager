@@ -4,27 +4,37 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import views.utils.CustomizedFileChooser;
 
-public class MainMenuController
+public class MainMenuController 
 {
 	private BorderPane aboutLicensePane;
 	private BorderPane supportProjectPane;
 	private BorderPane aboutAuthorsPane;
 	private BorderPane aboutProjectPane;
-
+    private BorderPane customFileChooserPane;
+    
 	@FXML
 	private Menu menuFile;
-
+    
+	@FXML
+	private Label filesLoadStateLbl;
+	
+	@FXML
+	private MenuBar mainMenuBar; 
+	
 	@FXML
 	private MenuItem menuItemSaveToXml;
 
@@ -105,10 +115,28 @@ public class MainMenuController
 
 	@FXML
 	private MenuItem menuItemRu;
-
+	
 	@FXML
 	private void initialize()
 	{
+		
+		menuItemOpenXml.setOnAction((event) -> {					                                       
+			String pathToXmlForm = "/views/fxmls/utils/CustomizedFileChooser.fxml";
+			try
+			{
+				setUpBorderPane(pathToXmlForm);
+				String TitleForANewWindow = "Alexander custom file chooser";
+				Pane currentPane = this.getCustomFileChooserPane();
+				setUpPaneAndTitleForPane(TitleForANewWindow,currentPane);
+
+			} catch (IOException e)
+			{
+				// exception with creation of support project window window
+				e.printStackTrace();
+			}
+			
+		});
+		
 		menuItemAboutAuthors.setOnAction((event) -> {
 			loadNewWindowAboutAuthorsAndDev();
 		});
@@ -162,6 +190,11 @@ public class MainMenuController
 			selectRusChkBox();
 		});
 
+	}
+
+	private void setUpPaneAndTitleForPane(String TitleForANewWindow, Pane inputPane)
+	{
+		setUpANewwindow(TitleForANewWindow, inputPane);
 	}
 
 	private void loadNewWindowAboutAuthorsAndDev()
@@ -246,7 +279,7 @@ public class MainMenuController
 		final String aboutLicense = "/views/fxmls/AboutLicense.fxml";
 		final String aboutSuppProject = "/views/fxmls/SupportProject.fxml";
 		final String aboutProjectAuthors = "/views/fxmls/AboutAuthorsDevs.fxml";
-
+        final String customFileChooserPane ="/views/fxmls/utils/CustomizedFileChooser.fxml";
 		switch (pathToFxml)
 		{
 			case aboutProject:
@@ -261,9 +294,18 @@ public class MainMenuController
 			case aboutProjectAuthors:
 				loadFxmlForAuthorsAndDevsWindow(pathToFxml);
 				break;
+			case customFileChooserPane:
+			    loadFxmlForCustomFileChooser(pathToFxml);
+			    break;
 		}
 	}
 
+	private void loadFxmlForCustomFileChooser(String pathToXmlForm) throws IOException
+	{
+		this.setCustomFileChooserPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
+	}
+	
+	
 	private void loadFxmlForSupportProjectWindow(String pathToXmlForm) throws IOException
 	{
 		this.setSupportProjectPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
@@ -796,4 +838,35 @@ public class MainMenuController
 		this.aboutAuthorsPane = aboutAuthorsPane;
 	}
 
+	public MenuBar getMainMenuBar()
+	{
+		return mainMenuBar;
+	}
+
+	public void setMainMenuBar(MenuBar mainMenuBar)
+	{
+		this.mainMenuBar = mainMenuBar;
+	}
+
+	public Label getFilesLoadStateLbl()
+	{
+		return filesLoadStateLbl;
+	}
+
+	public void setFilesLoadStateLbl(Label filesLoadStateLbl)
+	{
+		this.filesLoadStateLbl = filesLoadStateLbl;
+	}
+
+	public BorderPane getCustomFileChooserPane()
+	{
+		return customFileChooserPane;
+	}
+
+	public void setCustomFileChooserPane(BorderPane customFileChooserPane)
+	{
+		this.customFileChooserPane = customFileChooserPane;
+	}
+
+	
 }
