@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zapit>
+  <Bouquet type="0" bouquet_id="0000" name="Deutsche" hidden="0" locked="0">
+    <channel serviceID="6dca" name="Das Erste" tsid="044d" onid="0001" sat="192" />
+    <channel serviceID="6d66" name="ZDF" tsid="0437" onid="0001" sat="192" />
+    <channel serviceID="2ee3" name="RTL Television" tsid="0441" onid="0001" sat="192" />
+    <channel serviceID="2ef4" name="RTL2" tsid="0441" onid="0001" sat="192" />
+    <channel serviceID="2f08" name="SUPER RTL" tsid="0441" onid="0001" sat="192" />
+    <channel serviceID="0033" name="TELE 5" tsid="0021" onid="0085" sat="192" />
+    <channel serviceID="2f3a" name="n-tv" tsid="0441" onid="0001" sat="192" />
+    <channel serviceID="2f1c" name="VOX" tsid="0441" onid="0001" sat="192" />
+    <channel serviceID="003f" name="DMAX" tsid="0021" onid="0085" sat="192" />
+    <channel serviceID="6d67" name="3sat" tsid="0437" onid="0001" sat="192" />
+    <channel serviceID="6d68" name="KiKA" tsid="0437" onid="0001" sat="192" />
+    <channel serviceID="0020" name="Sonnenklar TV" tsid="0021" onid="0085" sat="192" />
+    <channel serviceID="0384" name="SPORT1" tsid="0021" onid="0085" sat="192" />
+    <channel serviceID="6f47" name="BR-alpha" tsid="0445" onid="0001" sat="192" />
+    <channel serviceID="0028" name="HSE24" tsid="0021" onid="0085" sat="192" />
+    <channel serviceID="0293" name="collection" tsid="0005" onid="0085" sat="192" />
+    <channel serviceID="4e27" name="PULS 4 Austria" tsid="043a" onid="0001" sat="192" />
+    <channel serviceID="6d6e" name="zdf_neo" tsid="0437" onid="0001" sat="192" />
+    <channel serviceID="6d6b" name="ZDFinfo" tsid="0437" onid="0001" sat="192" />
+    <channel serviceID="6d70" name="zdf.kultur" tsid="0437" onid="0001" sat="192" />
+    <channel serviceID="2f30" name="Channel 21" tsid="0441" onid="0001" sat="192" />
+    <channel serviceID="2753" name="Bloomberg Europe TV" tsid="0402" onid="0001" sat="192" />
+    <channel serviceID="7004" name="VIVA Germany" tsid="0436" onid="0001" sat="192" />
+  </Bouquet>
+  <Bouquet type="0" bouquet_id="0000" name="Deutsche Regional" hidden="0" locked="0">
+    <channel serviceID="6dce" name="Bayerisches FS Nord" tsid="044d" onid="0001" sat="192" />
+    <channel serviceID="6dcb" name="Bayerisches FS Süd" tsid="044d" onid="0001" sat="192" />
+    <channel serviceID="6e97" name="WDR Siegen" tsid="04b1" onid="0001" sat="192" />
+    <channel serviceID="6e47" name="SWR Fernsehen RP" tsid="0431" onid="0001" sat="192" />
+    <channel serviceID="6e42" name="NDR FS NDS" tsid="0431" onid="0001" sat="192" />
+    <channel serviceID="6dd1" name="SWR Fernsehen BW" tsid="044d" onid="0001" sat="192" />
+    <channel serviceID="6dcf" name="WDR Köln" tsid="044d" onid="0001" sat="192" />
+    <channel serviceID="6dcc" name="hr-fernsehen" tsid="044d" onid="0001" sat="192" />
+    <channel serviceID="6e2d" name="rbb Brandenburg" tsid="0431" onid="0001" sat="192" />
+    <channel serviceID="6e46" name="MDR Thüringen" tsid="0431" onid="0001" sat="192" />
+    <channel serviceID="6e40" name="NDR FS MV" tsid="0431" onid="0001" sat="192" />
+    <channel serviceID="6e44" name="MDR Sachsen" tsid="0431" onid="0001" sat="192" />
+    <channel serviceID="6e43" name="NDR FS SH" tsid="0431" onid="0001" sat="192" />
+    <channel serviceID="6f46" name="SR Fernsehen" tsid="0445" onid="0001" sat="192" />
+    <channel serviceID="6e2e" name="rbb Berlin" tsid="0431" onid="0001" sat="192" />
+    <channel serviceID="002f" name="REGIO TV" tsid="0021" onid="0085" sat="192" />
+  </Bouquet>
+  <Bouquet type="0" bouquet_id="0000" name="NEWS" hidden="0" locked="0">
+    <channel serviceID="2742" name="BBC World" tsid="0402" onid="0001" sat="192" />
+    <channel serviceID="6f6a" name="CNN Int." tsid="042c" onid="0001" sat="192" />
+    <channel serviceID="272e" name="CNBC Europe" tsid="0402" onid="0001" sat="192" />
+    <channel serviceID="2753" name="Bloomberg Europe TV" tsid="0402" onid="0001" sat="192" />
+    <channel serviceID="79f4" name="EuroNews" tsid="0443" onid="0001" sat="192" />
+    <channel serviceID="0ff0" name="Russia Today" tsid="0006" onid="0056" sat="50" />
+    <channel serviceID="06aa" name="CCTV-News" tsid="3138" onid="013e" sat="130" />
+    <channel serviceID="06a7" name="Jewish News One" tsid="3138" onid="013e" sat="130" />
+    <channel serviceID="1c38" name="CCTV4" tsid="1c20" onid="013e" sat="130" />
+  </Bouquet>
+  <Bouquet type="0" bouquet_id="0000" name="RUSKIE INSHI" hidden="0" locked="0">
+    <channel serviceID="43a2" name="24-TV" tsid="2cec" onid="013e" sat="130" />
+    <channel serviceID="196e" name="NEWS ONE" tsid="000f" onid="0055" sat="50" />
+    <channel serviceID="19a5" name="PogodaTV" tsid="000f" onid="0055" sat="50" />
+    <channel serviceID="1b08" name="SONCE (UA)" tsid="0011" onid="0055" sat="50" />
+    <channel serviceID="18a6" name="3+" tsid="000e" onid="0055" sat="50" />
+    <channel serviceID="010e" name="Viasat Promo" tsid="0002" onid="0055" sat="50" />
+    <channel serviceID="19b4" name="Business" tsid="000f" onid="0055" sat="50" />
+    <channel serviceID="19a0" name="Star TV UKR" tsid="000f" onid="0055" sat="50" />
+    <channel serviceID="1978" name="1 Auto" tsid="000f" onid="0055" sat="50" />
+    <channel serviceID="1982" name="RU MUSIC" tsid="000f" onid="0055" sat="50" />
+    <channel serviceID="19be" name="SHOPping TV" tsid="000f" onid="0055" sat="50" />
+    <channel serviceID="1810" name="TV SALE UKR" tsid="000c" onid="0055" sat="50" />
+    <channel serviceID="1b44" name="MAXXI TV" tsid="0011" onid="0055" sat="50" />
+    <channel serviceID="1806" name="MALYATKO TV" tsid="000c" onid="0055" sat="50" />
+  </Bouquet>
+  <Bouquet type="0" bouquet_id="0000" name="RUSKIE KANALI FTA" hidden="0" locked="0">
+    <channel serviceID="19d2" name="UKRAINA-SD" tsid="0010" onid="0055" sat="50" />
+    <channel serviceID="1b26" name="ATR" tsid="0011" onid="0055" sat="50" />
+    <channel serviceID="1ba8" name="TV1000 Ru Kino" tsid="0009" onid="0056" sat="50" />
+    <channel serviceID="116c" name="TV1000 Premium" tsid="0018" onid="0056" sat="50" />
+    <channel serviceID="0d52" name="TV1000 Action East" tsid="0015" onid="0056" sat="50" />
+    <channel serviceID="000a" name="NTV" tsid="0002" onid="0055" sat="50" />
+    <channel serviceID="34d2" name="1+1 International" tsid="3c28" onid="013e" sat="130" />
+    <channel serviceID="39d2" name="RTVi Europe" tsid="1fa4" onid="013e" sat="130" />
+    <channel serviceID="39d3" name="inteRTV Detskii Mir - TeleClub" tsid="1fa4" onid="013e" sat="130" />
+    <channel serviceID="39d4" name="inteRTV Nashe Kino" tsid="1fa4" onid="013e" sat="130" />
+    <channel serviceID="087a" name="TV1000 East" tsid="0004" onid="0056" sat="50" />
+    <channel serviceID="1b8a" name="Viasat Explorer" tsid="0009" onid="0056" sat="50" />
+    <channel serviceID="17a2" name="Viasat History" tsid="0008" onid="0056" sat="50" />
+    <channel serviceID="0e24" name="Animal Planet EE" tsid="0016" onid="0056" sat="50" />
+    <channel serviceID="0e2e" name="Discovery EE" tsid="0016" onid="0056" sat="50" />
+    <channel serviceID="083e" name="Nature/Crime/Playboy" tsid="0004" onid="0056" sat="50" />
+    <channel serviceID="18ce" name="TV6 Lithuania" tsid="000e" onid="0055" sat="50" />
+    <channel serviceID="1ac2" name="CTC Baltic" tsid="0012" onid="0055" sat="50" />
+    <channel serviceID="0e1a" name="Cartoon/TCM EE" tsid="0016" onid="0056" sat="50" />
+    <channel serviceID="1aea" name="TV8 Lithuania" tsid="0012" onid="0055" sat="50" />
+    <channel serviceID="1874" name="Mir Baltic" tsid="000d" onid="0055" sat="50" />
+  </Bouquet>
+  <Bouquet type="0" bouquet_id="0000" name="Russian channels" hidden="0" locked="0">
+    <channel serviceID="1b12" name="Channel 5 (Ukraine)" tsid="0011" onid="0055" sat="50" />
+    <channel serviceID="2010" name="1TVRUS Europe" tsid="24b8" onid="013e" sat="130" />
+    <channel serviceID="06ae" name="Rossiya 24" tsid="3138" onid="013e" sat="130" />
+    <channel serviceID="17e8" name="2+2" tsid="000c" onid="0055" sat="50" />
+    <channel serviceID="17de" name="TET" tsid="000c" onid="0055" sat="50" />
+    <channel serviceID="181a" name="RADA" tsid="000c" onid="0055" sat="50" />
+    <channel serviceID="06ac" name="RTR" tsid="3138" onid="013e" sat="130" />
+    <channel serviceID="17f2" name="GLAS" tsid="000c" onid="0055" sat="50" />
+    <channel serviceID="1824" name="NTA" tsid="000c" onid="0055" sat="50" />
+    <channel serviceID="1b1c" name="KRT" tsid="0011" onid="0055" sat="50" />
+    <channel serviceID="0001" name="TYSA1" tsid="0001" onid="0001" sat="50" />
+    <channel serviceID="0327" name="TBN Russia" tsid="3bc4" onid="013e" sat="130" />
+    <channel serviceID="1b0d" name="Pravo-TV" tsid="0011" onid="0055" sat="50" />
+    <channel serviceID="00c8" name="Belsat TV" tsid="0002" onid="0055" sat="50" />
+    <channel serviceID="00dc" name="TVCI new" tsid="0002" onid="0055" sat="50" />
+    <channel serviceID="1264" name="CBC TV" tsid="3458" onid="013e" sat="130" />
+    <channel serviceID="2096" name="RBC-TV" tsid="2328" onid="013e" sat="130" />
+    <channel serviceID="1b30" name="Pro BCE" tsid="0011" onid="0055" sat="50" />
+  </Bouquet>
+  <Bouquet type="0" bouquet_id="0000" name="SKY-DEUTSCHE" hidden="0" locked="0">
+    <channel serviceID="0024" name="Syfy" tsid="0011" onid="0085" sat="192" />
+    <channel serviceID="0034" name="Spiegel Geschichte" tsid="0004" onid="0085" sat="192" />
+    <channel serviceID="000e" name="Discovery Channel" tsid="0004" onid="0085" sat="192" />
+    <channel serviceID="002a" name="13th Street" tsid="0001" onid="0085" sat="192" />
+    <channel serviceID="0015" name="Beate-Uhse.TV" tsid="0011" onid="0085" sat="192" />
+    <channel serviceID="000d" name="National Geographic" tsid="0004" onid="0085" sat="192" />
+    <channel serviceID="000c" name="NatGeo Wild" tsid="0004" onid="0085" sat="192" />
+    <channel serviceID="0201" name="Blue Movie" tsid="0004" onid="0085" sat="192" />
+    <channel serviceID="0019" name="Disney Cinemagic" tsid="0003" onid="0085" sat="192" />
+    <channel serviceID="0203" name="MGM" tsid="0003" onid="0085" sat="192" />
+    <channel serviceID="0204" name="Sky Nostalgie" tsid="0003" onid="0085" sat="192" />
+    <channel serviceID="0010" name="Fox Serie" tsid="0001" onid="0085" sat="192" />
+    <channel serviceID="0206" name="Goldstar TV" tsid="0011" onid="0085" sat="192" />
+    <channel serviceID="0016" name="Heimatkanal" tsid="0011" onid="0085" sat="192" />
+    <channel serviceID="00a8" name="Motorvision TV" tsid="0001" onid="0085" sat="192" />
+    <channel serviceID="001a" name="Disney Junior" tsid="0011" onid="0085" sat="192" />
+    <channel serviceID="001b" name="RTL Crime" tsid="0001" onid="0085" sat="192" />
+    <channel serviceID="001d" name="RTL Passion" tsid="0001" onid="0085" sat="192" />
+    <channel serviceID="0009" name="Sky Action" tsid="0002" onid="0085" sat="192" />
+    <channel serviceID="000a" name="Sky Cinema" tsid="0002" onid="0085" sat="192" />
+    <channel serviceID="000b" name="Sky Cinema +1" tsid="0002" onid="0085" sat="192" />
+    <channel serviceID="002b" name="Sky Cinema +24" tsid="0002" onid="0085" sat="192" />
+    <channel serviceID="0029" name="Sky Hits" tsid="0003" onid="0085" sat="192" />
+    <channel serviceID="0008" name="Sky Comedy" tsid="0002" onid="0085" sat="192" />
+    <channel serviceID="0014" name="Sky Emotion" tsid="0002" onid="0085" sat="192" />
+    <channel serviceID="0017" name="Sky Krimi" tsid="0001" onid="0085" sat="192" />
+    <channel serviceID="0012" name="Sky Select" tsid="0004" onid="0085" sat="192" />
+    <channel serviceID="00dd" name="Sky Sport 1" tsid="0004" onid="0085" sat="192" />
+    <channel serviceID="00de" name="Sky Sport 2" tsid="0004" onid="0085" sat="192" />
+    <channel serviceID="0011" name="Sky Sport News" tsid="0003" onid="0085" sat="192" />
+    <channel serviceID="0032" name="TNT Serie" tsid="0001" onid="0085" sat="192" />
+  </Bouquet>
+  <Bouquet type="0" bouquet_id="0000" name="Viasat-RUS" hidden="0" locked="0">
+    <channel serviceID="0e2e" name="Discovery EE" tsid="0016" onid="0056" sat="50" />
+    <channel serviceID="0e24" name="Animal Planet EE" tsid="0016" onid="0056" sat="50" />
+    <channel serviceID="13d8" name="Nat Geo Wild" tsid="0007" onid="0056" sat="50" />
+    <channel serviceID="17a2" name="Viasat History" tsid="0008" onid="0056" sat="50" />
+    <channel serviceID="178e" name="Viasat Nature East" tsid="0008" onid="0056" sat="50" />
+    <channel serviceID="1b8a" name="Viasat Explorer" tsid="0009" onid="0056" sat="50" />
+    <channel serviceID="0d66" name="Viasat Motor" tsid="0015" onid="0056" sat="50" />
+    <channel serviceID="0744" name="Viasat Golf" tsid="001e" onid="0056" sat="50" />
+    <channel serviceID="17ac" name="Viasat Sport Baltic" tsid="0008" onid="0056" sat="50" />
+  </Bouquet>
+  <Bouquet type="0" bouquet_id="0000" name="XXX" hidden="0" locked="0">
+    <channel serviceID="1784" name="Ticket" tsid="0008" onid="0056" sat="50" />
+    <channel serviceID="35c0" name="Redlight" tsid="1388" onid="013e" sat="130" />
+    <channel serviceID="35c1" name="D-XTV2" tsid="1388" onid="013e" sat="130" />
+    <channel serviceID="083e" name="Nature/Crime/Playboy" tsid="0004" onid="0056" sat="50" />
+    <channel serviceID="35c4" name="SCT 4" tsid="1388" onid="013e" sat="130" />
+    <channel serviceID="35c3" name="SCT 5" tsid="1388" onid="013e" sat="130" />
+    <channel serviceID="35c6" name="SCT 6" tsid="1388" onid="013e" sat="130" />
+    <channel serviceID="35c7" name="SCT 7" tsid="1388" onid="013e" sat="130" />
+    <channel serviceID="35c8" name="SCT HQ" tsid="1388" onid="013e" sat="130" />
+    <channel serviceID="364c" name="Dorcel TV" tsid="1fa4" onid="013e" sat="130" />
+    <channel serviceID="1360" name="DARING TV" tsid="33f4" onid="013e" sat="130" />
+  </Bouquet>
+</zapit>

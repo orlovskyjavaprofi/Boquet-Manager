@@ -19,7 +19,14 @@
                <content>
                   <TableView fx:id="tableViewForSatGrp" prefHeight="279.0">
                     <columns>
-                      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="150.0" text="SatTv channel name" />
+                      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="150.0" text="SatTvChannelName">
+                           <graphic>
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="Channel name">
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </Label>
+                           </graphic></TableColumn>
                     </columns>
                     	<placeholder>
 				<Label fx:id="DummyLabeL" text="" />
