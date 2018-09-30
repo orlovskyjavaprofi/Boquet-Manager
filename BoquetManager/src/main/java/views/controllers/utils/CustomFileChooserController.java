@@ -3,9 +3,12 @@ package views.controllers.utils;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.Iterator;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -13,10 +16,12 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class CustomFileChooserController  
 {
+
 	@FXML
 	BorderPane CustomFileChooserBorderPane;
 
@@ -65,15 +70,44 @@ public class CustomFileChooserController
 	@FXML
 	private void initialize()
 	{
+		initDisksList();
+		
 		cancelBtn.setOnAction((event) -> {
 		    closeCustomerChooserWindow();
 		});
 	
+		txtFieldDefaultPath.setOnMouseClicked((event) -> {
+				txtFieldDefaultPath.setText("");
+		});
+		
+		txtFieldDefaultPath.textProperty().addListener((observable, oldValue, newValue) -> {
+		    System.out.println("TextField Text Changed (newValue: " + newValue + ")");
+		    
+		    //select value if found, otherwise nothing to select!
+		    ObservableList<TreeItem<String>> listOfDisks= this.FileChooseTreeTablesView.getRoot().getChildren();
+		    for (TreeItem<String> treeItem : listOfDisks)
+			{
+				if (treeItem.getValue().equals(newValue)) {
+					//select item in the list
+					System.out.println("user select through input TextField "+treeItem.getValue());
+					DiskSelector userSpecifiedSelection = new DiskSelector(this);
+					userSpecifiedSelection.selectDiskByTextFieldInput(treeItem.getValue(),  this.FileChooseTreeTablesView);
+				}
+			}
+	
+		});
+
+		this.FileChooseTreeTablesView.getSelectionModel().selectedItemProperty()
+				.addListener(new DiskSelector(this));
+		
+	}
+
+	private void initDisksList()
+	{
 		this.getRootNodeOfFs().setExpanded(true);
 		this.getTreeTableColFilesystem().setCellValueFactory(
 				(TreeTableColumn.CellDataFeatures<String, String> param) ->
 				new ReadOnlyStringWrapper(param.getValue().getValue()));
-		
 		this.getFileChooseTreeTablesView().setRoot(this.getRootNodeOfFs());
 		this.getCountDiskAmount().setText("Disk amount: "+this.getDiskAmountResult() );
 	}

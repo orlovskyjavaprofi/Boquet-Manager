@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.base.NodeMatchers.isNull;
+import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
@@ -47,4 +48,13 @@ class customizedFileChooserTest extends ApplicationTest
 		clickOn("#cancelBtn");
 		verifyThat("#CustomFileChooserBorderPane", isNull() );
 	}
+	
+	//This test is os dependent, if you use other os adjust for you os!
+	@Test 
+	void checkIfDiskWasSelected() {
+	    clickOn("#txtFieldDefaultPath").write("C:\\");
+		verifyThat("#lblSelectedFile", hasText("Selected!"));
+	}
+	
+	
 }

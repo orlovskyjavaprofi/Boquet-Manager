@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,9 +13,10 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import views.utils.CustomizedFileChooser;
 
 public class MainMenuController 
 {
@@ -25,6 +25,9 @@ public class MainMenuController
 	private BorderPane aboutAuthorsPane;
 	private BorderPane aboutProjectPane;
     private BorderPane customFileChooserPane;
+    
+    @FXML
+    private GridPane mainGridPane;
     
 	@FXML
 	private Menu menuFile;
@@ -330,8 +333,12 @@ public class MainMenuController
 	{
 		Scene anotherScn = new Scene(currentPane);
 		Stage stageForScn = new Stage();
+		Stage mainStage =(Stage) this.getMainGridPane().getScene().getWindow();
+		stageForScn.initModality(Modality.WINDOW_MODAL);
+		stageForScn.initOwner(mainStage);
 		stageForScn.setTitle(TitleForANewWindow);
 		stageForScn.setScene(anotherScn);
+		stageForScn.requestFocus();
 		stageForScn.show();
 	}
 
@@ -866,6 +873,11 @@ public class MainMenuController
 	public void setCustomFileChooserPane(BorderPane customFileChooserPane)
 	{
 		this.customFileChooserPane = customFileChooserPane;
+	}
+
+	public GridPane getMainGridPane()
+	{
+		return mainGridPane;
 	}
 
 	

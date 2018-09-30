@@ -43,6 +43,7 @@ class openFilesFromMenuTest extends ApplicationTest
 		clickOn("#menuFile");
 		clickOn("#menuItemOpenXml");
 		verifyThat("#CustomFileChooserBorderPane", isVisible());	
+		clickOn("#cancelBtn");
 	}
 	
 	@Test
@@ -53,6 +54,7 @@ class openFilesFromMenuTest extends ApplicationTest
 		String diskPattern= "Disk amount: 0";
 
 		verifyThat("#lblDiskAmount",  not(hasText(diskPattern)));
+		clickOn("#cancelBtn");
 	}
 
 
