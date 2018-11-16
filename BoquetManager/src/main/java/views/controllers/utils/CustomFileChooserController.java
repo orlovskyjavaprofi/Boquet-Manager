@@ -103,6 +103,8 @@ public class CustomFileChooserController
 			                //Get all directorys of the given disk
 			                //get the files from root of disk
 			                //user double click on dir and see folders and files
+			                //Make sure that you only call the Walker when Root of selected item have no Child nodes
+			                //then populate the Root with childs nodes
 			                
 			            }
 			        }
