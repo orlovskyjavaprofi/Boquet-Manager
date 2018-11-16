@@ -3,20 +3,20 @@ package views.controllers.utils;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.Iterator;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class CustomFileChooserController  
@@ -48,7 +48,7 @@ public class CustomFileChooserController
 	
 	@FXML
 	Label lblDiskAmount;
-	
+	String UserDiskSelection;
 	Integer diskAmountResult;
 	
 	TreeItem<String> rootNodeOfFs;
@@ -85,21 +85,43 @@ public class CustomFileChooserController
 		    
 		    //select value if found, otherwise nothing to select!
 		    ObservableList<TreeItem<String>> listOfDisks= this.FileChooseTreeTablesView.getRoot().getChildren();
-		    for (TreeItem<String> treeItem : listOfDisks)
-			{
-				if (treeItem.getValue().equals(newValue)) {
-					//select item in the list
-					System.out.println("user select through input TextField "+treeItem.getValue());
-					DiskSelector userSpecifiedSelection = new DiskSelector(this);
-					userSpecifiedSelection.selectDiskByTextFieldInput(treeItem.getValue(),  this.FileChooseTreeTablesView);
-				}
-			}
+		    userSelectOneOfDisks(newValue, listOfDisks);
 	
 		});
 
 		this.FileChooseTreeTablesView.getSelectionModel().selectedItemProperty()
 				.addListener(new DiskSelector(this));
-		
+	
+		this.FileChooseTreeTablesView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			 @Override
+			    public void handle(MouseEvent mouseEvent) {
+			        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+			            if(mouseEvent.getClickCount() == 2){
+			         
+			                System.out.println("Double clicked on "+getUserDiskSelection());
+
+			                //Get all directorys of the given disk
+			                //get the files from root of disk
+			                //user double click on dir and see folders and files
+			                
+			            }
+			        }
+			    }
+			});
+	}
+
+	private void userSelectOneOfDisks(String newValue, ObservableList<TreeItem<String>> listOfDisks)
+	{
+		for (TreeItem<String> treeItem : listOfDisks)
+		{
+			if (treeItem.getValue().equals(newValue)) {
+				//select item in the list
+				System.out.println("user select through input TextField "+treeItem.getValue());
+				this.setUserDiskSelection(treeItem.getValue());
+				DiskSelector userSpecifiedSelection = new DiskSelector(this);
+				userSpecifiedSelection.selectDiskByTextFieldInput(treeItem.getValue(),  this.FileChooseTreeTablesView);
+			}
+		}
 	}
 
 	private void initDisksList()
@@ -226,6 +248,16 @@ public class CustomFileChooserController
 	public void setDiskAmountResult(Integer diskAmountResult)
 	{
 		this.diskAmountResult = diskAmountResult;
+	}
+
+	public String getUserDiskSelection()
+	{
+		return UserDiskSelection;
+	}
+
+	public void setUserDiskSelection(String userDiskSelection)
+	{
+		UserDiskSelection = userDiskSelection;
 	}
 
 
