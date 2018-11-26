@@ -58,4 +58,5 @@ class openFilesFromMenuTest extends ApplicationTest
 	}
 
 
+
 }

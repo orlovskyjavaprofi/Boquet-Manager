@@ -14,7 +14,7 @@
    <top>
       <BorderPane BorderPane.alignment="CENTER">
          <center>
-            <TextField fx:id="txtFieldDefaultPath" text="... type here the path to xml file ">
+            <TextField fx:id="txtFieldDefaultPath" text="... type here the path to xml file">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font></TextField>
@@ -82,10 +82,10 @@
       </BorderPane>
    </bottom>
    <center>
-      <TreeTableView fx:id="FileChooseTreeTablesView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TreeTableView fx:id="fileChooseTreeTablesView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TreeTableColumn fx:id="treeTableColFilesystem" prefWidth="344.0" text="Harddisks and files" />
-          <TreeTableColumn fx:id="TreeTableColDate" prefWidth="286.0" text="Updated date" />
+          <TreeTableColumn fx:id="treeTableColDate" prefWidth="286.0" text="Updated date" />
         </columns>
       </TreeTableView>
    </center>

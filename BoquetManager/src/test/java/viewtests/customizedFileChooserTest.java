@@ -56,5 +56,14 @@ class customizedFileChooserTest extends ApplicationTest
 		verifyThat("#lblSelectedFile", hasText("Selected!"));
 	}
 	
+	@Test
+	//This Test only works on windows machine for Linux , MacOs, Unix use another pattern
+	void testIfSelectedDiskIsExpanded() {
+		doubleClickOn("C:\\");
+		
+		verifyThat("C:\\", isVisible());	
+		
+		clickOn("#cancelBtn");
+	}
 	
 }

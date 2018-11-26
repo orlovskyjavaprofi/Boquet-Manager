@@ -6,8 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.paint.Color;
+import views.controllers.utils.model.DiskModelForCustomFileChooser;
 
-final class DiskSelector implements ChangeListener<TreeItem<String>>
+final class DiskSelector implements ChangeListener<TreeItem<DiskModelForCustomFileChooser>>
 {
 
 	private final CustomFileChooserController diskSelector;
@@ -18,18 +19,18 @@ final class DiskSelector implements ChangeListener<TreeItem<String>>
 	}
 
 	@Override
-	public void changed(ObservableValue<? extends TreeItem<String>> observable,
-			TreeItem<String> oldValue, TreeItem<String> itemWhichWasSelected)
+	public void changed(ObservableValue<? extends TreeItem<DiskModelForCustomFileChooser>> observable,
+			TreeItem<DiskModelForCustomFileChooser> oldValue, TreeItem<DiskModelForCustomFileChooser> itemWhichWasSelected)
 	{
-		TreeItem<String> selectedItem = itemWhichWasSelected;
+		TreeItem<DiskModelForCustomFileChooser> selectedItem = itemWhichWasSelected;
 		selectDisk(selectedItem);
 	}
 
-	private void selectDisk(TreeItem<String> selectedItem)
+	private void selectDisk(TreeItem<DiskModelForCustomFileChooser> selectedItem)
 	{
 		if (!(selectedItem.getValue().equals("Following disks are available")))
 		{
-			String selectedText = selectedItem.getValue();
+			String selectedText = selectedItem.getValue().getFileSystemItem();
 			System.out.println("Selected Text : " + selectedText);
 			diskSelector.lblSelectedFile.setTextFill(Color.BLACK);
 			diskSelector.lblSelectedFile.setUnderline(true);
@@ -38,13 +39,13 @@ final class DiskSelector implements ChangeListener<TreeItem<String>>
 		}
 	}
 
-	public void selectDiskByTextFieldInput(String userInputDisk, TreeTableView<String> fileChooseTreeTablesView)
+	public void selectDiskByTextFieldInput(String userInputDisk, TreeTableView<DiskModelForCustomFileChooser> fileChooseTreeTablesView)
 	{
 		//acces the TreeTableView List and select the item trough given input
-		ObservableList<TreeItem<String>> listOfDisks=fileChooseTreeTablesView.getRoot().getChildren();
-		for (TreeItem<String> treeItem : listOfDisks)
+		ObservableList<TreeItem<DiskModelForCustomFileChooser>> listOfDisks=fileChooseTreeTablesView.getRoot().getChildren();
+		for (TreeItem<DiskModelForCustomFileChooser> treeItem : listOfDisks)
 		{
-			if(treeItem.getValue().equals(userInputDisk)) {
+			if(treeItem.getValue().getFileSystemItem().equals(userInputDisk)) {
 				fileChooseTreeTablesView.getSelectionModel().select(treeItem);
 			}
 		}

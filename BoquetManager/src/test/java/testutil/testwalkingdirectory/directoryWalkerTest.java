@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import views.utils.filesystemtools.FileSystemWalker;
 
 //it works only on windows machine , put the archive dirfiles.zip , 
-//src/test/resources/filesystemtestto your C:\ drive
+//src/test/resources/filesystemtest to your C:\ drive
 class directoryWalkerTest
 {
 	FileSystemWalker fsWalkerObject;

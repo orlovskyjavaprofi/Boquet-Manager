@@ -3,6 +3,8 @@ package views.controllers.utils;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
@@ -18,10 +20,11 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import views.controllers.utils.model.DiskModelForCustomFileChooser;
+import views.utils.filesystemtools.FileSystemWalker;
 
 public class CustomFileChooserController  
 {
-
 	@FXML
 	BorderPane CustomFileChooserBorderPane;
 
@@ -41,107 +44,199 @@ public class CustomFileChooserController
 	Label lblTitle;
 	
 	@FXML
-	TreeTableColumn<String,String> treeTableColFilesystem;
+	TreeTableColumn<DiskModelForCustomFileChooser,String> treeTableColFilesystem;
 	
 	@FXML
-	TreeTableView<String> FileChooseTreeTablesView;
+	TreeTableColumn<DiskModelForCustomFileChooser,String>  treeTableColDate;
+	
+	@FXML
+	TreeTableView<DiskModelForCustomFileChooser> fileChooseTreeTablesView;
 	
 	@FXML
 	Label lblDiskAmount;
-	String UserDiskSelection;
-	Integer diskAmountResult;
 	
-	TreeItem<String> rootNodeOfFs;
-	
-	public CustomFileChooserController() {
-		
-		FileSystem fileSystemObj = FileSystems.getDefault();
-        this.setRootNodeOfFs( new TreeItem<>("Following disks are available"));
-        Integer countDiskAmount = 0;
-		for (Path root : fileSystemObj.getRootDirectories())
-		{ 
-			this.getRootNodeOfFs().getChildren().add(new TreeItem<>(root.toString()));
-			countDiskAmount++;
-		}
-		this.setDiskAmountResult(countDiskAmount);
-		
+	List<DiskModelForCustomFileChooser> listOfFileSystemItems;
+    TreeItem<DiskModelForCustomFileChooser> rootTreeItem;
+    String diskSelectedByUser;
+    
+	public CustomFileChooserController()
+	{
+
 	}
-	
+
 	@FXML
 	private void initialize()
-	{
-		initDisksList();
+	{		
+		createRootTreeItem();
+		createAndSetupRoots();
+		setupViewForColumn();
 		
 		cancelBtn.setOnAction((event) -> {
-		    closeCustomerChooserWindow();
+			closeCustomFileChooser();
 		});
-	
+		
 		txtFieldDefaultPath.setOnMouseClicked((event) -> {
-				txtFieldDefaultPath.setText("");
+			String currentValueInTxtFieldDefPath = txtFieldDefaultPath.getText();			
+			String defaultText="... type here the path to xml file";
+			checkIfTxtFieldDefPathIsNotEmpty(currentValueInTxtFieldDefPath, defaultText);
 		});
 		
 		txtFieldDefaultPath.textProperty().addListener((observable, oldValue, newValue) -> {
-		    System.out.println("TextField Text Changed (newValue: " + newValue + ")");
-		    
-		    //select value if found, otherwise nothing to select!
-		    ObservableList<TreeItem<String>> listOfDisks= this.FileChooseTreeTablesView.getRoot().getChildren();
-		    userSelectOneOfDisks(newValue, listOfDisks);
-	
+			System.out.println("TextField Text Changed (newValue: " + newValue + ")");		
+			
+			ObservableList<TreeItem<DiskModelForCustomFileChooser>> listOfDisks = 
+				this.fileChooseTreeTablesView.getRoot().getChildren();
+			userSelectOneOfDisks(newValue, listOfDisks);
+
 		});
+		
+		this.fileChooseTreeTablesView.getSelectionModel().selectedItemProperty().addListener(new DiskSelector(this));
+		
+		this.fileChooseTreeTablesView.setOnMouseClicked(new EventHandler<MouseEvent>()
+		{
+			@Override
+			public void handle(MouseEvent mouseEvent)
+			{
+				if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
+				{
+					handleForDoubleClickMouseEvent(mouseEvent);
+				}
+			}
 
-		this.FileChooseTreeTablesView.getSelectionModel().selectedItemProperty()
-				.addListener(new DiskSelector(this));
-	
-		this.FileChooseTreeTablesView.setOnMouseClicked(new EventHandler<MouseEvent>(){
-			 @Override
-			    public void handle(MouseEvent mouseEvent) {
-			        if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-			            if(mouseEvent.getClickCount() == 2){
-			         
-			                System.out.println("Double clicked on "+getUserDiskSelection());
-
-			                //Get all directorys of the given disk
-			                //get the files from root of disk
-			                //user double click on dir and see folders and files
-			                //Make sure that you only call the Walker when Root of selected item have no Child nodes
-			                //then populate the Root with childs nodes
-			                
-			            }
-			        }
-			    }
-			});
+		});
+			
 	}
 
-	private void userSelectOneOfDisks(String newValue, ObservableList<TreeItem<String>> listOfDisks)
+	private void handleForDoubleClickMouseEvent(MouseEvent mouseEvent)
 	{
-		for (TreeItem<String> treeItem : listOfDisks)
+		if (mouseEvent.getClickCount() == 2)
 		{
-			if (treeItem.getValue().equals(newValue)) {
-				//select item in the list
-				System.out.println("user select through input TextField "+treeItem.getValue());
-				this.setUserDiskSelection(treeItem.getValue());
+			System.out.println("Double clicked on ");
+			String patternForRoot = "Following disks are available";
+			TreeItem<DiskModelForCustomFileChooser> pointerToRoot = fileChooseTreeTablesView.getSelectionModel()
+					.selectedItemProperty().get();
+		}
+	}	
+	
+	private void userSelectOneOfDisks(String newValue, ObservableList<TreeItem<DiskModelForCustomFileChooser>> listOfDisks)
+	{
+		for (TreeItem<DiskModelForCustomFileChooser> treeItem : listOfDisks)
+		{
+			if (treeItem.getValue().getFileSystemItem().equals(newValue))
+			{
+				// select item in the list
+				System.out.println("user select through input TextField " + treeItem.getValue().getFileSystemItem());
+				this.setDiskSelectedByUser( treeItem.getValue().getFileSystemItem()) ;
 				DiskSelector userSpecifiedSelection = new DiskSelector(this);
-				userSpecifiedSelection.selectDiskByTextFieldInput(treeItem.getValue(),  this.FileChooseTreeTablesView);
+				userSpecifiedSelection.selectDiskByTextFieldInput(treeItem.getValue().getFileSystemItem(), 
+						this.fileChooseTreeTablesView);
 			}
 		}
 	}
-
-	private void initDisksList()
-	{
-		this.getRootNodeOfFs().setExpanded(true);
-		this.getTreeTableColFilesystem().setCellValueFactory(
-				(TreeTableColumn.CellDataFeatures<String, String> param) ->
-				new ReadOnlyStringWrapper(param.getValue().getValue()));
-		this.getFileChooseTreeTablesView().setRoot(this.getRootNodeOfFs());
-		this.getCountDiskAmount().setText("Disk amount: "+this.getDiskAmountResult() );
+	
+	private void  createRootTreeItem() {
+		String defaultText= "Following disks are available";
+		 TreeItem<DiskModelForCustomFileChooser> currentItem = 
+	       new TreeItem<DiskModelForCustomFileChooser>(
+	    		   new DiskModelForCustomFileChooser(defaultText,"") );
+		this.setRootTreeItem(currentItem);
+		this.getRootTreeItem().setExpanded(true);
 	}
 	
-	private void closeCustomerChooserWindow()
+	private void createAndSetupRoots () {
+		FileSystem fileSystemObj = FileSystems.getDefault();
+		Integer countDiskAmount = 0;
+		for (Path root : fileSystemObj.getRootDirectories())
+		{ 
+			this.getRootTreeItem().getChildren().add(new TreeItem<DiskModelForCustomFileChooser>
+			               (new DiskModelForCustomFileChooser(root.toString(),"") )
+					);
+			countDiskAmount++;
+		}
+
+		this.getLblDiskAmount().setText("Disks amount: " +countDiskAmount.toString());;
+	}
+	
+	private void setupViewForColumn() {
+		this.getTreeTableColFilesystem().setCellValueFactory((
+	            TreeTableColumn.CellDataFeatures<DiskModelForCustomFileChooser, String> param) -> 
+		new ReadOnlyStringWrapper( param.getValue().getValue().getFileSystemItem() ) 
+		);
+	            		
+		this.getTreeTableColDate().setCellValueFactory((
+	            TreeTableColumn.CellDataFeatures<DiskModelForCustomFileChooser, String> param) -> 
+		new ReadOnlyStringWrapper( param.getValue().getValue().getLastModifiedDateForFileSystemItem() ) 
+		);        		
+		
+		this.getFileChooseTreeTablesView().setRoot(this.getRootTreeItem());
+		
+	}
+	
+	
+	private void getFsItemsFromDisk(String dirPath, boolean expandedDirStatus,
+			boolean userSelectionHasLeaf)
+	{
+		if (expandedDirStatus== false && userSelectionHasLeaf == true)
+		{
+			FileSystemWalker walkerFs = new FileSystemWalker();
+			ArrayList<String> fsDirsList = walkerFs.getDirectoriesList(dirPath);
+			ArrayList<String> fsLastModifiedDatesForDirs = walkerFs.getLastModifiedAttributes(dirPath,
+					fsDirsList);
+			ArrayList<String> fsFilesList = walkerFs.getFilesList(dirPath);
+			ArrayList<String> fsLastModifiedDatesForFiles = walkerFs.getLastModifiedAttributes(dirPath,
+					fsFilesList);
+
+			createListOfFilesSystemItems(fsDirsList,fsFilesList,fsLastModifiedDatesForDirs, fsLastModifiedDatesForFiles );
+
+			fsDirsList.clear();
+			fsLastModifiedDatesForDirs.clear();
+			fsFilesList.clear();
+			fsLastModifiedDatesForFiles.clear();
+		}
+	}
+	
+	private void createListOfFilesSystemItems(ArrayList<String> fsDirsList, ArrayList<String> fsFilesList,
+			ArrayList<String> fsDirsLastModifiedDates, ArrayList<String> fsFilesLastModifiedDates
+			)
+	{
+	    List<DiskModelForCustomFileChooser> listOfFs= new ArrayList<DiskModelForCustomFileChooser>();
+		for (int i = 0; i < fsDirsList.size(); i++)
+		{
+			listOfFs.add( new DiskModelForCustomFileChooser (fsDirsList.get(i),fsDirsLastModifiedDates.get(i) ));
+		}
+		for (int i = 0; i < fsFilesList.size(); i++)
+		{
+			listOfFs.add( new DiskModelForCustomFileChooser(fsFilesList.get(i) ,fsFilesLastModifiedDates.get(i) ));
+		}	
+
+       this.setListOfFileSystemItems(listOfFs);		
+       
+//		FileChooseTreeTablesView.getSelectionModel().selectedItemProperty().get().getChildren()
+//		.addAll(fileNameTreeItemList);
+//		FileChooseTreeTablesView.getSelectionModel().selectedItemProperty().get().getChildren()
+//		.addAll( fileLastUpdateTreeItemList);
+		
+	}
+	
+	private void checkIfTxtFieldDefPathIsNotEmpty(String currentValueInTxtFieldDefPath, String defaultText)
+	{
+		if (  !(currentValueInTxtFieldDefPath.equals(defaultText) )
+				&& (currentValueInTxtFieldDefPath.isEmpty() == false) && 
+				!(currentValueInTxtFieldDefPath.equals(txtFieldDefaultPath.getText())) ) {
+			txtFieldDefaultPath.setText(currentValueInTxtFieldDefPath);
+		}else {			
+			if(currentValueInTxtFieldDefPath.equals(defaultText)) {
+			   txtFieldDefaultPath.setText("");
+			}
+		}
+	}
+	
+	private void closeCustomFileChooser()
 	{
 		Stage currentStage = (Stage) cancelBtn.getScene().getWindow();
 		currentStage.close();
 	}
-	
+
 	public BorderPane getCustomFileChooserBorderPane()
 	{
 		return CustomFileChooserBorderPane;
@@ -150,26 +245,6 @@ public class CustomFileChooserController
 	public void setCustomFileChooserBorderPane(BorderPane customFileChooserBorderPane)
 	{
 		CustomFileChooserBorderPane = customFileChooserBorderPane;
-	}
-
-	public Button getCancelBtn()
-	{
-		return cancelBtn;
-	}
-
-	public void setCancelBtn(Button cancelBtn)
-	{
-		this.cancelBtn = cancelBtn;
-	}
-
-	public Button getOkBtn()
-	{
-		return okBtn;
-	}
-
-	public void setOkBtn(Button okBtn)
-	{
-		this.okBtn = okBtn;
 	}
 
 	public TextField getTxtFieldDefaultPath()
@@ -192,26 +267,6 @@ public class CustomFileChooserController
 		this.lblSelectedFile = lblSelectedFile;
 	}
 
-	public TreeTableColumn<String, String> getTreeTableColFilesystem()
-	{
-		return treeTableColFilesystem;
-	}
-
-	public void setTreeTableColFilesystem(TreeTableColumn<String, String> treeTableColFilesystem)
-	{
-		this.treeTableColFilesystem = treeTableColFilesystem;
-	}
-
-	public TreeTableView<String> getFileChooseTreeTablesView()
-	{
-		return FileChooseTreeTablesView;
-	}
-
-	public void setFileChooseTreeTablesView(TreeTableView<String> fileChooseTreeTablesView)
-	{
-		FileChooseTreeTablesView = fileChooseTreeTablesView;
-	}
-
 	public Label getLblTitle()
 	{
 		return lblTitle;
@@ -222,46 +277,75 @@ public class CustomFileChooserController
 		this.lblTitle = lblTitle;
 	}
 
-	public TreeItem<String> getRootNodeOfFs()
+	public TreeTableColumn<DiskModelForCustomFileChooser, String> getTreeTableColFilesystem()
 	{
-		return rootNodeOfFs;
+		return treeTableColFilesystem;
 	}
 
-	public void setRootNodeOfFs(TreeItem<String> rootNodeOfFs)
+	public void setTreeTableColFilesystem(TreeTableColumn<DiskModelForCustomFileChooser, String> treeTableColFilesystem)
 	{
-		this.rootNodeOfFs = rootNodeOfFs;
+		this.treeTableColFilesystem = treeTableColFilesystem;
 	}
 
-	public Label getCountDiskAmount()
+	public TreeTableColumn<DiskModelForCustomFileChooser, String> getTreeTableColDate()
+	{
+		return treeTableColDate;
+	}
+
+	public void setTreeTableColDate(TreeTableColumn<DiskModelForCustomFileChooser, String> treeTableColDate)
+	{
+		this.treeTableColDate = treeTableColDate;
+	}
+
+	public TreeTableView<DiskModelForCustomFileChooser> getFileChooseTreeTablesView()
+	{
+		return fileChooseTreeTablesView;
+	}
+
+	public void setFileChooseTreeTablesView(TreeTableView<DiskModelForCustomFileChooser> fileChooseTreeTablesView)
+	{
+		this.fileChooseTreeTablesView = fileChooseTreeTablesView;
+	}
+
+	public Label getLblDiskAmount()
 	{
 		return lblDiskAmount;
 	}
 
-	public void setCountDiskAmount(Label countDiskAmount)
+	public void setLblDiskAmount(Label lblDiskAmount)
 	{
-		this.lblDiskAmount = countDiskAmount;
+		this.lblDiskAmount = lblDiskAmount;
 	}
 
-	public Integer getDiskAmountResult()
+	public List<DiskModelForCustomFileChooser> getListOfFileSystemItems()
 	{
-		return diskAmountResult;
+		return listOfFileSystemItems;
 	}
 
-	public void setDiskAmountResult(Integer diskAmountResult)
+	public void setListOfFileSystemItems(List<DiskModelForCustomFileChooser> listOfFileSystemItems)
 	{
-		this.diskAmountResult = diskAmountResult;
+		this.listOfFileSystemItems = listOfFileSystemItems;
 	}
 
-	public String getUserDiskSelection()
+	public TreeItem<DiskModelForCustomFileChooser> getRootTreeItem()
 	{
-		return UserDiskSelection;
+		return rootTreeItem;
 	}
 
-	public void setUserDiskSelection(String userDiskSelection)
+	public void setRootTreeItem(TreeItem<DiskModelForCustomFileChooser> rootTreeItem)
 	{
-		UserDiskSelection = userDiskSelection;
+		this.rootTreeItem = rootTreeItem;
 	}
 
+	public String getDiskSelectedByUser()
+	{
+		return diskSelectedByUser;
+	}
 
+	public void setDiskSelectedByUser(String diskSelectedByUser)
+	{
+		this.diskSelectedByUser = diskSelectedByUser;
+	}
 
+	
 }

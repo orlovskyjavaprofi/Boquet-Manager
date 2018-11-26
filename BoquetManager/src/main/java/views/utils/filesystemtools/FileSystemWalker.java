@@ -19,14 +19,7 @@ public class FileSystemWalker
 		ArrayList<String> directoryList = new ArrayList<String>();
 		File directory = new File(diskInputForDirectoryList);
 		File resultDirs[] = directory.listFiles();
-		for (File fileObj : resultDirs)
-		{
-			if (fileObj.isDirectory())
-			{
-				directoryList.add(fileObj.getName());
-			}
-		}
-
+		addDirectorysToList(directoryList, resultDirs);
 		return directoryList;
 	}
 
@@ -35,16 +28,41 @@ public class FileSystemWalker
 		ArrayList<String> fileList = new ArrayList<String>();
 		File directory = new File(diskInputForFileList);
 		File resultFiles[] = directory.listFiles();
-		for (File fileObj : resultFiles)
-		{
-			if (fileObj.isFile())
-			{
-				fileList.add(fileObj.getName());
-			}
-		}
+		addFileNamesToList(fileList, resultFiles);
+		
 		return fileList;
 	}
 
+	private void addFileNamesToList(ArrayList<String> fileList, File[] resultFiles)
+	{
+		if (resultFiles != null)
+		{
+			for (File fileObj : resultFiles)
+			{
+				if (fileObj.isFile())
+				{
+					fileList.add(fileObj.getName());
+				}
+			}
+		}
+	}
+
+	private void addDirectorysToList(ArrayList<String> directoryList, File[] resultDirs)
+	{
+		if (resultDirs != null)
+		{
+			for (File fileObj : resultDirs)
+			{
+
+				if (fileObj.isDirectory())
+				{
+					directoryList.add(fileObj.getName());
+				}
+
+			}
+		}
+	}
+	
 	public ArrayList<String> getLastModifiedAttributes(String pathToDirecotry,
 			ArrayList<String> contentsOfFS)
 	{
