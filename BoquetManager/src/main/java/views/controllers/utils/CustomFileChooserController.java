@@ -58,6 +58,7 @@ public class CustomFileChooserController
 	List<DiskModelForCustomFileChooser> listOfFileSystemItems;
     TreeItem<DiskModelForCustomFileChooser> rootTreeItem;
     String diskSelectedByUser;
+    String diskRoot;
     
 	public CustomFileChooserController()
 	{
@@ -113,10 +114,91 @@ public class CustomFileChooserController
 		{
 			System.out.println("Double clicked on ");
 			String patternForRoot = "Following disks are available";
-			TreeItem<DiskModelForCustomFileChooser> pointerToRoot = fileChooseTreeTablesView.getSelectionModel()
+			TreeItem<DiskModelForCustomFileChooser> pointerToRoot = 
+					fileChooseTreeTablesView.getSelectionModel()
 					.selectedItemProperty().get();
+						
+			findingRootElement(patternForRoot, pointerToRoot);
+			String dirPath = buildingPathFromSelectionToRoot(patternForRoot);
+			System.out.println("path after build path "+dirPath);
+			Integer positionOfLastSlash = dirPath.length();
+			dirPath = cutSlashAtGivenPath(dirPath, positionOfLastSlash);
+			System.out.println("new path "+dirPath );
+			setTextFieldAndInitTableView(dirPath);
+			
 		}
 	}	
+	
+	private void findingRootElement(String patternForRoot, TreeItem<DiskModelForCustomFileChooser> pointerToRoot)
+	{
+		while (pointerToRoot.getValue().getFileSystemItem().equals(patternForRoot) == false)
+		{
+		    setDiskRoot(pointerToRoot.getValue().getFileSystemItem());
+		    pointerToRoot = pointerToRoot.getParent();				
+		    if (pointerToRoot == null)
+			{
+				break;
+			}
+		}
+
+		System.out.println("root Disk " + getDiskRoot());
+	}
+	
+	private String buildingPathFromSelectionToRoot(String patternForRoot)
+	{
+		TreeItem<DiskModelForCustomFileChooser> pointerFromUserSelection  = 
+				fileChooseTreeTablesView.getSelectionModel()	.selectedItemProperty().get();
+			String dirPath= new String();
+
+
+		while( pointerFromUserSelection != null) {
+			dirPath = analizeifRootAlreadyInPath(patternForRoot, pointerFromUserSelection, dirPath);
+			pointerFromUserSelection = pointerFromUserSelection.getParent();
+		}
+		
+		return dirPath;
+	}
+	
+	private String analizeifRootAlreadyInPath(String patternForRoot, TreeItem<DiskModelForCustomFileChooser> pointerFromUserSelection,
+			String dirPath)
+	{
+
+		String windowsSlash="\\";
+		if (pointerFromUserSelection.getValue().getFileSystemItem().contains(patternForRoot) == false)
+		{	
+			dirPath = pointerFromUserSelection.getValue().getFileSystemItem() + windowsSlash+dirPath;
+			dirPath = dirPath.replace(":\\\\",":\\");
+			
+			System.out.println("res " + dirPath);
+		}
+
+		return dirPath;
+	}
+	
+	private String cutSlashAtGivenPath(String dirPath, Integer positionOfLastSlash)
+	{
+		if (positionOfLastSlash > 3)
+		{
+			dirPath = dirPath.substring(0, positionOfLastSlash - 1);
+		}
+		return dirPath;
+	}
+	
+	private void setTextFieldAndInitTableView(String dirPath)
+	{
+		getTxtFieldDefaultPath().setText(dirPath);
+		setUpForValuesForViewAndInitOfIt(dirPath);
+		fileChooseTreeTablesView.getSelectionModel().selectedItemProperty().get().setExpanded(true);
+	}
+	
+	private void setUpForValuesForViewAndInitOfIt(String dirPath)
+	{
+		boolean expandedDirStatus =
+				fileChooseTreeTablesView.getSelectionModel().selectedItemProperty().get().isExpanded();
+		boolean userSelectionHasLeaf = 
+				fileChooseTreeTablesView.getSelectionModel().selectedItemProperty().get().isLeaf();
+		getFsItemsFromDisk(dirPath, expandedDirStatus, userSelectionHasLeaf);
+	}
 	
 	private void userSelectOneOfDisks(String newValue, ObservableList<TreeItem<DiskModelForCustomFileChooser>> listOfDisks)
 	{
@@ -200,22 +282,34 @@ public class CustomFileChooserController
 			)
 	{
 	    List<DiskModelForCustomFileChooser> listOfFs= new ArrayList<DiskModelForCustomFileChooser>();
+		addFsItemsToDiskListModel(fsDirsList, fsDirsLastModifiedDates, listOfFs);
+		addFsItemsToDiskListModel(fsFilesList, fsFilesLastModifiedDates, listOfFs);	
+
+       this.setListOfFileSystemItems(listOfFs);		
+       addFsItemsFromDiskModelToTheGivenRoot();
+
+	}
+
+	private void addFsItemsToDiskListModel(ArrayList<String> fsDirsList, ArrayList<String> fsDirsLastModifiedDates,
+			List<DiskModelForCustomFileChooser> listOfFs)
+	{
 		for (int i = 0; i < fsDirsList.size(); i++)
 		{
 			listOfFs.add( new DiskModelForCustomFileChooser (fsDirsList.get(i),fsDirsLastModifiedDates.get(i) ));
 		}
-		for (int i = 0; i < fsFilesList.size(); i++)
-		{
-			listOfFs.add( new DiskModelForCustomFileChooser(fsFilesList.get(i) ,fsFilesLastModifiedDates.get(i) ));
-		}	
+	}
 
-       this.setListOfFileSystemItems(listOfFs);		
-       
-//		FileChooseTreeTablesView.getSelectionModel().selectedItemProperty().get().getChildren()
-//		.addAll(fileNameTreeItemList);
-//		FileChooseTreeTablesView.getSelectionModel().selectedItemProperty().get().getChildren()
-//		.addAll( fileLastUpdateTreeItemList);
-		
+	private void addFsItemsFromDiskModelToTheGivenRoot()
+	{
+		this.setRootTreeItem(fileChooseTreeTablesView.getSelectionModel()
+				.selectedItemProperty().get()); 
+		List <DiskModelForCustomFileChooser> diskFsItems = this.getListOfFileSystemItems();
+		   for (DiskModelForCustomFileChooser diskModelForCustomFileChooser : diskFsItems)
+			{
+				this.getRootTreeItem().getChildren().add(
+						new TreeItem<DiskModelForCustomFileChooser>(diskModelForCustomFileChooser)
+				);
+			}
 	}
 	
 	private void checkIfTxtFieldDefPathIsNotEmpty(String currentValueInTxtFieldDefPath, String defaultText)
@@ -345,6 +439,16 @@ public class CustomFileChooserController
 	public void setDiskSelectedByUser(String diskSelectedByUser)
 	{
 		this.diskSelectedByUser = diskSelectedByUser;
+	}
+
+	public String getDiskRoot()
+	{
+		return diskRoot;
+	}
+
+	public void setDiskRoot(String diskRoot)
+	{
+		this.diskRoot = diskRoot;
 	}
 
 	
