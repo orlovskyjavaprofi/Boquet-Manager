@@ -5,27 +5,27 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import views.controllers.mainmenu.MainMenuController;
 
 public class MainView extends Application
 {
 	private GridPane mainViewGridPane;
 	private String title;
 	private Scene mainViewScene;
-    private ResourceBundle LangResources;
+    private ResourceBundle langResources;
     
 	public MainView() throws IOException
 	{
-		String pathToFxmlForm = "/views/fxmls/MainForm.fxml";
-		
-        this.setLangResources( ResourceBundle.getBundle("internationalization/menuDef") );
-		this.setMainViewGridPane((GridPane) FXMLLoader.load(
-				getClass().getResource(pathToFxmlForm),
-				                                                this.getLangResources()));
+		String pathToFxmlForm =  "/views/fxmls/MainForm.fxml";
+		this.setLangResources( ResourceBundle.getBundle("internationalization/menuDef") );
+        this.setMainViewGridPane((GridPane) FXMLLoader.load(	getClass().getResource(pathToFxmlForm),  this.getLangResources()));		
 		this.setTitle("Boquet-manager for sattelite tv channels");
-		mainViewScene = new Scene(this.getMainViewGridPane());
+		mainViewScene = new Scene(getMainViewGridPane());
+		
 	}
 	
 	public static void main(String[] args)
@@ -43,12 +43,12 @@ public class MainView extends Application
 
 	public ResourceBundle getLangResources()
 	{
-		return LangResources;
+		return langResources;
 	}
 
-	public void setLangResources(ResourceBundle langResources)
+	public void setLangResources(ResourceBundle inputLangResources)
 	{
-		LangResources = langResources;
+		langResources = inputLangResources;
 	}
 
 	public String getTitle()
@@ -80,5 +80,5 @@ public class MainView extends Application
 	{
 		this.mainViewScene = mainViewScene;
 	}
-	
+
 }

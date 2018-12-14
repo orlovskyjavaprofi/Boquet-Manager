@@ -10,6 +10,8 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,7 +21,10 @@ import javafx.scene.control.TreeTableView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import utils.validators.ValidateXmlFile;
+import views.controllers.mainmenu.MainMenuController;
 import views.controllers.utils.model.DiskModelForCustomFileChooser;
 import views.utils.filesystemtools.FileSystemWalker;
 
@@ -55,6 +60,8 @@ public class CustomFileChooserController
 	@FXML
 	Label lblDiskAmount;
 	
+	private MainMenuController mainMenuController;
+	
 	List<DiskModelForCustomFileChooser> listOfFileSystemItems;
     TreeItem<DiskModelForCustomFileChooser> rootTreeItem;
     String diskSelectedByUser;
@@ -74,6 +81,25 @@ public class CustomFileChooserController
 		
 		cancelBtn.setOnAction((event) -> {
 			closeCustomFileChooser();
+		});
+		
+		okBtn.setOnAction((event) -> {
+			String inputPathToFile = getTxtFieldDefaultPath().getText();
+			ValidateXmlFile validateXml= new ValidateXmlFile();
+			String validFilePattern ="application/xml";
+			String inputFilePattern =validateXml.validateInputXmlFile(inputPathToFile);
+			
+			if (validFilePattern.equals(inputFilePattern)) {
+				System.out.println("Valid Input: "+inputFilePattern );
+				closeCustomFileChooser();
+				//Call mainController and set the value of opened File in main controller if and only if the file is a valid xml!
+				//change the Value to path of file filesLoadStateLbl in main controller
+			}else{		
+			   Alert alertMessage = initAlertMessage("Wrong file!!!", "Please open xml only file!!");
+			   FlowPane fp = setUpPaneForMessage();
+			   fp.setStyle("-fx-font-weight: bold");
+			   showToUserAllertMessage(alertMessage,fp);
+			}
 		});
 		
 		txtFieldDefaultPath.setOnMouseClicked((event) -> {
@@ -107,7 +133,27 @@ public class CustomFileChooserController
 		});
 			
 	}
+	private void showToUserAllertMessage(Alert InfoMessage, FlowPane fp)
+	{
+		InfoMessage.getDialogPane().contentProperty().set(fp);
+		InfoMessage.showAndWait();
+	}
+	
+	private Alert initAlertMessage(String titleOfAlertMessage, String titleOfAlerMessageHeader)
+	{
+		Alert InfoMessage = new Alert(AlertType.WARNING);
+		InfoMessage.setTitle(titleOfAlertMessage);
+		InfoMessage.setHeaderText(titleOfAlerMessageHeader);
+		return InfoMessage;
+	}
+	
+	private FlowPane setUpPaneForMessage()
+	{
+		FlowPane fp = new FlowPane();
 
+		return fp;
+	}
+	
 	private void handleForDoubleClickMouseEvent(MouseEvent mouseEvent)
 	{
 		if (mouseEvent.getClickCount() == 2)
@@ -449,6 +495,26 @@ public class CustomFileChooserController
 	public void setDiskRoot(String diskRoot)
 	{
 		this.diskRoot = diskRoot;
+	}
+
+	public void injectMainController(MainMenuController inputMainMenuController)
+	{
+	    setMainMenuController(inputMainMenuController); 	
+	}
+
+	public MainMenuController getMainMenuController()
+	{
+		return mainMenuController;
+	}
+
+	public void setMainMenuController(MainMenuController mainMenuController)
+	{
+		this.mainMenuController = mainMenuController;
+	}
+
+	public void injectMainMenuController(MainMenuController inputMainController)
+	{
+		setMainMenuController(inputMainController);
 	}
 
 	

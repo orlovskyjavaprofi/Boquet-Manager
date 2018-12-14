@@ -35,6 +35,7 @@ class directoryWalkerTest
 	{
 		ArrayList<String> expectedDirList = new ArrayList<String>();
 		creatingMockupDirList(expectedDirList);
+		expectedDirList.add("XML-Files-Update2018");
 		// System.out.println(expectedDirList.toString());
 		ArrayList<String> actualDirList = fsWalkerObject.getDirectoriesList(mockObjDiskletter + directoryAtTest);
 		assertEquals(expectedDirList, actualDirList, "geting directories list failed");
@@ -86,11 +87,11 @@ class directoryWalkerTest
 	}
 
 	private void creatingMockupDirList(ArrayList<String> expectedDirList)
-	{
+	{		
 		for (int i = 0; i < 10; i++)
 		{
 			naturalOrderOfDirs(expectedDirList, i);
-		}
+		}	
 	}
 
 	private void naturalOrderOfDirs(ArrayList<String> expectedDirList, int i)
@@ -103,6 +104,7 @@ class directoryWalkerTest
 		{
 			expectedDirList.add("dir" + i);
 		}
+
 	}
 
 }

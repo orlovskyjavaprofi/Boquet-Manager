@@ -19,6 +19,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import views.app.MainView;
+import views.controllers.mainmenu.MainMenuController;
 
 class mainViewTest extends ApplicationTest
 {
@@ -183,7 +184,7 @@ class mainViewTest extends ApplicationTest
 		
 		assertEquals(expectedResult, actualResult,"German language wasnt selected");
 	}
-
+		
 	private boolean evaluateResultForLangTest(boolean actualResult, ObservableList<Menu> menuList,
 			List<String> expectedResultRusMenuList, List<String> actualResultRusMenutList)
 	{

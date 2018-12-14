@@ -17,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import views.controllers.utils.CustomFileChooserController;
 
 public class MainMenuController 
 {
@@ -121,8 +122,7 @@ public class MainMenuController
 	
 	@FXML
 	private void initialize()
-	{
-		
+	{	
 		menuItemOpenXml.setOnAction((event) -> {					                                       
 			String pathToXmlForm = "/views/fxmls/utils/CustomizedFileChooser.fxml";
 			try
@@ -298,16 +298,23 @@ public class MainMenuController
 				loadFxmlForAuthorsAndDevsWindow(pathToFxml);
 				break;
 			case customFileChooserPane:
-			    loadFxmlForCustomFileChooser(pathToFxml);
+			    loadFxmlForCustomFileChooser(pathToFxml, this);
 			    break;
 		}
 	}
 
-	private void loadFxmlForCustomFileChooser(String pathToXmlForm) throws IOException
+	private void loadFxmlForCustomFileChooser(String pathToXmlForm, MainMenuController mainMenuController) throws IOException
 	{
-		this.setCustomFileChooserPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
+//		this.setCustomFileChooserPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
+
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		BorderPane customFileChooserPane= fxmlLoader.load(getClass().getResource(pathToXmlForm).openStream());
+		CustomFileChooserController customfileChooserController = (CustomFileChooserController)fxmlLoader.getController();
+		customfileChooserController.injectMainMenuController(mainMenuController);
+		
+		this.setCustomFileChooserPane(customFileChooserPane);
+		
 	}
-	
 	
 	private void loadFxmlForSupportProjectWindow(String pathToXmlForm) throws IOException
 	{
@@ -524,7 +531,7 @@ public class MainMenuController
 		this.getChkBoxRu().setSelected(false);
 		this.getChkBoxUkr().setSelected(false);
 	}
-
+	
 	public CheckBox getChkBoxEng()
 	{
 		return chkBoxEng;
@@ -880,5 +887,5 @@ public class MainMenuController
 		return mainGridPane;
 	}
 
-	
+
 }
