@@ -1,5 +1,6 @@
 package views.utils;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -15,13 +16,23 @@ public class CustomizedFileChooser extends Application
 	private Scene mainViewScene;
 	
 	public CustomizedFileChooser() throws IOException{
+		String pathToFxmlForm = pathToMainFxmlSetUp();
 		
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		File givenFilePath= new File(pathToFxmlForm);
+		fxmlLoader.setLocation(givenFilePath.toURL());
+		
+		this.setFileChooserViewBorderPane( fxmlLoader.load() );
+		this.setTitle("Alexander customized FileChooser");
+		mainViewScene = new Scene(this.getFileChooserViewBorderPane());
+	}
+	
+	private String pathToMainFxmlSetUp()
+	{
 		String pathToFxmlForm = "/views/fxmls/utils/CustomizedFileChooser.fxml";
-
-		this.setFileChooserViewBorderPane( (BorderPane) FXMLLoader.load(
-					getClass().getResource(pathToFxmlForm)));
-			this.setTitle("Alexander customized FileChooser");
-			mainViewScene = new Scene(this.getFileChooserViewBorderPane());
+		String addPath= "/src/main/java";
+		String finalPath = System.getProperty("user.dir")+addPath+ pathToFxmlForm;
+		return finalPath;
 	}
 	
 	public static void main(String[] args)

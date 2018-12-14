@@ -1,11 +1,11 @@
 package views.app;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -17,15 +17,31 @@ public class MainView extends Application
 	private String title;
 	private Scene mainViewScene;
     private ResourceBundle langResources;
+    private MainMenuController mainMenuController;
     
 	public MainView() throws IOException
 	{
-		String pathToFxmlForm =  "/views/fxmls/MainForm.fxml";
-		this.setLangResources( ResourceBundle.getBundle("internationalization/menuDef") );
-        this.setMainViewGridPane((GridPane) FXMLLoader.load(	getClass().getResource(pathToFxmlForm),  this.getLangResources()));		
+		String pathToFxmlForm = pathToMainFxmlSetUp();
+		
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setResources(this.getLangResources());
+		File givenFilePath= new File(pathToFxmlForm);
+		fxmlLoader.setLocation(givenFilePath.toURL());
+		
+		setMainViewGridPane(fxmlLoader.load());
+        mainMenuController = (MainMenuController)fxmlLoader.getController(); 
+        
 		this.setTitle("Boquet-manager for sattelite tv channels");
 		mainViewScene = new Scene(getMainViewGridPane());
 		
+	}
+
+	private String pathToMainFxmlSetUp()
+	{
+		String addPath= "/src/main/java";
+		String pathToFxmlForm = System.getProperty("user.dir")+addPath+   "/views/fxmls/MainForm.fxml";
+		this.setLangResources( ResourceBundle.getBundle("internationalization/menuDef") );
+		return pathToFxmlForm;
 	}
 	
 	public static void main(String[] args)
@@ -80,5 +96,17 @@ public class MainView extends Application
 	{
 		this.mainViewScene = mainViewScene;
 	}
+
+	public MainMenuController getMainMenuController()
+	{
+		return mainMenuController;
+	}
+
+	public void setMainMenuController(MainMenuController mainMenuController)
+	{
+		this.mainMenuController = mainMenuController;
+	}
+	
+	
 
 }

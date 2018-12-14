@@ -184,7 +184,43 @@ class mainViewTest extends ApplicationTest
 		
 		assertEquals(expectedResult, actualResult,"German language wasnt selected");
 	}
+
+	@Test
+	void testIfAControllerCanBeAccessed() {
+		assertNotNull(mainViewObj.getMainMenuController()  );
+	}
+	
+	@Test
+	void testingIfPathToFilesCanBeWritten() {
+		List<String> expectedMockupValuesList = new ArrayList<String>();
+		List<String> actualValuesList = new ArrayList<String>();
+		initMockupValues(expectedMockupValuesList);
+		iterateOverListAddToMainMenuController(expectedMockupValuesList);
+		actualValuesList = mainViewObj.getMainMenuController().getPathsOfValidXmlFiles();
+		//System.out.println(actualValuesList.toString());
+		assertEquals(expectedMockupValuesList, actualValuesList, "Got wrong values for xml path to files from main menu controller");
 		
+	}
+
+	private void iterateOverListAddToMainMenuController(List<String> expectedMockupValuesList)
+	{
+		for (String inputFilePath : expectedMockupValuesList)
+		{
+			mainViewObj.getMainMenuController().addValidXmlFileToList(inputFilePath);
+		}
+	}
+
+	private void initMockupValues(List<String> mockupValuesList)
+	{
+		String val1 = "c:\\TEST\\XML-Files-Update2018\\bouquets.xml";
+	    String val2 = "c:\\TEST\\XML-Files-Update2018\\satellites.xml";
+	    String val3 = "c:\\TEST\\XML-Files-Update2018\\services.xml";
+	    mockupValuesList.add(val1);
+	    mockupValuesList.add(val2);
+	    mockupValuesList.add(val3);
+	}
+	
+	
 	private boolean evaluateResultForLangTest(boolean actualResult, ObservableList<Menu> menuList,
 			List<String> expectedResultRusMenuList, List<String> actualResultRusMenutList)
 	{

@@ -1,6 +1,8 @@
 package views.controllers.mainmenu;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -26,6 +28,7 @@ public class MainMenuController
 	private BorderPane aboutAuthorsPane;
 	private BorderPane aboutProjectPane;
     private BorderPane customFileChooserPane;
+    private List<String> pathsOfValidXmlFiles;
     
     @FXML
     private GridPane mainGridPane;
@@ -119,6 +122,10 @@ public class MainMenuController
 
 	@FXML
 	private MenuItem menuItemRu;
+	
+	public MainMenuController() {
+		pathsOfValidXmlFiles = new ArrayList<String>();
+	}
 	
 	@FXML
 	private void initialize()
@@ -305,7 +312,6 @@ public class MainMenuController
 
 	private void loadFxmlForCustomFileChooser(String pathToXmlForm, MainMenuController mainMenuController) throws IOException
 	{
-//		this.setCustomFileChooserPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
 
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		BorderPane customFileChooserPane= fxmlLoader.load(getClass().getResource(pathToXmlForm).openStream());
@@ -887,5 +893,21 @@ public class MainMenuController
 		return mainGridPane;
 	}
 
+	public void addValidXmlFileToList(String inputFilePath)
+	{
+		getPathsOfValidXmlFiles().add(inputFilePath);
+	}
 
+	public List<String> getPathsOfValidXmlFiles()
+	{
+		return pathsOfValidXmlFiles;
+	}
+
+	public void setPathsOfValidXmlFiles(List<String> pathsOfValidXmlFiles)
+	{
+		this.pathsOfValidXmlFiles = pathsOfValidXmlFiles;
+	}
+
+	
+	
 }

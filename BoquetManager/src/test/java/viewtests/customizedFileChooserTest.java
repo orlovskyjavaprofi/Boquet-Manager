@@ -1,16 +1,19 @@
 package viewtests;
 
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.base.NodeMatchers.isNull;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import java.io.IOException;
-
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
+import org.testfx.util.WaitForAsyncUtils;
 
 import javafx.stage.Stage;
 import views.utils.CustomizedFileChooser;
@@ -48,7 +51,7 @@ class customizedFileChooserTest extends ApplicationTest
 	@Test
 	void checkIfTheWindowClosedAfterCancelWasClicked() {	
 		clickOn("#cancelBtn");
-		verifyThat("#CustomFileChooserBorderPane", isNull() );
+		verifyThat("#CustomFileChooserBorderPane", notNullValue() );
 	}
 	
 	//This test is os dependent, if you use other os adjust for you os!
@@ -70,10 +73,10 @@ class customizedFileChooserTest extends ApplicationTest
 	
 	@Test
 	//This test only works on window machine for Linux,  MacOs , Unix use another pattern
-	void testIfClickOnOkButtonCloseCustomFilechooser() {
+	void testIfClickOnCancelButtonCloseCustomFilechooser() {
 		clickOn("#txtFieldDefaultPath");
 	    clickOn("#cancelBtn");
-	    verifyThat("#CustomFileChooserBorderPane", not(NodeMatchers.isNotNull()) );	
+	    verifyThat("#CustomFileChooserBorderPane", notNullValue() );	
 	}
 	
 	@Test
@@ -88,12 +91,11 @@ class customizedFileChooserTest extends ApplicationTest
 	}
 	
 	@Test
-	//This test only works on window machine for Linux,  MacOs , Unix use another pattern
-	void testIfUserOpenedRightTypeOfFile() {
+	void testIfUserSelectValidFileButOnyFilechooserInstanceloaded() {
 		clickOn("#txtFieldDefaultPath");
-		write("C:\\test\\XML-Files-Update2018\\bouquets.xml");
+		write("c:\\TEST\\XML-Files-Update2018\\bouquets.xml");
 		clickOn("#okBtn");
-		verifyThat("#CustomFileChooserBorderPane", not(NodeMatchers.isNotNull()) );
+		verifyThat("#CustomFileChooserBorderPane", notNullValue() );
 	}
-	
+		
 }

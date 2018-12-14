@@ -1,8 +1,10 @@
 package views.controllers.utils;
 
+
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import utils.validators.ValidateXmlFile;
 import views.controllers.mainmenu.MainMenuController;
@@ -67,11 +70,6 @@ public class CustomFileChooserController
     String diskSelectedByUser;
     String diskRoot;
     
-	public CustomFileChooserController()
-	{
-
-	}
-
 	@FXML
 	private void initialize()
 	{		
@@ -87,19 +85,9 @@ public class CustomFileChooserController
 			String inputPathToFile = getTxtFieldDefaultPath().getText();
 			ValidateXmlFile validateXml= new ValidateXmlFile();
 			String validFilePattern ="application/xml";
-			String inputFilePattern =validateXml.validateInputXmlFile(inputPathToFile);
+			String expectedPatternOfInputFile =validateXml.validateInputXmlFile(inputPathToFile);
 			
-			if (validFilePattern.equals(inputFilePattern)) {
-				System.out.println("Valid Input: "+inputFilePattern );
-				closeCustomFileChooser();
-				//Call mainController and set the value of opened File in main controller if and only if the file is a valid xml!
-				//change the Value to path of file filesLoadStateLbl in main controller
-			}else{		
-			   Alert alertMessage = initAlertMessage("Wrong file!!!", "Please open xml only file!!");
-			   FlowPane fp = setUpPaneForMessage();
-			   fp.setStyle("-fx-font-weight: bold");
-			   showToUserAllertMessage(alertMessage,fp);
-			}
+			validateFileGivenByTheUser(inputPathToFile, validFilePattern, expectedPatternOfInputFile);
 		});
 		
 		txtFieldDefaultPath.setOnMouseClicked((event) -> {
@@ -109,7 +97,7 @@ public class CustomFileChooserController
 		});
 		
 		txtFieldDefaultPath.textProperty().addListener((observable, oldValue, newValue) -> {
-			System.out.println("TextField Text Changed (newValue: " + newValue + ")");		
+			//System.out.println("TextField Text Changed (newValue: " + newValue + ")");		
 			
 			ObservableList<TreeItem<DiskModelForCustomFileChooser>> listOfDisks = 
 				this.fileChooseTreeTablesView.getRoot().getChildren();
@@ -132,6 +120,56 @@ public class CustomFileChooserController
 
 		});
 			
+	}
+
+	private void validateFileGivenByTheUser(String inputPathToFile, String validFilePattern,
+			String expectedPatternOfInputFile)
+	{
+		if (validFilePattern.equals(expectedPatternOfInputFile)) {
+			Path pathToFile = insertValidXmlToMainController(inputPathToFile);
+			checkIfMainControllerExistAndUpdateMainController(pathToFile);
+			closeCustomFileChooser();
+		}else{		
+		   displayAlertMessageIfUserOpenedWrongFile();
+		}
+	}
+
+	private void updateMainViewLoadedFileMsg(Path pathToFile)
+	{
+		getMainMenuController().getFilesLoadStateLbl().setText( "File " + pathToFile.getFileName().toString() + " is loaded!" );		
+		getMainMenuController().getFilesLoadStateLbl().setTextFill(Color.BLUE);
+	}
+
+	private Path insertValidXmlToMainController(String inputPathToFile)
+	{
+		Path pathToFile = Paths.get(inputPathToFile);
+		//System.out.println("wrting file to main controller:  "+ inputPathToFile);
+		checkIfMainControllerExistAndAddValidXml(inputPathToFile);
+		return pathToFile;
+	}
+
+	private void checkIfMainControllerExistAndAddValidXml(String inputPathToFile)
+	{
+		if (getMainMenuController() != null)
+		{
+			getMainMenuController().addValidXmlFileToList(inputPathToFile);
+		}
+	}
+	
+	private void checkIfMainControllerExistAndUpdateMainController(Path pathToFile)
+	{
+		if (getMainMenuController() != null)
+		{
+		  updateMainViewLoadedFileMsg(pathToFile);
+		}
+	}
+
+	private void displayAlertMessageIfUserOpenedWrongFile()
+	{
+		Alert alertMessage = initAlertMessage("Wrong file!!!", "Please open xml only file!!");
+		   FlowPane fp = setUpPaneForMessage();
+		   fp.setStyle("-fx-font-weight: bold");
+		   showToUserAllertMessage(alertMessage,fp);
 	}
 	private void showToUserAllertMessage(Alert InfoMessage, FlowPane fp)
 	{
