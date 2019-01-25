@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -21,27 +25,29 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import views.controllers.utils.CustomFileChooserController;
 
-public class MainMenuController 
+public class MainMenuController
 {
 	private BorderPane aboutLicensePane;
 	private BorderPane supportProjectPane;
 	private BorderPane aboutAuthorsPane;
 	private BorderPane aboutProjectPane;
-    private BorderPane customFileChooserPane;
-    private List<String> pathsOfValidXmlFiles;
-    
-    @FXML
-    private GridPane mainGridPane;
-    
+	private BorderPane customFileChooserPane;
+	private List<String> pathsOfValidXmlFiles;
+	private Integer countLoadedXmlFiles;
+	private String currentFilePathInMemory;
+
+	@FXML
+	private GridPane mainGridPane;
+
 	@FXML
 	private Menu menuFile;
-    
+
 	@FXML
 	private Label filesLoadStateLbl;
-	
+
 	@FXML
-	private MenuBar mainMenuBar; 
-	
+	private MenuBar mainMenuBar;
+
 	@FXML
 	private MenuItem menuItemSaveToXml;
 
@@ -122,31 +128,34 @@ public class MainMenuController
 
 	@FXML
 	private MenuItem menuItemRu;
-	
-	public MainMenuController() {
+
+	public MainMenuController()
+	{
 		pathsOfValidXmlFiles = new ArrayList<String>();
+		setCountLoadedXmlFiles(0);
+		setCurrentFilePathInMemory("");
 	}
-	
+
 	@FXML
 	private void initialize()
-	{	
-		menuItemOpenXml.setOnAction((event) -> {					                                       
+	{
+		menuItemOpenXml.setOnAction((event) -> {
 			String pathToXmlForm = "/views/fxmls/utils/CustomizedFileChooser.fxml";
 			try
 			{
 				setUpBorderPane(pathToXmlForm);
 				String TitleForANewWindow = "Alexander custom file chooser";
 				Pane currentPane = this.getCustomFileChooserPane();
-				setUpPaneAndTitleForPane(TitleForANewWindow,currentPane);
+				setUpPaneAndTitleForPane(TitleForANewWindow, currentPane);
 
 			} catch (IOException e)
 			{
 				// exception with creation of support project window window
 				e.printStackTrace();
 			}
-			
+
 		});
-		
+
 		menuItemAboutAuthors.setOnAction((event) -> {
 			loadNewWindowAboutAuthorsAndDev();
 		});
@@ -289,7 +298,7 @@ public class MainMenuController
 		final String aboutLicense = "/views/fxmls/AboutLicense.fxml";
 		final String aboutSuppProject = "/views/fxmls/SupportProject.fxml";
 		final String aboutProjectAuthors = "/views/fxmls/AboutAuthorsDevs.fxml";
-        final String customFileChooserPane ="/views/fxmls/utils/CustomizedFileChooser.fxml";
+		final String customFileChooserPane = "/views/fxmls/utils/CustomizedFileChooser.fxml";
 		switch (pathToFxml)
 		{
 			case aboutProject:
@@ -305,23 +314,25 @@ public class MainMenuController
 				loadFxmlForAuthorsAndDevsWindow(pathToFxml);
 				break;
 			case customFileChooserPane:
-			    loadFxmlForCustomFileChooser(pathToFxml, this);
-			    break;
+				loadFxmlForCustomFileChooser(pathToFxml, this);
+				break;
 		}
 	}
 
-	private void loadFxmlForCustomFileChooser(String pathToXmlForm, MainMenuController mainMenuController) throws IOException
+	private void loadFxmlForCustomFileChooser(String pathToXmlForm, MainMenuController mainMenuController)
+			throws IOException
 	{
 
 		FXMLLoader fxmlLoader = new FXMLLoader();
-		BorderPane customFileChooserPane= fxmlLoader.load(getClass().getResource(pathToXmlForm).openStream());
-		CustomFileChooserController customfileChooserController = (CustomFileChooserController)fxmlLoader.getController();
+		BorderPane customFileChooserPane = fxmlLoader.load(getClass().getResource(pathToXmlForm).openStream());
+		CustomFileChooserController customfileChooserController = (CustomFileChooserController) fxmlLoader
+				.getController();
 		customfileChooserController.injectMainMenuController(mainMenuController);
-		
+
 		this.setCustomFileChooserPane(customFileChooserPane);
-		
+
 	}
-	
+
 	private void loadFxmlForSupportProjectWindow(String pathToXmlForm) throws IOException
 	{
 		this.setSupportProjectPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
@@ -346,7 +357,7 @@ public class MainMenuController
 	{
 		Scene anotherScn = new Scene(currentPane);
 		Stage stageForScn = new Stage();
-		Stage mainStage =(Stage) this.getMainGridPane().getScene().getWindow();
+		Stage mainStage = (Stage) this.getMainGridPane().getScene().getWindow();
 		stageForScn.initModality(Modality.WINDOW_MODAL);
 		stageForScn.initOwner(mainStage);
 		stageForScn.setTitle(TitleForANewWindow);
@@ -537,7 +548,7 @@ public class MainMenuController
 		this.getChkBoxRu().setSelected(false);
 		this.getChkBoxUkr().setSelected(false);
 	}
-	
+
 	public CheckBox getChkBoxEng()
 	{
 		return chkBoxEng;
@@ -895,7 +906,110 @@ public class MainMenuController
 
 	public void addValidXmlFileToList(String inputFilePath)
 	{
+		evaluateUserInput(inputFilePath);
+	}
+
+	private void evaluateUserInput(String inputFilePath)
+	{
+		initForTheFirstFile(inputFilePath);
+		caseFor4FileInput(inputFilePath);
+	}
+
+	private void caseFor4FileInput(String inputFilePath)
+	{
+		if (getCountLoadedXmlFiles() == 4)
+		{
+			warnDialogUserInputMoreThen3Files();
+			cleanupMemoryFromInvalidInput();
+		} else
+		{
+			checkIfUserInputIsValid(inputFilePath);
+		}
+	}
+
+	private void initForTheFirstFile(String inputFilePath)
+	{
+		if (getCountLoadedXmlFiles() == 0)
+		{
+			setCurrentFilePathInMemory(inputFilePath);
+		}
+	}
+
+	private void checkIfUserInputIsValid(String inputFilePath)
+	{
+		if (getCountLoadedXmlFiles() >= 1)
+		{
+			caseUserInput2Files(inputFilePath);
+		} else
+		{
+			addUserInputToPathsOfValidXmlFiles(inputFilePath);
+		}
+	}
+
+	private void caseUserInput2Files(String inputFilePath)
+	{
+		if (getCurrentFilePathInMemory().equals(inputFilePath))
+		{
+			warnDialogUserInputOneAndTheSameFile(inputFilePath);
+		} else
+		{
+			addUserInputToPathsOfValidXmlFiles(inputFilePath);
+			setCurrentFilePathInMemory(inputFilePath);
+		}
+	}
+
+	private void addUserInputToPathsOfValidXmlFiles(String inputFilePath)
+	{
 		getPathsOfValidXmlFiles().add(inputFilePath);
+		setCountLoadedXmlFiles(getPathsOfValidXmlFiles().size());
+	}
+
+	private void warnDialogUserInputOneAndTheSameFile(String inputFilePath)
+	{
+		if (getCurrentFilePathInMemory().equals(inputFilePath))
+		{
+			warnDialogUserInput3EqualFiles();
+		}
+		cleanupMemoryFromInvalidInput();
+	}
+
+	private void cleanupMemoryFromInvalidInput()
+	{
+		getPathsOfValidXmlFiles().clear();
+		setCountLoadedXmlFiles(0);
+		setCurrentFilePathInMemory("");
+	}
+
+	private void warnDialogUserInput3EqualFiles()
+	{
+		String title;
+		String hederText;
+		String contentText;
+		title = "Warning don't use same files!";
+		hederText = "Please load only 3 different files!";
+		contentText = "Repeat loading of files again! " + "\nAll previously opened files were not loaded!!!";
+		displayAllertDialog(title, hederText, contentText);
+	}
+
+	private void warnDialogUserInputMoreThen3Files()
+	{
+		String title;
+		String hederText;
+		String contentText;
+		title = "Warning max amount of files!";
+		hederText = "Please load only 3 files!";
+		contentText = "Would you like to open new 3 files? " + "\nAll previously data will be lost!!!";
+
+		displayAllertDialog(title, hederText, contentText);
+	}
+
+	private void displayAllertDialog(String title, String hederText, String contentText)
+	{
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle(title);
+		alert.setHeaderText(hederText);
+		alert.setContentText(contentText);
+		alert.showAndWait();
 	}
 
 	public List<String> getPathsOfValidXmlFiles()
@@ -908,6 +1022,24 @@ public class MainMenuController
 		this.pathsOfValidXmlFiles = pathsOfValidXmlFiles;
 	}
 
-	
-	
+	public Integer getCountLoadedXmlFiles()
+	{
+		return countLoadedXmlFiles;
+	}
+
+	public void setCountLoadedXmlFiles(Integer countLoadedXmlFiles)
+	{
+		this.countLoadedXmlFiles = countLoadedXmlFiles;
+	}
+
+	public String getCurrentFilePathInMemory()
+	{
+		return currentFilePathInMemory;
+	}
+
+	public void setCurrentFilePathInMemory(String currentFilePathInMemory)
+	{
+		this.currentFilePathInMemory = currentFilePathInMemory;
+	}
+
 }

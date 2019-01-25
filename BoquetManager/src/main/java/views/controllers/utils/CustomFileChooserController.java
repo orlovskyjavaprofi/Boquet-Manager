@@ -143,7 +143,7 @@ public class CustomFileChooserController
 	private Path insertValidXmlToMainController(String inputPathToFile)
 	{
 		Path pathToFile = Paths.get(inputPathToFile);
-		//System.out.println("wrting file to main controller:  "+ inputPathToFile);
+		//System.out.println("writing file to main controller:  "+ inputPathToFile);
 		checkIfMainControllerExistAndAddValidXml(inputPathToFile);
 		return pathToFile;
 	}

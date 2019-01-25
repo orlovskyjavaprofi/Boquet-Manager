@@ -20,6 +20,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import views.app.MainView;
 import views.controllers.mainmenu.MainMenuController;
+import static org.testfx.api.FxAssert.verifyThat;
+import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
 class mainViewTest extends ApplicationTest
 {
@@ -197,16 +199,132 @@ class mainViewTest extends ApplicationTest
 		initMockupValues(expectedMockupValuesList);
 		iterateOverListAddToMainMenuController(expectedMockupValuesList);
 		actualValuesList = mainViewObj.getMainMenuController().getPathsOfValidXmlFiles();
-		//System.out.println(actualValuesList.toString());
-		assertEquals(expectedMockupValuesList, actualValuesList, "Got wrong values for xml path to files from main menu controller");
+        
+		assertEquals(expectedMockupValuesList, actualValuesList, "Got wrong values for xml path to files from main menu controller");	
+	}
+	
+	@Test
+	void testingIfUserInputRighPathToFilesCanBeWritten() {
+		List<String> expectedMockupValuesList = new ArrayList<String>();
+		List<String> xmlPathsToFiles = new ArrayList<String>();
+		initMockupValues(expectedMockupValuesList);
+		testRigthWayPathToXmlFiles(xmlPathsToFiles);
+		writeValidPathToCustomFileChooser(xmlPathsToFiles);
+        
+		assertEquals(expectedMockupValuesList, mainViewObj.getMainMenuController().getPathsOfValidXmlFiles(), "Got wrong values for xml path to files from main menu controller caused by user input");		
+	}
+	
+	@Test
+	void testingUserInputMoreThen3XmlFiles()
+	{
+		List<String> xmlPathsToFiles = new ArrayList<String>();
+		testPathToXmlFiles(xmlPathsToFiles);
+		writePathToCustomFileChooser(xmlPathsToFiles);
 		
 	}
 
+	@Test
+	void testingIfUserInputsOneAndTheSameFilePaths() {
+		List<String> xmlPathsToFiles = new ArrayList<String>();
+		testPathToXmlEqualsFiles(xmlPathsToFiles);
+		writeSamePathToCustomFileChooser(xmlPathsToFiles);	
+    }
+	
+	private void writePathToCustomFileChooser(List<String> xmlPathsToFiles)
+	{
+		for (String pathToFiles : xmlPathsToFiles)
+		{
+			clickOn("#menuFile");
+			clickOn("#menuItemOpenXml");
+			clickOn("#txtFieldDefaultPath");
+			write(pathToFiles);
+			clickOn("#okBtn");			
+		}
+		verifyThat(".alert", isVisible());
+		clickOn(".alert .button");
+	}
+
+	private void writeSamePathToCustomFileChooser(List<String> xmlPathsToFiles)
+	{
+		Integer counter = 0;
+		for (String pathToFiles : xmlPathsToFiles)
+		{
+			clickOn("#menuFile");
+			clickOn("#menuItemOpenXml");
+			clickOn("#txtFieldDefaultPath");
+			write(pathToFiles);
+			clickOn("#okBtn");
+			counter = counter + 1;
+			counter = alertDialogAfterTwoInput(counter);
+		}
+
+	}
+	
+	private void writeValidPathToCustomFileChooser(List<String> xmlPathsToFiles)
+	{
+		Integer counter = 0;
+		for (String pathToFiles : xmlPathsToFiles)
+		{
+			clickOn("#menuFile");
+			clickOn("#menuItemOpenXml");
+			clickOn("#txtFieldDefaultPath");
+			write(pathToFiles);
+			clickOn("#okBtn");
+		}
+
+	}
+
+	private Integer alertDialogAfterTwoInput(Integer counter)
+	{
+		if (counter == 2)
+		{
+			verifyThat(".alert", isVisible());
+			clickOn(".alert .button");
+			counter =0;
+		}	
+		return counter;
+	}
+	
+	private void testPathToXmlEqualsFiles(List<String> pathsToFiles)
+	{
+		String val1 = "c:\\TEST\\XML-Files-Update2018\\bouquets.xml";
+		String val2 = "c:\\TEST\\XML-Files-Update2018\\bouquets.xml";
+		String val3 = "c:\\TEST\\XML-Files-Update2018\\bouquets.xml";
+		String val4 = "c:\\TEST\\XML-Files-Update2018\\bouquets.xml";
+		pathsToFiles.add(val1);
+		pathsToFiles.add(val2);
+		pathsToFiles.add(val3);
+		pathsToFiles.add(val4);	
+	}
+	
+	private void testPathToXmlFiles(List<String> pathsToFiles)
+	{
+		String val1 = "c:\\TEST\\XML-Files-Update2018\\bouquets.xml";
+		String val2 = "c:\\TEST\\XML-Files-Update2018\\satellites.xml";
+		String val3 = "c:\\TEST\\XML-Files-Update2018\\services.xml";
+		String val4 = "c:\\TEST\\XML-Files-Update2018\\services.xml";
+		pathsToFiles.add(val1);
+		pathsToFiles.add(val2);
+		pathsToFiles.add(val3);
+		pathsToFiles.add(val4);
+	}
+	
+	private void testRigthWayPathToXmlFiles(List<String> pathsToFiles)
+	{
+		String val1 = "c:\\TEST\\XML-Files-Update2018\\bouquets.xml";
+		String val2 = "c:\\TEST\\XML-Files-Update2018\\satellites.xml";
+		String val3 = "c:\\TEST\\XML-Files-Update2018\\services.xml";
+		pathsToFiles.add(val1);
+		pathsToFiles.add(val2);
+		pathsToFiles.add(val3);
+	
+	}
+	
 	private void iterateOverListAddToMainMenuController(List<String> expectedMockupValuesList)
 	{
 		for (String inputFilePath : expectedMockupValuesList)
 		{
-			mainViewObj.getMainMenuController().addValidXmlFileToList(inputFilePath);
+			mainViewObj.getMainMenuController().addValidXmlFileToList(inputFilePath);			
 		}
 	}
 
@@ -474,7 +592,6 @@ class mainViewTest extends ApplicationTest
 			EnglishMenuList.add(menu.getText());
           //	System.out.println(EnglishMenuList.get(index));
 			index++;
-			
 		}
 		
 		return EnglishMenuList;
