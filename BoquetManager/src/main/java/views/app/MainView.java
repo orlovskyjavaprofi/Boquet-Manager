@@ -34,6 +34,7 @@ public class MainView extends Application
 		this.setTitle("Boquet-manager for sattelite tv channels");
 		mainViewScene = new Scene(getMainViewGridPane());
 		
+		
 	}
 
 	private String pathToMainFxmlSetUp()

@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -128,12 +129,16 @@ public class MainMenuController
 
 	@FXML
 	private MenuItem menuItemRu;
-
+	private ObservableList<String> observableListOfXmlPaths;
+	private boolean statusOfValidLoadedXmlFilesPaths;
+	
 	public MainMenuController()
 	{
 		pathsOfValidXmlFiles = new ArrayList<String>();
 		setCountLoadedXmlFiles(0);
 		setCurrentFilePathInMemory("");
+		setStatusOfValidLoadedXmlFilesPaths(false);
+		setObservableListOfXmlPaths(FXCollections.observableList(new ArrayList<String>() ));
 	}
 
 	@FXML
@@ -155,7 +160,18 @@ public class MainMenuController
 			}
 
 		});
+	
+		getObservableListOfXmlPaths().addListener(new ListChangeListener<String>()
+		{
+			@Override
+			public void onChanged(Change change)
+			{
+				verifyCompleteFilesToXmlPathsInputAndPopulateUI();
+			}
 
+		
+		});
+		
 		menuItemAboutAuthors.setOnAction((event) -> {
 			loadNewWindowAboutAuthorsAndDev();
 		});
@@ -211,6 +227,13 @@ public class MainMenuController
 
 	}
 
+	private void verifyCompleteFilesToXmlPathsInputAndPopulateUI()
+	{
+		if (getObservableListOfXmlPaths().size() == 3) {
+			setStatusOfValidLoadedXmlFilesPaths(true);
+		}
+	}
+	
 	private void setUpPaneAndTitleForPane(String TitleForANewWindow, Pane inputPane)
 	{
 		setUpANewwindow(TitleForANewWindow, inputPane);
@@ -931,7 +954,7 @@ public class MainMenuController
 	{
 		if (getCountLoadedXmlFiles() == 0)
 		{
-			setCurrentFilePathInMemory(inputFilePath);
+			setCurrentFilePathInMemory(inputFilePath);	
 		}
 	}
 
@@ -961,6 +984,7 @@ public class MainMenuController
 	private void addUserInputToPathsOfValidXmlFiles(String inputFilePath)
 	{
 		getPathsOfValidXmlFiles().add(inputFilePath);
+		getObservableListOfXmlPaths().add(inputFilePath);	
 		setCountLoadedXmlFiles(getPathsOfValidXmlFiles().size());
 	}
 
@@ -976,6 +1000,7 @@ public class MainMenuController
 	private void cleanupMemoryFromInvalidInput()
 	{
 		getPathsOfValidXmlFiles().clear();
+		getObservableListOfXmlPaths().clear();
 		setCountLoadedXmlFiles(0);
 		setCurrentFilePathInMemory("");
 	}
@@ -1042,4 +1067,31 @@ public class MainMenuController
 		this.currentFilePathInMemory = currentFilePathInMemory;
 	}
 
+	public boolean getStatusOfLoadXmlFiles()
+	{
+		return isStatusOfValidLoadedXmlFilesPaths();
+	}
+
+	public boolean isStatusOfValidLoadedXmlFilesPaths()
+	{
+		return statusOfValidLoadedXmlFilesPaths;
+	}
+
+	public void setStatusOfValidLoadedXmlFilesPaths(boolean statusOfValidLoadedXmlFilesPaths)
+	{
+		this.statusOfValidLoadedXmlFilesPaths = statusOfValidLoadedXmlFilesPaths;
+	}
+
+	public ObservableList<String> getObservableListOfXmlPaths()
+	{
+		return observableListOfXmlPaths;
+	}
+
+	public void setObservableListOfXmlPaths(ObservableList<String> observableListOfXmlPaths)
+	{
+		this.observableListOfXmlPaths = observableListOfXmlPaths;
+	}
+
+	
+	
 }
