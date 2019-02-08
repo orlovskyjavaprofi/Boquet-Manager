@@ -27,7 +27,7 @@ class serviceViewTest extends ApplicationTest
 
 	@Test
 	void testIfServicesFormIsShown() {
-		verifyThat("#servicesListBorderPane" , isVisible()  );
+		verifyThat("#servicesListBorderPaneMain" , isVisible()  );
 	}
 	
 }

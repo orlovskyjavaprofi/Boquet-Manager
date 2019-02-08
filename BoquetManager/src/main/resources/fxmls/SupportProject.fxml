@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="supportProjectPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="924.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="views.controllers.mainmenu.SupportProjectController">
+<BorderPane fx:id="supportProjectPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="924.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.controllers.mainmenu.SupportProjectController">
 	<top>
 		<Label fx:id="supportProjecSloganLbl" text="Help us to create a better software for your needs!" textAlignment="CENTER" textFill="#221d1d" underline="true" BorderPane.alignment="CENTER">
          <font>
@@ -87,7 +87,7 @@
                </font></Label>
 				<ImageView fx:id="AlexanderImageView" fitHeight="120.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="BASELINE">
                <image>
-                  <Image url="@authorsPhoto/AlexanderDe.jpg" />
+                  <Image url="@../authorsPhoto/AlexanderDe.jpg" />
                </image></ImageView>
 				<Label fx:id="AlexanderContactInfoLbl" text="soon available!" GridPane.columnIndex="4" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
                <font>

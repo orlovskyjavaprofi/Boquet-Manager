@@ -8,7 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
@@ -240,6 +242,15 @@ class mainViewTest extends ApplicationTest
 		boolean actualResult = mainViewObj.getMainMenuController().getStatusOfLoadXmlFiles();
        //System.out.println(mainViewObj.getMainMenuController().getObservableListOfXmlPaths().toString());
 		assertTrue( actualResult,"The status of loading xml files is false!" );
+	}
+	
+	@Disabled
+	@Test
+	void testingIfMainControllerCanGetHoldOfServicesListViewLeftSide() {
+		List<String> xmlPathsToFiles = new ArrayList<String>();
+		testRigthWayPathToXmlFiles(xmlPathsToFiles);
+		writeValidPathToCustomFileChooser(xmlPathsToFiles);
+		//Write assert after left side was implemented
 	}
 
 	private void writePathToCustomFileChooser(List<String> xmlPathsToFiles)

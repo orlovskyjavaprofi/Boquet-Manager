@@ -78,7 +78,7 @@ public class SupportProjectController extends Application
 	
 	void setUpSupportProjectPane() throws IOException
 	{
-		String pathToXmlForm= "/views/fxmls/BtcDonationFormForAlex.fxml";				
+		String pathToXmlForm= "/fxmls/BtcDonationFormForAlex.fxml";				
 		this.setBtcFormPane(
 				(BorderPane) FXMLLoader.load(
 						getClass().getResource( pathToXmlForm)));

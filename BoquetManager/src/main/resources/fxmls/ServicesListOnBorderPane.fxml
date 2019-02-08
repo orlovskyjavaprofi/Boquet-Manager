@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="servicesListBorderPane" minWidth="389.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="servicesListBorderPaneMain" minWidth="389.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="450.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.controllers.mainmenu.ServicesListController">
 	<top>
-      <BorderPane BorderPane.alignment="CENTER">
+      <BorderPane fx:id="serviceListBorderPaneTop" BorderPane.alignment="CENTER">
          <bottom>
-            <BorderPane BorderPane.alignment="CENTER">
+            <BorderPane fx:id="servicesListBorderPaneForButtonsTop" BorderPane.alignment="CENTER">
                <left>
                   <Button fx:id="btnAddChnToFav" alignment="CENTER" mnemonicParsing="false" prefWidth="185.0" text="Add to favorite List" BorderPane.alignment="CENTER">
                      <font>
@@ -43,7 +43,7 @@
       </BorderPane>
 	</top>
 	<center>
-		<TreeTableView prefHeight="371.0" prefWidth="289.0" BorderPane.alignment="CENTER_LEFT">
+		<TreeTableView fx:id="treeTblViewServicesList" prefHeight="371.0" prefWidth="289.0" BorderPane.alignment="CENTER_LEFT">
 			<placeholder>
 				<Label fx:id="DummyLabeL" text="" />
 			</placeholder>
@@ -55,7 +55,7 @@
 		</TreeTableView>
 	</center>
    <bottom>
-      <BorderPane BorderPane.alignment="CENTER">
+      <BorderPane fx:id="servicesListBorderPaneButtom" BorderPane.alignment="CENTER">
          <right>
             <Button fx:id="btnSearchChannel" minWidth="199.0" mnemonicParsing="false" prefWidth="199.0" text="Search SatTv channel" BorderPane.alignment="CENTER">
                <font>

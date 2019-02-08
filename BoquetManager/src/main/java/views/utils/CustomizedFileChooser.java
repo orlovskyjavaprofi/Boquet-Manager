@@ -18,9 +18,7 @@ public class CustomizedFileChooser extends Application
 	public CustomizedFileChooser() throws IOException{
 		String pathToFxmlForm = pathToMainFxmlSetUp();
 		
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		File givenFilePath= new File(pathToFxmlForm);
-		fxmlLoader.setLocation(givenFilePath.toURL());
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(pathToFxmlForm));
 		
 		this.setFileChooserViewBorderPane( fxmlLoader.load() );
 		this.setTitle("Alexander customized FileChooser");
@@ -29,10 +27,9 @@ public class CustomizedFileChooser extends Application
 	
 	private String pathToMainFxmlSetUp()
 	{
-		String pathToFxmlForm = "/views/fxmls/utils/CustomizedFileChooser.fxml";
-		String addPath= "/src/main/java";
-		String finalPath = System.getProperty("user.dir")+addPath+ pathToFxmlForm;
-		return finalPath;
+		String pathToFxmlForm = "/fxmls/utils/CustomizedFileChooser.fxml";
+	
+		return pathToFxmlForm;
 	}
 	
 	public static void main(String[] args)

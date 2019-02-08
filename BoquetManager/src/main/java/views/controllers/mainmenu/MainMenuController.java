@@ -1,11 +1,11 @@
 package views.controllers.mainmenu;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -19,14 +19,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import models.ProviderBetweenUiControllers;
 import views.controllers.utils.CustomFileChooserController;
+import views.controllers.mainmenu.ServicesListController;
 
-public class MainMenuController
+public class MainMenuController 
 {
 	private BorderPane aboutLicensePane;
 	private BorderPane supportProjectPane;
@@ -36,7 +39,22 @@ public class MainMenuController
 	private List<String> pathsOfValidXmlFiles;
 	private Integer countLoadedXmlFiles;
 	private String currentFilePathInMemory;
-
+	private ObservableList<String> observableListOfXmlPaths;
+	private boolean statusOfValidLoadedXmlFilesPaths;
+	private ProviderBetweenUiControllers shareableProviderObj;
+	
+	@FXML
+	private BorderPane servicesListBorderPane;
+	
+	@FXML
+	private BorderPane favoritesListBorderPane;
+	
+    @FXML
+	private AnchorPane mainMenuAnchorPane; 
+    
+	@FXML
+	private BorderPane leftrightBorderPane;
+	
 	@FXML
 	private GridPane mainGridPane;
 
@@ -129,38 +147,29 @@ public class MainMenuController
 
 	@FXML
 	private MenuItem menuItemRu;
-	private ObservableList<String> observableListOfXmlPaths;
-	private boolean statusOfValidLoadedXmlFilesPaths;
-	
+    
 	public MainMenuController()
-	{
+	{		
 		pathsOfValidXmlFiles = new ArrayList<String>();
 		setCountLoadedXmlFiles(0);
 		setCurrentFilePathInMemory("");
 		setStatusOfValidLoadedXmlFilesPaths(false);
 		setObservableListOfXmlPaths(FXCollections.observableList(new ArrayList<String>() ));
+		
+	}
+		
+    @FXML
+	private void initialize()
+	{			
+		openFileDialog();
+		listenToObeservableXmlPathList();	
+		openMenuItems();
+		userClickOnChkBoxes();
+		userClickOnSelectedChkLangBoxes();		
 	}
 
-	@FXML
-	private void initialize()
+	private void listenToObeservableXmlPathList()
 	{
-		menuItemOpenXml.setOnAction((event) -> {
-			String pathToXmlForm = "/views/fxmls/utils/CustomizedFileChooser.fxml";
-			try
-			{
-				setUpBorderPane(pathToXmlForm);
-				String TitleForANewWindow = "Alexander custom file chooser";
-				Pane currentPane = this.getCustomFileChooserPane();
-				setUpPaneAndTitleForPane(TitleForANewWindow, currentPane);
-
-			} catch (IOException e)
-			{
-				// exception with creation of support project window window
-				e.printStackTrace();
-			}
-
-		});
-	
 		getObservableListOfXmlPaths().addListener(new ListChangeListener<String>()
 		{
 			@Override
@@ -168,69 +177,153 @@ public class MainMenuController
 			{
 				verifyCompleteFilesToXmlPathsInputAndPopulateUI();
 			}
-
-		
 		});
-		
-		menuItemAboutAuthors.setOnAction((event) -> {
-			loadNewWindowAboutAuthorsAndDev();
-		});
+	}
 
-		menuItemAboutApp.setOnAction((event) -> {
-			loadNewWindowAboutProject();
-		});
+	private void userClickOnSelectedChkLangBoxes()
+	{
+		selectedEngChkBoxClickOnEngChkBox();
+		selectedGerChkBoxClickOnGerChkBox();
+		selectedUkrChkBoxClickOnUkrChkBox();
+		selectedRuChkBoxClickOnRuChkBox();
+	}
 
-		menuItemSuppProject.setOnAction((event) -> {
-			loadNewWindowSuppProject();
-		});
+	private void userClickOnChkBoxes()
+	{
+		userClickChkBoxEng();
+		userClickChkBoxGer();
+		userClickChkBoxUkr();
+		userClickChkBoxRu();
+	}
 
-		menuItemLicense.setOnAction((event) -> {
-			loadNewWindowAboutLicense();
-		});
+	private void openMenuItems()
+	{
+		openAboutAuthorsMenu();
+		openAboutAppMenu();
+		openAboutSuppProject();
+		openAboutLicenseMenu();
+	}
 
-		chkBoxEng.setOnAction((even) -> {
-			selectEngChkBox();
-		});
-
-		chkBoxGer.setOnAction((even) -> {
-			selectGerChkBox();
-
-		});
-
-		chkBoxUkr.setOnAction((even) -> {
-			selectUkrChkBox();
-		});
-
-		chkBoxRu.setOnAction((even) -> {
-			selectRusChkBox();
-		});
-
-		menuItemEng.setOnAction((even) -> {
-			this.getChkBoxEng().setSelected(true);
-			selectEngChkBox();
-		});
-
-		menuItemGer.setOnAction((even) -> {
-			this.getChkBoxGer().setSelected(true);
-			selectGerChkBox();
-		});
-
-		menuItemUkr.setOnAction((even) -> {
-			this.getChkBoxUkr().setSelected(true);
-			selectUkrChkBox();
-		});
-
+	private void selectedRuChkBoxClickOnRuChkBox()
+	{
 		menuItemRu.setOnAction((even) -> {
 			this.getChkBoxRu().setSelected(true);
 			selectRusChkBox();
 		});
-
 	}
 
+	private void selectedUkrChkBoxClickOnUkrChkBox()
+	{
+		menuItemUkr.setOnAction((even) -> {
+			this.getChkBoxUkr().setSelected(true);
+			selectUkrChkBox();
+		});
+	}
+
+	private void selectedGerChkBoxClickOnGerChkBox()
+	{
+		menuItemGer.setOnAction((even) -> {
+			this.getChkBoxGer().setSelected(true);
+			selectGerChkBox();
+		});
+	}
+
+	private void selectedEngChkBoxClickOnEngChkBox()
+	{
+		menuItemEng.setOnAction((even) -> {
+			this.getChkBoxEng().setSelected(true);
+			selectEngChkBox();
+		});
+	}
+
+	private void userClickChkBoxRu()
+	{
+		chkBoxRu.setOnAction((even) -> {
+			selectRusChkBox();
+		});
+	}
+
+	private void userClickChkBoxUkr()
+	{
+		chkBoxUkr.setOnAction((even) -> {
+			selectUkrChkBox();
+		});
+	}
+
+	private void userClickChkBoxGer()
+	{
+		chkBoxGer.setOnAction((even) -> {
+			selectGerChkBox();
+		});
+	}
+
+	private void userClickChkBoxEng()
+	{
+		chkBoxEng.setOnAction((even) -> {
+			selectEngChkBox();
+		});
+	}
+
+	private void openAboutLicenseMenu()
+	{
+		menuItemLicense.setOnAction((event) -> {
+			loadNewWindowAboutLicense();
+		});
+	}
+
+	private void openAboutSuppProject()
+	{
+		menuItemSuppProject.setOnAction((event) -> {
+			loadNewWindowSuppProject();
+		});
+	}
+
+	private void openAboutAppMenu()
+	{
+		menuItemAboutApp.setOnAction((event) -> {
+			loadNewWindowAboutProject();
+		});
+	}
+
+	private void openAboutAuthorsMenu()
+	{
+		menuItemAboutAuthors.setOnAction((event) -> {
+			loadNewWindowAboutAuthorsAndDev();
+		});
+	}
+
+	private void openFileDialog()
+	{
+		menuItemOpenXml.setOnAction((event) -> {
+			String pathToXmlForm = "/fxmls/utils/CustomizedFileChooser.fxml";
+			try
+			{
+				setUpCustomizedFileChoserWindow(pathToXmlForm);
+
+			} catch (IOException e)
+			{
+				// exception with creation of support project window window
+				e.printStackTrace();
+			}
+		});
+	}
+
+	private void setUpCustomizedFileChoserWindow(String pathToXmlForm) throws IOException
+	{
+		setUpBorderPane(pathToXmlForm);
+		String TitleForANewWindow = "Alexander custom file chooser";
+		Pane currentPane = this.getCustomFileChooserPane();
+		setUpPaneAndTitleForPane(TitleForANewWindow, currentPane);
+	}
+    
+	@FXML
 	private void verifyCompleteFilesToXmlPathsInputAndPopulateUI()
 	{
 		if (getObservableListOfXmlPaths().size() == 3) {
 			setStatusOfValidLoadedXmlFilesPaths(true);
+		}
+		if (getStatusOfLoadXmlFiles() == true) {
+			getShareableProviderObj().insertPathOfXmlFileToList(getPathsOfValidXmlFiles());
 		}
 	}
 	
@@ -241,16 +334,11 @@ public class MainMenuController
 
 	private void loadNewWindowAboutAuthorsAndDev()
 	{
-		String pathToXmlForm = "/views/fxmls/AboutAuthorsDevs.fxml";
+		String pathToXmlForm = "/fxmls/AboutAuthorsDevs.fxml";
 
 		try
 		{
-			setUpBorderPane(pathToXmlForm);
-			String TitleForANewWindow = "About authors and developers";
-			Pane currentPane = this.getAboutAuthorsPane();
-
-			setUpANewwindow(TitleForANewWindow, currentPane);
-
+			setUpWindowAboutAuthors(pathToXmlForm);
 		} catch (IOException e)
 		{
 			// exception with creation of support project window window
@@ -258,9 +346,18 @@ public class MainMenuController
 		}
 	}
 
+	private void setUpWindowAboutAuthors(String pathToXmlForm) throws IOException
+	{
+		setUpBorderPane(pathToXmlForm);
+		String TitleForANewWindow = "About authors and developers";
+		Pane currentPane = this.getAboutAuthorsPane();
+
+		setUpANewwindow(TitleForANewWindow, currentPane);
+	}
+
 	private void loadNewWindowAboutProject()
 	{
-		String pathToXmlForm = "/views/fxmls/AboutBoquetManagerProject.fxml";
+		String pathToXmlForm = "/fxmls/AboutBoquetManagerProject.fxml";
 		try
 		{
 			setUpBorderPane(pathToXmlForm);
@@ -277,13 +374,10 @@ public class MainMenuController
 
 	private void loadNewWindowAboutLicense()
 	{
-		String pathToXmlForm = "/views/fxmls/AboutLicense.fxml";
+		String pathToXmlForm = "/fxmls/AboutLicense.fxml";
 		try
 		{
-			setUpBorderPane(pathToXmlForm);
-			String TitleForANewWindow = "License information";
-			Pane currentPane = this.getAboutLicensePane();
-			setUpANewwindow(TitleForANewWindow, currentPane);
+			setUpWindowAboutLicense(pathToXmlForm);
 
 		} catch (IOException e)
 		{
@@ -292,22 +386,35 @@ public class MainMenuController
 		}
 	}
 
+	private void setUpWindowAboutLicense(String pathToXmlForm) throws IOException
+	{
+		setUpBorderPane(pathToXmlForm);
+		String TitleForANewWindow = "License information";
+		Pane currentPane = this.getAboutLicensePane();
+		setUpANewwindow(TitleForANewWindow, currentPane);
+	}
+
 	private void loadNewWindowSuppProject()
 	{
-		String pathToXmlForm = "/views/fxmls/SupportProject.fxml";
+		String pathToXmlForm = "/fxmls/SupportProject.fxml";
 
 		try
 		{
-			setUpBorderPane(pathToXmlForm);
-			String TitleForANewWindow = "Support project!";
-			Pane currentPane = this.getSupportProjectPane();
-			setUpANewwindow(TitleForANewWindow, currentPane);
+			setupWindowAboutSuppProject(pathToXmlForm);
 
 		} catch (IOException e)
 		{
 			// exception with creation of support project window window
 			e.printStackTrace();
 		}
+	}
+
+	private void setupWindowAboutSuppProject(String pathToXmlForm) throws IOException
+	{
+		setUpBorderPane(pathToXmlForm);
+		String TitleForANewWindow = "Support project!";
+		Pane currentPane = this.getSupportProjectPane();
+		setUpANewwindow(TitleForANewWindow, currentPane);
 	}
 
 	private void setUpBorderPane(String pathToFxml) throws IOException
@@ -317,11 +424,11 @@ public class MainMenuController
 
 	private void loadingFxmlForAboutMenu(String pathToFxml) throws IOException
 	{
-		final String aboutProject = "/views/fxmls/AboutBoquetManagerProject.fxml";
-		final String aboutLicense = "/views/fxmls/AboutLicense.fxml";
-		final String aboutSuppProject = "/views/fxmls/SupportProject.fxml";
-		final String aboutProjectAuthors = "/views/fxmls/AboutAuthorsDevs.fxml";
-		final String customFileChooserPane = "/views/fxmls/utils/CustomizedFileChooser.fxml";
+		final String aboutProject = "/fxmls/AboutBoquetManagerProject.fxml";
+		final String aboutLicense = "/fxmls/AboutLicense.fxml";
+		final String aboutSuppProject = "/fxmls/SupportProject.fxml";
+		final String aboutProjectAuthors = "/fxmls/AboutAuthorsDevs.fxml";
+		final String customFileChooserPane = "/fxmls/utils/CustomizedFileChooser.fxml";
 		switch (pathToFxml)
 		{
 			case aboutProject:
@@ -342,6 +449,26 @@ public class MainMenuController
 		}
 	}
 
+	private void loadFxmlForAboutProjectWindow(String pathToFxml) throws IOException
+	{
+		this.setAboutProjectPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToFxml)));
+	}
+	
+	private void loadFxmlForAboutLicense(String pathToFxml) throws IOException
+	{
+		this.setAboutLicensePane((BorderPane) FXMLLoader.load(getClass().getResource(pathToFxml)));
+	}
+	
+	private void loadFxmlForSupportProjectWindow(String pathToXmlForm) throws IOException
+	{
+		this.setSupportProjectPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
+	}
+	
+	private void loadFxmlForAuthorsAndDevsWindow(String pathToXmlForm) throws IOException
+	{
+		this.setAboutAuthorsPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
+	}
+	
 	private void loadFxmlForCustomFileChooser(String pathToXmlForm, MainMenuController mainMenuController)
 			throws IOException
 	{
@@ -353,27 +480,6 @@ public class MainMenuController
 		customfileChooserController.injectMainMenuController(mainMenuController);
 
 		this.setCustomFileChooserPane(customFileChooserPane);
-
-	}
-
-	private void loadFxmlForSupportProjectWindow(String pathToXmlForm) throws IOException
-	{
-		this.setSupportProjectPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
-	}
-
-	private void loadFxmlForAuthorsAndDevsWindow(String pathToXmlForm) throws IOException
-	{
-		this.setAboutAuthorsPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToXmlForm)));
-	}
-
-	private void loadFxmlForAboutLicense(String pathToFxml) throws IOException
-	{
-		this.setAboutLicensePane((BorderPane) FXMLLoader.load(getClass().getResource(pathToFxml)));
-	}
-
-	private void loadFxmlForAboutProjectWindow(String pathToFxml) throws IOException
-	{
-		this.setAboutProjectPane((BorderPane) FXMLLoader.load(getClass().getResource(pathToFxml)));
 	}
 
 	private void setUpANewwindow(String TitleForANewWindow, Pane currentPane)
@@ -1092,6 +1198,59 @@ public class MainMenuController
 		this.observableListOfXmlPaths = observableListOfXmlPaths;
 	}
 
-	
-	
+	public AnchorPane getMainMenuAnchorPane()
+	{
+		return mainMenuAnchorPane;
+	}
+
+	public void setMainMenuAnchorPane(AnchorPane mainMenuAnchorPane)
+	{
+		this.mainMenuAnchorPane = mainMenuAnchorPane;
+	}
+
+	public BorderPane getLeftrightBorderPane()
+	{
+		return leftrightBorderPane;
+	}
+
+	public void setLeftrightBorderPane(BorderPane leftrightBorderPane)
+	{
+		this.leftrightBorderPane = leftrightBorderPane;
+	}
+
+	public void setMainGridPane(GridPane mainGridPane)
+	{
+		this.mainGridPane = mainGridPane;
+	}
+
+	public BorderPane getServicesListBorderPane()
+	{
+		return servicesListBorderPane;
+	}
+
+	public void setServicesListBorderPane(BorderPane servicesListBorderPane)
+	{
+		this.servicesListBorderPane = servicesListBorderPane;
+	}
+
+	public BorderPane getFavoritesListBorderPane()
+	{
+		return favoritesListBorderPane;
+	}
+
+	public void setFavoritesListBorderPane(BorderPane favoritesListBorderPane)
+	{
+		this.favoritesListBorderPane = favoritesListBorderPane;
+	}
+
+	public ProviderBetweenUiControllers getShareableProviderObj()
+	{
+		return shareableProviderObj;
+	}
+
+	public void setShareableProviderObj(ProviderBetweenUiControllers shareableProviderObj)
+	{
+		this.shareableProviderObj = shareableProviderObj;
+	}
+
 }

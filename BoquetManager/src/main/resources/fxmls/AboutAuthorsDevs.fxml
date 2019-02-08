@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="aboutAuthorsAndDevsPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.controllers.mainmenu.AboutAuthorsDevsController">
+<BorderPane fx:id="aboutAuthorsAndDevsPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.controllers.mainmenu.AboutAuthorsDevsController">
 	<top>
 		<Label fx:id="lblAuthorsAndDevs" text="About authors and developers of boquet manager project" textAlignment="CENTER" textFill="#221d1d" underline="true" BorderPane.alignment="CENTER">
          <font>
@@ -90,7 +90,7 @@
                </font></Label>
 				<ImageView fx:id="AlexanderImageView" fitHeight="155.0" fitWidth="121.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="BASELINE">
                <image>
-                  <Image url="@authorsPhoto/AlexanderDe.jpg" />
+                  <Image url="@../authorsPhoto/AlexanderDe.jpg" />
                </image></ImageView>
             <Hyperlink fx:id="hyperlinkToAlexanderLinkedin" text="Linkedin profile" GridPane.columnIndex="4" GridPane.rowIndex="1" GridPane.valignment="TOP" />
             <TextArea fx:id="AlexanderMottoTxtArea" editable="false" maxHeight="170.0" prefHeight="100.0" prefWidth="200.0" text="1. Write the unit test first , then the source code itself.&#10;2. When unit test pass the code green then.&#10;3. Improve the code&#10;4. Take next feature or task and repeat step 1!" wrapText="true" GridPane.columnIndex="5" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="NEVER">

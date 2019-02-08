@@ -6,10 +6,13 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import models.ProviderBetweenUiControllers;
 import views.controllers.mainmenu.MainMenuController;
+import views.controllers.mainmenu.ServicesListController;
 
 public class MainView extends Application
 {
@@ -18,29 +21,37 @@ public class MainView extends Application
 	private Scene mainViewScene;
     private ResourceBundle langResources;
     private MainMenuController mainMenuController;
+    private Parent rootNode;
+    private final ProviderBetweenUiControllers providerBetweenControllers;
     
 	public MainView() throws IOException
 	{
-		String pathToFxmlForm = pathToMainFxmlSetUp();
-		
-		FXMLLoader fxmlLoader = new FXMLLoader();
-		fxmlLoader.setResources(this.getLangResources());
-		File givenFilePath= new File(pathToFxmlForm);
-		fxmlLoader.setLocation(givenFilePath.toURL());
-		
-		setMainViewGridPane(fxmlLoader.load());
+		FXMLLoader fxmlLoader = initPathToFxmlMainFormAndInitFxmlLoader();
+		providerBetweenControllers = new ProviderBetweenUiControllers();
+		rootNode = fxmlLoader.load();
+		setMainViewGridPane((GridPane)rootNode);
         mainMenuController = (MainMenuController)fxmlLoader.getController(); 
+        mainMenuController.setShareableProviderObj(providerBetweenControllers);
         
 		this.setTitle("Boquet-manager for sattelite tv channels");
 		mainViewScene = new Scene(getMainViewGridPane());
-		
-		
+
 	}
 
-	private String pathToMainFxmlSetUp()
+
+	private FXMLLoader initPathToFxmlMainFormAndInitFxmlLoader()
 	{
-		String addPath= "/src/main/java";
-		String pathToFxmlForm = System.getProperty("user.dir")+addPath+   "/views/fxmls/MainForm.fxml";
+		String pathToFxmlForm = pathToMainFxmlSetUp();
+		
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(pathToFxmlForm));
+		fxmlLoader.setResources(this.getLangResources());
+		return fxmlLoader;
+	}
+
+
+	private String pathToMainFxmlSetUp()
+	{	
+		String pathToFxmlForm = "/fxmls/MainForm.fxml";
 		this.setLangResources( ResourceBundle.getBundle("internationalization/menuDef") );
 		return pathToFxmlForm;
 	}
@@ -107,7 +118,5 @@ public class MainView extends Application
 	{
 		this.mainMenuController = mainMenuController;
 	}
-	
-	
 
 }
