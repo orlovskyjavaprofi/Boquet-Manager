@@ -10,8 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
-
-import helperutils.ReadXmlAndCreateJdomWithAllSat;
+import fileutils.ReadXmlAndCreateJdomWithAllSat;
 import models.SatServicesModel;
 import testutil.xmlConsolePrinter;
 import xmloutputers.XmlOutputerForServices;

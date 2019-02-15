@@ -2,10 +2,16 @@ package models;
 
 import java.util.List;
 
+
 public class ProviderBetweenUiControllers
 {
 	private List<String> PathsOfValidXmlFiles;
-
+  
+    
+	public ProviderBetweenUiControllers()
+	{
+		
+	}
 
 	public boolean insertPathOfXmlFileToList(List<String> inputPathsOfValidXmlFiles)
 	{
@@ -14,6 +20,7 @@ public class ProviderBetweenUiControllers
 		setPathsOfValidXmlFiles(inputPathsOfValidXmlFiles);
 	
 		if(getPathsOfValidXmlFiles().isEmpty() == false) {
+	
 			result = true;
 		}
 		
@@ -31,7 +38,7 @@ public class ProviderBetweenUiControllers
 	{
 		PathsOfValidXmlFiles = pathsOfValidXmlFiles;
 	}
-	
+
 	
 
 }

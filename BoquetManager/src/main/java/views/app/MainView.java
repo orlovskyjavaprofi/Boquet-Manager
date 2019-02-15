@@ -1,6 +1,5 @@
 package views.app;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -12,7 +11,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import models.ProviderBetweenUiControllers;
 import views.controllers.mainmenu.MainMenuController;
-import views.controllers.mainmenu.ServicesListController;
 
 public class MainView extends Application
 {
@@ -37,7 +35,6 @@ public class MainView extends Application
 		mainViewScene = new Scene(getMainViewGridPane());
 
 	}
-
 
 	private FXMLLoader initPathToFxmlMainFormAndInitFxmlLoader()
 	{
@@ -117,6 +114,11 @@ public class MainView extends Application
 	public void setMainMenuController(MainMenuController mainMenuController)
 	{
 		this.mainMenuController = mainMenuController;
+	}
+
+	public ProviderBetweenUiControllers getProviderBetweenControllers()
+	{
+		return providerBetweenControllers;
 	}
 
 }

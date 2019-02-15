@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import builders.SatServicesListBuilder;
-import helperutils.ReadXmlAndCreateJdomWithAllSat;
+import fileutils.ReadXmlAndCreateJdomWithAllSat;
 import models.SatServicesList;
 
 class SatServicesListBuilderTest
@@ -63,9 +63,9 @@ class SatServicesListBuilderTest
 	void checkIfServicesSetIsNotNullAndServiceListCanBeBuild() {
 		boolean expectedResult = true;
 		boolean actualResult = false;
-		
+		String pathToXml = "src//main//resources//XML-Files-Update2018//services.xml";
 		ReadXmlAndCreateJdomWithAllSat helperObjAllSats =
-				new ReadXmlAndCreateJdomWithAllSat();
+				new ReadXmlAndCreateJdomWithAllSat(pathToXml);
 		SortedSet<SatServicesList> setOfSortedSatellitesServices = new TreeSet<SatServicesList>();
 		List<Element> listOfSatellites = new LinkedList<Element>();
 		

@@ -195,15 +195,14 @@ class mainViewTest extends ApplicationTest
 	void testIfAControllerCanBeAccessed() {
 		assertNotNull(mainViewObj.getMainMenuController()  );
 	}
-	
+
 	@Test
 	void testingIfPathToFilesCanBeWritten() {
 		List<String> expectedMockupValuesList = new ArrayList<String>();
 		List<String> actualValuesList = new ArrayList<String>();
 		initMockupValues(expectedMockupValuesList);
-		iterateOverListAddToMainMenuController(expectedMockupValuesList);
+		writeValidPathToCustomFileChooser(expectedMockupValuesList);
 		actualValuesList = mainViewObj.getMainMenuController().getPathsOfValidXmlFiles();
-        
 		assertEquals(expectedMockupValuesList, actualValuesList, "Got wrong values for xml path to files from main menu controller");	
 	}
 	

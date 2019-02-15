@@ -13,115 +13,155 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="mainGridPane" minHeight="668.0" minWidth="800.0" prefHeight="668.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.controllers.mainmenu.MainMenuController">
-   <children>
-      <AnchorPane fx:id="mainMenuAnchorPane" prefHeight="26.0" prefWidth="800.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS">
-         <children>
-            <MenuBar fx:id="mainMenuBar" prefHeight="32.0" prefWidth="733.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <menus>
-                <Menu fx:id="menuFile" mnemonicParsing="false" text="%menuFile">
-                  <items>
-                        <MenuItem fx:id="menuItemSaveToXml" mnemonicParsing="false" text="%FileItemMenuSave" />
-                        <MenuItem fx:id="menuItemOpenXml" mnemonicParsing="false" text="%FileItemMenuOpen" />
-                        <MenuItem fx:id="menuItemPreferences" mnemonicParsing="false" text="%FileItemMenuPreferences">
-                           <graphic>
-                              <CheckBox fx:id="chkBoxUserPreferences" mnemonicParsing="false" />
-                           </graphic></MenuItem>
-                    <MenuItem fx:id="menuItemQuit" mnemonicParsing="false" text="%FileItemMenuQuit" />
-                  </items>
-                </Menu>
-                <Menu fx:id="menuEdit" mnemonicParsing="false" text="%menuEdit">
-                  <items>
-                        <MenuItem fx:id="menuItemPaste" mnemonicParsing="false" text="%EditItemMenuPaste" />
-                        <MenuItem fx:id="menuItemCopy" mnemonicParsing="false" text="%EditItemMenuCopy" />
-                    <MenuItem fx:id="menuItemDelete" mnemonicParsing="false" text="%EditItemMenuDelete" />
-                  </items>
-                </Menu>
-                  <Menu fx:id="menuView" mnemonicParsing="false" text="%menuView">
-                    <items>
-                      <MenuItem fx:id="menuItemSortAlphabet" mnemonicParsing="false" text="%ViewItemMenuSortAlpha" />
-                        <MenuItem fx:id="menuItemSortBySattelites" mnemonicParsing="false" text="%ViewItemMenuSortSat" />
-                    </items>
-                  </Menu>
-                <Menu fx:id="menuLang" mnemonicParsing="false" text="%menuLang">
-                  <items>
-                    <MenuItem fx:id="menuItemEng" mnemonicParsing="false" text="%LangItemMenuEng">
-                           <graphic>
-                              <CheckBox fx:id="chkBoxEng" mnemonicParsing="false" selected="true" />
-                           </graphic></MenuItem>
-                        <MenuItem fx:id="menuItemGer" mnemonicParsing="false" text="%LangItemMenuGer">
-                           <graphic>
-                              <CheckBox fx:id="chkBoxGer" mnemonicParsing="false" />
-                           </graphic>
-                        </MenuItem>
-                        <MenuItem fx:id="menuItemUkr" mnemonicParsing="false" text="%LangItemMenuUkr">
-                           <graphic>
-                              <CheckBox fx:id="chkBoxUkr" mnemonicParsing="false" />
-                           </graphic>
-                        </MenuItem>
-                        <MenuItem fx:id="menuItemRu" mnemonicParsing="false" text="%LangItemMenuRu">
-                           <graphic>
-                              <CheckBox fx:id="chkBoxRu" mnemonicParsing="false" />
-                           </graphic>
-                        </MenuItem>
-                  </items>
-                </Menu>
-                  <Menu fx:id="menuSatReceiver" mnemonicParsing="false" text="%menuSatReceiver">
-                     <items>
-                        <MenuItem fx:id="menuItemDobx2SatReceiver" mnemonicParsing="false" text="%SatReceiverItemMenuSatReceiver">
-                           <graphic>
-                              <CheckBox fx:id="chkBoxDbox2SatReceiver" disable="true" mnemonicParsing="false" selected="true" underline="true" />
-                           </graphic>
-                        </MenuItem>
-                     </items>
-                  </Menu>
-              </menus>
-            </MenuBar>
-            <MenuBar fx:id="helpMenuBar" layoutX="729.0" layoutY="-2.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="32.0" prefWidth="136.0" AnchorPane.rightAnchor="0.0">
-               <menus>
-                  <Menu fx:id="menuHelp" mnemonicParsing="false" text="%menuHelp">
-                    <items>
-                      <MenuItem fx:id="menuItemAboutApp" mnemonicParsing="false" text="%HelpItemMenuAboutApp" />
-                        <MenuItem fx:id="menuItemAboutAuthors" mnemonicParsing="false" text="%HelpItemMenuAboutAuthors" />
-                        <MenuItem fx:id="menuItemLicense" mnemonicParsing="false" text="%HelpItemMenuLicense" />
-                        <MenuItem fx:id="menuItemSuppProject" mnemonicParsing="false" text="%HelpItemMenuSupportProject" />
-                    </items>
-                  </Menu>
-               </menus>
-            </MenuBar>
-         </children>
-      </AnchorPane>
-      <BorderPane fx:id="leftrightBorderPane" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
-      
-         <padding>
-            <Insets bottom="5.0" />
-         </padding>
-         <center>
-    
-            <fx:include fx:id="servicesListBorderPane" source="ServicesListOnBorderPane.fxml" />
-          
-         </center>
-         <right>
-     
-            <fx:include fx:id="favoritesListBorderPane" source="FavoritesListOnBorderPane.fxml" />
-          
-         </right>
-         <top>
-            <Label fx:id="filesLoadStateLbl" text="Ready to load xml files!" textFill="#da0808" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font>
-            </Label>
-         </top>
-      </BorderPane>
-	
+<GridPane fx:id="mainGridPane" minHeight="668.0"
+	minWidth="800.0" prefHeight="668.0"
+	xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="views.controllers.mainmenu.MainMenuController">
+	<children>
+		<AnchorPane fx:id="mainMenuAnchorPane" prefHeight="26.0"
+			prefWidth="800.0" GridPane.halignment="CENTER"
+			GridPane.hgrow="ALWAYS">
+			<children>
+				<MenuBar fx:id="mainMenuBar" prefHeight="32.0"
+					prefWidth="733.0" AnchorPane.bottomAnchor="0.0"
+					AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+					AnchorPane.topAnchor="0.0">
+					<menus>
+						<Menu fx:id="menuFile" mnemonicParsing="false"
+							text="%menuFile">
+							<items>
+								<MenuItem fx:id="menuItemSaveToXml"
+									mnemonicParsing="false" text="%FileItemMenuSave" />
+								<MenuItem fx:id="menuItemOpenXml"
+									mnemonicParsing="false" text="%FileItemMenuOpen" />
+								<MenuItem fx:id="menuItemPreferences"
+									mnemonicParsing="false" text="%FileItemMenuPreferences">
+									<graphic>
+										<CheckBox fx:id="chkBoxUserPreferences"
+											mnemonicParsing="false" />
+									</graphic>
+								</MenuItem>
+								<MenuItem fx:id="menuItemQuit" mnemonicParsing="false"
+									text="%FileItemMenuQuit" />
+							</items>
+						</Menu>
+						<Menu fx:id="menuEdit" mnemonicParsing="false"
+							text="%menuEdit">
+							<items>
+								<MenuItem fx:id="menuItemPaste" mnemonicParsing="false"
+									text="%EditItemMenuPaste" />
+								<MenuItem fx:id="menuItemCopy" mnemonicParsing="false"
+									text="%EditItemMenuCopy" />
+								<MenuItem fx:id="menuItemDelete"
+									mnemonicParsing="false" text="%EditItemMenuDelete" />
+							</items>
+						</Menu>
+						<Menu fx:id="menuView" mnemonicParsing="false"
+							text="%menuView">
+							<items>
+								<MenuItem fx:id="menuItemSortAlphabet"
+									mnemonicParsing="false" text="%ViewItemMenuSortAlpha" />
+								<MenuItem fx:id="menuItemSortBySattelites"
+									mnemonicParsing="false" text="%ViewItemMenuSortSat" />
+							</items>
+						</Menu>
+						<Menu fx:id="menuLang" mnemonicParsing="false"
+							text="%menuLang">
+							<items>
+								<MenuItem fx:id="menuItemEng" mnemonicParsing="false"
+									text="%LangItemMenuEng">
+									<graphic>
+										<CheckBox fx:id="chkBoxEng" mnemonicParsing="false"
+											selected="true" />
+									</graphic>
+								</MenuItem>
+								<MenuItem fx:id="menuItemGer" mnemonicParsing="false"
+									text="%LangItemMenuGer">
+									<graphic>
+										<CheckBox fx:id="chkBoxGer" mnemonicParsing="false" />
+									</graphic>
+								</MenuItem>
+								<MenuItem fx:id="menuItemUkr" mnemonicParsing="false"
+									text="%LangItemMenuUkr">
+									<graphic>
+										<CheckBox fx:id="chkBoxUkr" mnemonicParsing="false" />
+									</graphic>
+								</MenuItem>
+								<MenuItem fx:id="menuItemRu" mnemonicParsing="false"
+									text="%LangItemMenuRu">
+									<graphic>
+										<CheckBox fx:id="chkBoxRu" mnemonicParsing="false" />
+									</graphic>
+								</MenuItem>
+							</items>
+						</Menu>
+						<Menu fx:id="menuSatReceiver" mnemonicParsing="false"
+							text="%menuSatReceiver">
+							<items>
+								<MenuItem fx:id="menuItemDobx2SatReceiver"
+									mnemonicParsing="false" text="%SatReceiverItemMenuSatReceiver">
+									<graphic>
+										<CheckBox fx:id="chkBoxDbox2SatReceiver"
+											disable="true" mnemonicParsing="false" selected="true"
+											underline="true" />
+									</graphic>
+								</MenuItem>
+							</items>
+						</Menu>
+					</menus>
+				</MenuBar>
+				<MenuBar fx:id="helpMenuBar" layoutX="729.0" layoutY="-2.0"
+					nodeOrientation="RIGHT_TO_LEFT" prefHeight="32.0" prefWidth="136.0"
+					AnchorPane.rightAnchor="0.0">
+					<menus>
+						<Menu fx:id="menuHelp" mnemonicParsing="false"
+							text="%menuHelp">
+							<items>
+								<MenuItem fx:id="menuItemAboutApp"
+									mnemonicParsing="false" text="%HelpItemMenuAboutApp" />
+								<MenuItem fx:id="menuItemAboutAuthors"
+									mnemonicParsing="false" text="%HelpItemMenuAboutAuthors" />
+								<MenuItem fx:id="menuItemLicense"
+									mnemonicParsing="false" text="%HelpItemMenuLicense" />
+								<MenuItem fx:id="menuItemSuppProject"
+									mnemonicParsing="false" text="%HelpItemMenuSupportProject" />
+							</items>
+						</Menu>
+					</menus>
+				</MenuBar>
+			</children>
+		</AnchorPane>
+		<BorderPane fx:id="leftrightBorderPane"
+			GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
 
-   </children>
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints valignment="CENTER" />
-      <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
-   </rowConstraints>
+			<padding>
+				<Insets bottom="5.0" />
+			</padding>
+			<center>
+				<fx:include fx:id="servicesList" source="ServicesListOnBorderPane.fxml" />
+			</center>
+			<right>
+				<fx:include fx:id="favoritesList" source="FavoritesListOnBorderPane.fxml" />
+			</right>
+			<top>
+				<Label fx:id="filesLoadStateLbl"
+					text="Ready to load xml files!" textFill="#da0808"
+					BorderPane.alignment="CENTER">
+					<font>
+						<Font name="System Bold" size="15.0" />
+					</font>
+				</Label>
+			</top>
+		</BorderPane>
+
+
+	</children>
+	<columnConstraints>
+		<ColumnConstraints />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints valignment="CENTER" />
+		<RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+	</rowConstraints>
 </GridPane>

@@ -42,13 +42,7 @@ public class MainMenuController
 	private ObservableList<String> observableListOfXmlPaths;
 	private boolean statusOfValidLoadedXmlFilesPaths;
 	private ProviderBetweenUiControllers shareableProviderObj;
-	
-	@FXML
-	private BorderPane servicesListBorderPane;
-	
-	@FXML
-	private BorderPane favoritesListBorderPane;
-	
+		
     @FXML
 	private AnchorPane mainMenuAnchorPane; 
     
@@ -148,6 +142,9 @@ public class MainMenuController
 	@FXML
 	private MenuItem menuItemRu;
     
+	@FXML 
+	private ServicesListController servicesListController;
+	
 	public MainMenuController()
 	{		
 		pathsOfValidXmlFiles = new ArrayList<String>();
@@ -158,14 +155,15 @@ public class MainMenuController
 		
 	}
 		
-    @FXML
+	@FXML
 	private void initialize()
-	{			
+	{				
 		openFileDialog();
 		listenToObeservableXmlPathList();	
 		openMenuItems();
 		userClickOnChkBoxes();
 		userClickOnSelectedChkLangBoxes();		
+		
 	}
 
 	private void listenToObeservableXmlPathList()
@@ -323,7 +321,9 @@ public class MainMenuController
 			setStatusOfValidLoadedXmlFilesPaths(true);
 		}
 		if (getStatusOfLoadXmlFiles() == true) {
-			getShareableProviderObj().insertPathOfXmlFileToList(getPathsOfValidXmlFiles());
+			getShareableProviderObj().insertPathOfXmlFileToList(getPathsOfValidXmlFiles());	
+			getServicesListController().setProviderInstace(getShareableProviderObj());
+			getServicesListController().buildingSatServicesAndPopulateUiOfServices();
 		}
 	}
 	
@@ -1223,26 +1223,6 @@ public class MainMenuController
 		this.mainGridPane = mainGridPane;
 	}
 
-	public BorderPane getServicesListBorderPane()
-	{
-		return servicesListBorderPane;
-	}
-
-	public void setServicesListBorderPane(BorderPane servicesListBorderPane)
-	{
-		this.servicesListBorderPane = servicesListBorderPane;
-	}
-
-	public BorderPane getFavoritesListBorderPane()
-	{
-		return favoritesListBorderPane;
-	}
-
-	public void setFavoritesListBorderPane(BorderPane favoritesListBorderPane)
-	{
-		this.favoritesListBorderPane = favoritesListBorderPane;
-	}
-
 	public ProviderBetweenUiControllers getShareableProviderObj()
 	{
 		return shareableProviderObj;
@@ -1253,4 +1233,15 @@ public class MainMenuController
 		this.shareableProviderObj = shareableProviderObj;
 	}
 
+	public ServicesListController getServicesListController()
+	{
+		return servicesListController;
+	}
+
+	public void setServicesListController(ServicesListController servicesListController)
+	{
+		this.servicesListController = servicesListController;
+	}
+
+	
 }

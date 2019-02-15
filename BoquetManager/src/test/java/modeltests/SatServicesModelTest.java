@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
-import helperutils.ReadXmlAndCreateJdomWithAllSat;
+import fileutils.ReadXmlAndCreateJdomWithAllSat;
 import models.SatServicesModel;
 import models.SatServicesList;
 
