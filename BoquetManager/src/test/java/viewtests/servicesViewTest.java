@@ -3,8 +3,8 @@ package viewtests;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
-import static org.testfx.matcher.control.LabeledMatchers.hasText;
-
+import static org.testfx.matcher.base.NodeMatchers.isNotNull;
+import org.testfx.matcher.control.TextMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,15 +54,13 @@ class servicesViewTest extends ApplicationTest
 		assertEquals(expectedResult,actualResult,"a given provider does not consist the services.xml" );
 	}
 	
-	@Disabled
     @Test
     void testIfServicesListUiIsPopulatedWithData() {
     	validUserInput();
     	
-    	verifyThat("#colSatTvChnName", hasText("Selected!"));
-    	verifyThat("#colSatName", hasText("Selected!"));
-    	verifyThat("#colSatTransponderId", hasText("Selected!"));
-    	//find out that some text should visible in give Table column!
+    	verifyThat("#colSatTvChnName", isNotNull());
+    	verifyThat("#colSatName", isNotNull());
+    	verifyThat("#colSatTransponderId", isNotNull());
     }
 	
 	private void validUserInput()

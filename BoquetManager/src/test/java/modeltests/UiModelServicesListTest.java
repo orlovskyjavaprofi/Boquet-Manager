@@ -1,12 +1,18 @@
 package modeltests;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import models.SatTransponder;
+import models.SatTvChannel;
 import models.UiModels.UiModelServicesList;
 
 class UiModelServicesListTest
@@ -16,7 +22,7 @@ class UiModelServicesListTest
 	@BeforeEach
 	void setUp()
 	{
-		modelObjServices = new UiModelServicesList("test",0,"test");
+		modelObjServices = new UiModelServicesList("test",0,"test","0056","ARD");
 	}
 	
 	@Test
@@ -47,6 +53,23 @@ class UiModelServicesListTest
 		modelObjServices.setSatDiseqc(expectedValue);
 		String actualValue = modelObjServices.getSatDiseqc();
 		assertEquals(expectedValue,actualValue, "The diseqc of sattellite was not set up!" );
+	}
+
+
+	@Test
+	void testIfSatTransponderCanBeSet() {
+		String expectedValue = "0021";
+		modelObjServices.setTransponderId(expectedValue);
+		String actualValue = modelObjServices.getTransponderId();
+		assertEquals(expectedValue,actualValue, "The transponderid of sattellite was not set up!" );
+	}
+	
+	@Test
+	void testIfSatTvChnCanBeSet() {
+		String expectedValue = "ARD";
+		modelObjServices.setChannelName(expectedValue);
+		String actualValue = modelObjServices.getChannelName();
+		assertEquals(expectedValue,actualValue, "The channel TV of sattellite was not set up!" );
 	}
 
 }

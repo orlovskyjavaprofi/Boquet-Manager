@@ -337,8 +337,7 @@ public class CustomFileChooserController
 		this.getFileChooseTreeTablesView().setRoot(this.getRootTreeItem());
 		
 	}
-	
-	
+		
 	private void getFsItemsFromDisk(String dirPath, boolean expandedDirStatus,
 			boolean userSelectionHasLeaf)
 	{

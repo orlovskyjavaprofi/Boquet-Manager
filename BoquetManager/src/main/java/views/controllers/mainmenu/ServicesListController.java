@@ -25,6 +25,8 @@ import javafx.scene.control.TreeTableView;
 import javafx.scene.layout.BorderPane;
 import models.ProviderBetweenUiControllers;
 import models.SatServicesList;
+import models.SatTransponder;
+import models.SatTvChannel;
 import models.UiModels.UiModelServicesList;
 
 public class ServicesListController
@@ -55,12 +57,13 @@ public class ServicesListController
 	private TextField txtFldSearchSatTvChn;
 	
 	private ProviderBetweenUiControllers providerInstace;
-	private String pathToServicesXMLFile;
-	private SortedSet<SatServicesList> setOfSortedSatellitesServices;
+	private String pathToServicesXMLFile;	
 	private SatServicesListBuilder satServiceListBuilderObj;
 	private boolean stateOfProvider;
 	private TreeItem<UiModelServicesList> rootTreeItem;
+	
 	private List<UiModelServicesList> uiModelForServicesList; 
+	private SortedSet<SatServicesList> setOfSortedSatellitesServices;
 	
 	public ServicesListController() {
 		setOfSortedSatellitesServices = new TreeSet<SatServicesList>();
@@ -86,16 +89,10 @@ public class ServicesListController
 			{
 				try
 				{
-					buildASetOfSatServices();
-
-					createRootTreeItem();
-					createAndSetupRoots();
-					
-		         getColSatName().setCellValueFactory((
-		        		 TreeTableColumn.CellDataFeatures<UiModelServicesList, String> param) ->
-		           new ReadOnlyStringWrapper(param.getValue().getValue().getSatName() )
-		         );
-					
+  				 buildASetOfSatServices();
+  				 createRootTreeItem();
+  				 createAndSetupRoots();
+   		         setupTreeTableViewForColumsValues();
                  getTreeTblViewServicesList().setRoot( getRootTreeItem());
 			
 				} catch (ParserConfigurationException | SAXException | IOException e)
@@ -107,15 +104,6 @@ public class ServicesListController
 		}
 	}
 
-	private void createAndSetupRoots()
-	{
-		for(UiModelServicesList root : getUiModelForServicesList()) {
-			getRootTreeItem().getChildren().add(new TreeItem<UiModelServicesList>(
-					new UiModelServicesList(root.getSatName() ) ) 
-				);
-		}
-	}
-
 	private void createRootTreeItem()
 	{
 		String defaultText= "List of satellite's";
@@ -124,7 +112,34 @@ public class ServicesListController
 		setRootTreeItem(rootItem);
 		getRootTreeItem().setExpanded(true);
 	}
+	
+	private void setupTreeTableViewForColumsValues()
+	{
+		getColSatName().setCellValueFactory((
+				 TreeTableColumn.CellDataFeatures<UiModelServicesList, String> param) ->
+		   new ReadOnlyStringWrapper(param.getValue().getValue().getSatName() )
+		 );
+		 getColSatTransponderId().setCellValueFactory((
+				 TreeTableColumn.CellDataFeatures<UiModelServicesList, String> param) ->
+		   new ReadOnlyStringWrapper(param.getValue().getValue().getTransponderId() )
+		 );
 
+		 getColSatTvChnName().setCellValueFactory((
+				 TreeTableColumn.CellDataFeatures<UiModelServicesList, String> param) ->
+		   new ReadOnlyStringWrapper(param.getValue().getValue().getChannelName() )
+		 );
+		 uiModelForServicesList.clear();
+	}
+
+	private void createAndSetupRoots()
+	{
+		TreeItem<UiModelServicesList> servicesListTreeItem;
+		for (UiModelServicesList root : getUiModelForServicesList())
+		{
+			servicesListTreeItem = new TreeItem<UiModelServicesList>(root);
+			getRootTreeItem().getChildren().add(servicesListTreeItem);
+		}
+    }
 
 	private void buildASetOfSatServices() throws ParserConfigurationException, SAXException, IOException
 	{	
@@ -134,14 +149,27 @@ public class ServicesListController
 		jdomDocumentCreator.readAndSetUpJDomDocument();
 		listOfSatellitesWithServices = jdomDocumentCreator.readJdomDocumentAndCreate1rdLevelElementList();
 		setSetOfSortedSatellitesServices( satServiceListBuilderObj.buildSatServicesSet(listOfSatellitesWithServices) );	
-		UiModelServicesList tempUiModelList;
+		
 		for (SatServicesList satServicesList : getSetOfSortedSatellitesServices())
 		{
-			tempUiModelList = new UiModelServicesList(satServicesList.getSatName(),
-					satServicesList.getSatPosition(),String.valueOf(satServicesList.getSatDiseqc()) );
-
-			getUiModelForServicesList().add(tempUiModelList);
+		    for(SatTransponder satTransponder : satServicesList.getListOfTransponders())
+		    {
+	          insertSatServicesListToTreeItemList(satServicesList, satTransponder);
+		    }
 		}
+		getSetOfSortedSatellitesServices().clear();  //dont forget to use for future searches!
+	}
+
+	private void insertSatServicesListToTreeItemList(SatServicesList satServicesList, SatTransponder satTransponder)
+	{
+		UiModelServicesList tempUiModelList;
+		for(SatTvChannel satTvChannel : satTransponder.getListOfSatTvChannels()) {
+				tempUiModelList = new UiModelServicesList(satServicesList.getSatName(),
+						satServicesList.getSatPosition(), String.valueOf(satServicesList.getSatDiseqc()),
+						satTransponder.getTransponderId(), satTvChannel.getChannelName());
+				
+				getUiModelForServicesList().add(tempUiModelList);
+		  }
 	}
 	
 	public boolean statusOfLoadedDataFromMainController()
