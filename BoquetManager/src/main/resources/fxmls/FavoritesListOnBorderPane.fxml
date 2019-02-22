@@ -11,22 +11,19 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPaneSatTvFavoritesList" prefHeight="448.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="borderPaneSatTvFavoritesList" minWidth="700.0" prefHeight="448.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.controllers.mainmenu.FavoritesListController">
    <center>
       <TabPane fx:id="tabPaneSatTvFavGrp" prefHeight="371.0" prefWidth="624.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
          <tabs>
-            <Tab fx:id="tabRootForSatTvGrp" text="FavoriteCategory">
+            <Tab fx:id="tabRootElemSatTvFavorites" text="Favorites name">
                <content>
-                  <TableView fx:id="tableViewForSatGrp" prefHeight="279.0">
+                  <TableView fx:id="tblFavoritesSatTv" prefHeight="279.0">
                     <columns>
-                      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="150.0" text="SatTvChannelName">
-                           <graphic>
-                              <Label alignment="CENTER" contentDisplay="CENTER" text="Channel name">
-                                 <padding>
-                                    <Insets left="20.0" />
-                                 </padding>
-                              </Label>
-                           </graphic></TableColumn>
+                      <TableColumn fx:id="colChnName" maxWidth="-1.0" minWidth="150.0" prefWidth="350.0" text="Channel name" />
+                        <TableColumn fx:id="colServiceID" maxWidth="-1.0" minWidth="100.0" prefWidth="100.0" text="Service Id" />
+                        <TableColumn fx:id="colTransponderId" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" text="Transponder Id" />
+                        <TableColumn fx:id="colTransponderOnid" maxWidth="-1.0" minWidth="150.0" prefWidth="150.0" text="Transponder Onid" />
+                        <TableColumn fx:id="colSatPos" minWidth="100.0" prefWidth="100.0" text="Sat position" />
                     </columns>
                     	<placeholder>
 				<Label fx:id="DummyLabeL" text="" />

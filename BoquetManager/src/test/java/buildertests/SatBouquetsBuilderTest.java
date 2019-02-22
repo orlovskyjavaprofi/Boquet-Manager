@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import builders.SatBouquetsBuilder;
-import helperutils.ReadXmlAndCreateJdomWithAllBouquets;
+import fileutils.ReadXmlAndCreateJdomWithAllBouquets;
 import models.SatTvBoquet;
 
 class SatBouquetsBuilderTest
@@ -40,10 +40,11 @@ class SatBouquetsBuilderTest
 	void checkIfBouquetsSetIsNotNullAndBoquetsListCanBeBuild() {
 		boolean expectedResult = true;
 		boolean actualResult = false;
+		String pathToXml = "src//main//resources//XML-Files-Update2018//bouquets.xml";
 		
 		SortedSet<SatTvBoquet> setOfSortedSatTvBoquets =  new TreeSet<SatTvBoquet>();
 		ReadXmlAndCreateJdomWithAllBouquets helperObj =
-				new ReadXmlAndCreateJdomWithAllBouquets();
+				new ReadXmlAndCreateJdomWithAllBouquets(pathToXml);
 		List<Element> listOfBoquetsJdomElems = new LinkedList<Element>();
 		
 		try

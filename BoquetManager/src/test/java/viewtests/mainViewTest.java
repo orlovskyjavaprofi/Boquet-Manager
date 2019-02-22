@@ -252,6 +252,14 @@ class mainViewTest extends ApplicationTest
     	verifyThat("#colSatTransponderId", isVisible());
 	}
 
+	@Test
+	void testingIfLeftSideOfMainViewisVisible() {
+		List<String> xmlPathsToFiles = new ArrayList<String>();
+		testRigthWayPathToXmlFiles(xmlPathsToFiles);
+		writeValidPathToCustomFileChooser(xmlPathsToFiles);
+		verifyThat("#servicesListBorderPaneMain", isVisible());   
+	}
+
 	private void writePathToCustomFileChooser(List<String> xmlPathsToFiles)
 	{
 		for (String pathToFiles : xmlPathsToFiles)
@@ -284,7 +292,7 @@ class mainViewTest extends ApplicationTest
 	
 	private void writeValidPathToCustomFileChooser(List<String> xmlPathsToFiles)
 	{
-		Integer counter = 0;
+		
 		for (String pathToFiles : xmlPathsToFiles)
 		{
 			clickOn("#menuFile");
@@ -342,13 +350,13 @@ class mainViewTest extends ApplicationTest
 	
 	}
 	
-	private void iterateOverListAddToMainMenuController(List<String> expectedMockupValuesList)
-	{
-		for (String inputFilePath : expectedMockupValuesList)
-		{
-			mainViewObj.getMainMenuController().addValidXmlFileToList(inputFilePath);			
-		}
-	}
+//	private void iterateOverListAddToMainMenuController(List<String> expectedMockupValuesList)
+//	{
+//		for (String inputFilePath : expectedMockupValuesList)
+//		{
+//			mainViewObj.getMainMenuController().addValidXmlFileToList(inputFilePath);			
+//		}
+//	}
 
 	private void initMockupValues(List<String> mockupValuesList)
 	{

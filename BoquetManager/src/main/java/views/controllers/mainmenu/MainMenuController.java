@@ -45,105 +45,78 @@ public class MainMenuController
 		
     @FXML
 	private AnchorPane mainMenuAnchorPane; 
-    
 	@FXML
 	private BorderPane leftrightBorderPane;
-	
 	@FXML
 	private GridPane mainGridPane;
-
 	@FXML
 	private Menu menuFile;
-
 	@FXML
 	private Label filesLoadStateLbl;
-
 	@FXML
 	private MenuBar mainMenuBar;
-
 	@FXML
 	private MenuItem menuItemSaveToXml;
-
 	@FXML
 	private MenuItem menuItemOpenXml;
-
 	@FXML
 	private MenuItem menuItemPreferences;
-
 	@FXML
 	private MenuItem menuItemQuit;
-
 	@FXML
 	private Menu menuEdit;
-
 	@FXML
 	private MenuItem menuItemPaste;
-
 	@FXML
 	private MenuItem menuItemCopy;
-
 	@FXML
 	private MenuItem menuItemDelete;
-
 	@FXML
 	private Menu menuView;
-
 	@FXML
 	private MenuItem menuItemSortAlphabet;
-
 	@FXML
 	private MenuItem menuItemSortBySattelites;
-
 	@FXML
 	private Menu menuLang;
-
 	@FXML
 	private Menu menuSatReceiver;
-
 	@FXML
 	private MenuItem menuItemDobx2SatReceiver;
-
 	@FXML
 	private Menu menuHelp;
-
 	@FXML
 	private MenuItem menuItemAboutApp;
-
 	@FXML
 	private MenuItem menuItemAboutAuthors;
-
 	@FXML
 	private MenuItem menuItemLicense;
-
 	@FXML
 	private MenuItem menuItemSuppProject;
-
 	@FXML
 	private CheckBox chkBoxEng;
-
 	@FXML
 	private CheckBox chkBoxGer;
-
 	@FXML
 	private CheckBox chkBoxUkr;
-
 	@FXML
 	private CheckBox chkBoxRu;
-
 	@FXML
 	private MenuItem menuItemEng;
-
 	@FXML
 	private MenuItem menuItemGer;
-
 	@FXML
 	private MenuItem menuItemUkr;
-
 	@FXML
-	private MenuItem menuItemRu;
-    
+	private MenuItem menuItemRu;   
 	@FXML 
 	private ServicesListController servicesListController;
+	@FXML
+	private BorderPane servicesList;
+	@FXML
+	private BorderPane favoritesList;
+	@FXML
+	private FavoritesListController favoritesListController;
 	
 	public MainMenuController()
 	{		
@@ -151,8 +124,7 @@ public class MainMenuController
 		setCountLoadedXmlFiles(0);
 		setCurrentFilePathInMemory("");
 		setStatusOfValidLoadedXmlFilesPaths(false);
-		setObservableListOfXmlPaths(FXCollections.observableList(new ArrayList<String>() ));
-		
+		setObservableListOfXmlPaths(FXCollections.observableList(new ArrayList<String>() ));		
 	}
 		
 	@FXML
@@ -321,10 +293,22 @@ public class MainMenuController
 			setStatusOfValidLoadedXmlFilesPaths(true);
 		}
 		if (getStatusOfLoadXmlFiles() == true) {
-			getShareableProviderObj().insertPathOfXmlFileToList(getPathsOfValidXmlFiles());	
-			getServicesListController().setProviderInstace(getShareableProviderObj());
-			getServicesListController().buildingSatServicesAndPopulateUiOfServices();
+			populateLeftPartOfMainViewWithData();			
+			populateRightPartOfMainViewWithData();
 		}
+	}
+
+	private void populateRightPartOfMainViewWithData()
+	{
+		getFavoritesListController().setProviderInstance(getShareableProviderObj());
+		getFavoritesListController().buildingSatTvBoquetsAndPopulateUiOfFavorites();
+	}
+
+	private void populateLeftPartOfMainViewWithData()
+	{
+		getShareableProviderObj().insertPathOfXmlFileToList(getPathsOfValidXmlFiles());	
+		getServicesListController().setProviderInstace(getShareableProviderObj());
+		getServicesListController().buildingSatServicesAndPopulateUiOfServices();
 	}
 	
 	private void setUpPaneAndTitleForPane(String TitleForANewWindow, Pane inputPane)
@@ -1241,6 +1225,26 @@ public class MainMenuController
 	public void setServicesListController(ServicesListController servicesListController)
 	{
 		this.servicesListController = servicesListController;
+	}
+
+	public FavoritesListController getFavoritesListController()
+	{
+		return favoritesListController;
+	}
+
+	public void setFavoritesListController(FavoritesListController favoritesListController)
+	{
+		this.favoritesListController = favoritesListController;
+	}
+
+	public BorderPane getServicesList()
+	{
+		return servicesList;
+	}
+
+	public BorderPane getFavoritesList()
+	{
+		return favoritesList;
 	}
 
 	

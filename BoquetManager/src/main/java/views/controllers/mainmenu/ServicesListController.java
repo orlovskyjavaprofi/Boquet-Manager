@@ -150,14 +150,24 @@ public class ServicesListController
 		listOfSatellitesWithServices = jdomDocumentCreator.readJdomDocumentAndCreate1rdLevelElementList();
 		setSetOfSortedSatellitesServices( satServiceListBuilderObj.buildSatServicesSet(listOfSatellitesWithServices) );	
 		
+		insertServicesListToUiSatModelServices();
+		getSetOfSortedSatellitesServices().clear();  //dont forget to use for future searches!
+	}
+
+	private void insertServicesListToUiSatModelServices()
+	{
 		for (SatServicesList satServicesList : getSetOfSortedSatellitesServices())
 		{
-		    for(SatTransponder satTransponder : satServicesList.getListOfTransponders())
-		    {
-	          insertSatServicesListToTreeItemList(satServicesList, satTransponder);
-		    }
+		    insertTransponderToTheUiModelServices(satServicesList);
 		}
-		getSetOfSortedSatellitesServices().clear();  //dont forget to use for future searches!
+	}
+
+	private void insertTransponderToTheUiModelServices(SatServicesList satServicesList)
+	{
+		for(SatTransponder satTransponder : satServicesList.getListOfTransponders())
+		{
+		  insertSatServicesListToTreeItemList(satServicesList, satTransponder);
+		}
 	}
 
 	private void insertSatServicesListToTreeItemList(SatServicesList satServicesList, SatTransponder satTransponder)
@@ -310,61 +320,50 @@ public class ServicesListController
 		this.providerInstace = providerInstace;
 	}
 
-
 	public String getPathToServicesXMLFile()
 	{
 		return pathToServicesXMLFile;
 	}
-
 
 	public void setPathToServicesXMLFile(String pathToServicesXMLFile)
 	{
 		this.pathToServicesXMLFile = pathToServicesXMLFile;
 	}
 
-
 	public SortedSet<SatServicesList> getSetOfSortedSatellitesServices()
 	{
 		return setOfSortedSatellitesServices;
 	}
-
 
 	public void setSetOfSortedSatellitesServices(SortedSet<SatServicesList> setOfSortedSatellitesServices)
 	{
 		this.setOfSortedSatellitesServices = setOfSortedSatellitesServices;
 	}
 
-
 	public SatServicesListBuilder getSatServiceListBuilderObj()
 	{
 		return satServiceListBuilderObj;
 	}
-
 
 	public void setSatServiceListBuilderObj(SatServicesListBuilder satServiceListBuilderObj)
 	{
 		this.satServiceListBuilderObj = satServiceListBuilderObj;
 	}
 
-
 	public ProviderBetweenUiControllers getProviderInstace()
 	{
 		return providerInstace;
 	}
-
 
 	public boolean getStateOfProvider()
 	{
 		return stateOfProvider;
 	}
 
-
 	public void setStateOfProvider(boolean stateOfProvider)
 	{
 		this.stateOfProvider = stateOfProvider;
 	}
-
-
 
 	public List<UiModelServicesList> getUiModelForServicesList()
 	{
@@ -386,6 +385,5 @@ public class ServicesListController
 		this.rootTreeItem = rootTreeItem;
 	}
 
-	
-	
+
 }
