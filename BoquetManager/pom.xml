@@ -5,12 +5,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- Project developers and creators -->
-	<groupId>Alexander_Orlovsky_Oracle_Certified_Professional_Java_SE6_Programmer</groupId>
+	<groupId>
+		Alexander_Orlovsky_Oracle_Certified_Professional_Java_SE6_Programmer</groupId>
 
 	<!-- Project name -->
 	<artifactId>BoquetManager</artifactId>
 
-	<!-- Edit this only when major malestone was acknoledge by th group of developers -->
+	<!-- Edit this only when major malestone was acknoledge by th group of
+	developers -->
 	<version>0.0.0.1-SNAPSHOT</version>
 
 	<!-- Optional project description -->
@@ -27,44 +29,51 @@
 	<!-- Making sure that maven use proper java compiler, junit version -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
+		<maven.compiler.release>21</maven.compiler.release>
 		<junit.version>4.12</junit.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<junit.jupiter.version>5.2.0</junit.jupiter.version>
-		<junit.jupiter.engine>5.2.0</junit.jupiter.engine>
-		<junit.platform.version>5.2.0</junit.platform.version>
-		<junit.platform.api>5.2.0</junit.platform.api>
-		<junit.platform.params>5.2.0</junit.platform.params>
-		<junit5.surefireprovider.version>1.2.0</junit5.surefireprovider.version>
-		<junit-platform-launcher.version>1.2.0</junit-platform-launcher.version>
-<!-- 		<javafx>c:\JAVA\jdk8-131\jre\lib\ext\</javafx> -->
+		<junit.jupiter.version>5.5.2</junit.jupiter.version>
+		<junit.jupiter.engine>5.5.2</junit.jupiter.engine>
+		<junit.platform.version>5.5.2</junit.platform.version>
+		<junit.platform.api>5.5.2</junit.platform.api>
+		<junit.platform.params>5.5.2</junit.platform.params>
+		<maven-surefire-plugin-version>2.22.0</maven-surefire-plugin-version>
+		<mavensurefire-api-version>3.0.0-M5</mavensurefire-api-version>
+		<junit5.surefireprovider.version>1.3.2</junit5.surefireprovider.version>
+		<junit-platform-launcher.version>1.2.0</junit-platform-launcher.version>	
+		<maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+		<javafx-version>23-ea+3</javafx-version>
 	</properties>
 
 	<!-- Build specification -->
 	<build>
 		<plugins>
+
+			<plugin>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>0.0.1</version>
+				<configuration>
+					<mainClass>MainView</mainClass>
+				</configuration>
+			</plugin>
+
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.0</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.junit.platform</groupId>
-						<artifactId>junit-platform-surefire-provider</artifactId>
-						<version>${junit5.surefireprovider.version}</version>
-						<scope>compile</scope>
-					</dependency>
-				</dependencies>
+				<version>${maven-surefire-plugin-version}</version>
 				<configuration>
-
+					<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
 					<!-- Test cases to excludes and include -->
 					<!-- <excludes> -->
 					<!-- <exclude></exclude> -->
@@ -73,6 +82,22 @@
 					<!-- <include>test/*Test.java</include> -->
 					<!-- </includes> -->
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>${junit5.surefireprovider.version}</version>
+						<scope>compile</scope>
+					</dependency>
+
+					<dependency>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>${mavensurefire-api-version}</version>
+						<scope>compile</scope>
+					</dependency>
+
+				</dependencies>
 			</plugin>
 
 			<!-- Packing App for execution at client -->
@@ -93,7 +118,26 @@
 	</build>
 
 	<dependencies>
-	<!-- Read and write file operations -->
+		<!-- JavaFX -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx</artifactId>
+			<version>${javafx-version}</version>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>${javafx-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>${javafx-version}</version>
+		</dependency>
+		<!-- Read and write file operations -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -117,7 +161,7 @@
 			<version>${junit.jupiter.engine}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
@@ -139,35 +183,27 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Java FX -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.oracle</groupId> -->
-<!-- 			<artifactId>javafx</artifactId> -->
-<!-- 			<version>8</version> -->
-<!-- 			<systemPath>${javafx}/jfxrt.jar</systemPath> -->
-<!-- 			<scope>system</scope> -->
-<!-- 		</dependency> -->
 
-	<!-- Frameworks for unit testing JavaFX -->
-	<dependency>
-		<groupId>org.testfx</groupId>
-		<artifactId>testfx-core</artifactId>
-		<version>4.0.15-alpha</version>
-		<scope>test</scope>
-	</dependency>
+		<!-- Frameworks for unit testing JavaFX -->
+		<dependency>
+			<groupId>org.testfx</groupId>
+			<artifactId>testfx-core</artifactId>
+			<version>4.0.15-alpha</version>
+			<scope>test</scope>
+		</dependency>
 
-	<dependency>
-		<groupId>org.testfx</groupId>
-		<artifactId>testfx-junit5</artifactId>
-		<version>4.0.15-alpha</version>
-	</dependency>
+		<dependency>
+			<groupId>org.testfx</groupId>
+			<artifactId>testfx-junit5</artifactId>
+			<version>4.0.15-alpha</version>
+		</dependency>
 
-	<dependency>
-		<groupId>org.loadui</groupId>
-		<artifactId>testFx</artifactId>
-		<version>3.1.2</version>
-	</dependency>
-		
+		<dependency>
+			<groupId>org.loadui</groupId>
+			<artifactId>testFx</artifactId>
+			<version>3.1.2</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.jdom/jdom2 -->
 		<dependency>
 			<groupId>org.jdom</groupId>
@@ -175,6 +211,7 @@
 			<version>2.0.6</version>
 		</dependency>
 
-	</dependencies>
 
+	</dependencies>
+	
 </project>
